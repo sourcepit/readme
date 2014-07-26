@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="docom" nsURI="http://www.sourcepit.org/docom" nsPrefix="docom">
+  <eClassifiers xsi:type="ecore:EClass" name="Paragraph" eSuperTypes="#//LiteralGroup #//Listable #//Structurable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Emphasis" eSuperTypes="#//Literal #//LiteralGroup">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//EmphasisType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EmphasisType">
+    <eLiterals name="ITALIC"/>
+    <eLiterals name="BOLD" value="1" literal="BOLD"/>
+    <eLiterals name="CODE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="List" eSuperTypes="#//Structurable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//ListType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="listItems" upperBound="-1"
+        eType="#//Listable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//Literal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Literal" abstract="true" interface="true"
+      eSuperTypes="#//Listable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Document" eSuperTypes="#//Structured"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="ListType">
+    <eLiterals name="SIMPLE"/>
+    <eLiterals name="NUMERIC" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Chapter" eSuperTypes="#//LiteralGroup #//Structured #//Structurable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LiteralGroup" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" upperBound="-1"
+        eType="#//Literal" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Listable" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Structurable" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Structured" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" upperBound="-1"
+        eType="#//Structurable" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

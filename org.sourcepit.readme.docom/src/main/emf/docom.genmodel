@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sourcepit.readme.docom/gen/main/emf" modelPluginID="org.sourcepit.readme.docom"
+    modelName="DocOM" modelPluginClass="" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    language="" operationReflection="true" importOrganizing="true" oSGiCompatible="true">
+  <foreignModel>docom.ecore</foreignModel>
+  <genPackages prefix="DocOM" basePackage="org.sourcepit" disposableProviderFactory="true"
+      ecorePackage="docom.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="docom.ecore#//EmphasisType">
+      <genEnumLiterals ecoreEnumLiteral="docom.ecore#//EmphasisType/ITALIC"/>
+      <genEnumLiterals ecoreEnumLiteral="docom.ecore#//EmphasisType/BOLD"/>
+      <genEnumLiterals ecoreEnumLiteral="docom.ecore#//EmphasisType/CODE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="docom.ecore#//ListType">
+      <genEnumLiterals ecoreEnumLiteral="docom.ecore#//ListType/SIMPLE"/>
+      <genEnumLiterals ecoreEnumLiteral="docom.ecore#//ListType/NUMERIC"/>
+    </genEnums>
+    <genClasses ecoreClass="docom.ecore#//Paragraph"/>
+    <genClasses ecoreClass="docom.ecore#//Emphasis">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute docom.ecore#//Emphasis/type"/>
+    </genClasses>
+    <genClasses ecoreClass="docom.ecore#//List">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute docom.ecore#//List/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference docom.ecore#//List/listItems"/>
+    </genClasses>
+    <genClasses ecoreClass="docom.ecore#//Text">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute docom.ecore#//Text/text"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="docom.ecore#//Literal"/>
+    <genClasses ecoreClass="docom.ecore#//Document"/>
+    <genClasses ecoreClass="docom.ecore#//Chapter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference docom.ecore#//Chapter/header"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="docom.ecore#//LiteralGroup">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference docom.ecore#//LiteralGroup/literals"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="docom.ecore#//Listable"/>
+    <genClasses image="false" ecoreClass="docom.ecore#//Structurable"/>
+    <genClasses image="false" ecoreClass="docom.ecore#//Structured">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference docom.ecore#//Structured/content"/>
+    </genClasses>
+    <genClasses ecoreClass="docom.ecore#//Header"/>
+  </genPackages>
+</genmodel:GenModel>
