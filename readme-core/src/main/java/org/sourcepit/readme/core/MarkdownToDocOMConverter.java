@@ -192,8 +192,20 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(AutoLinkNode node)
       {
-         throw new UnsupportedOperationException();
+         checkState(node.getChildren().isEmpty());
 
+         final Link link = factory.createLink();
+         link.setUrl(node.getText());
+
+         final Object parent = parents.peek();
+         if (parent instanceof LiteralGroup)
+         {
+            ((LiteralGroup) parent).getLiterals().add(link);
+         }
+         else
+         {
+            ((ListItem) parent).getContent().add(link);
+         }
       }
 
       @Override
@@ -328,7 +340,7 @@ public class MarkdownToDocOMConverter
 
          final Link link = factory.createLink();
          link.setUrl("mailto:" + node.getText());
-         
+
          final Object parent = parents.peek();
          if (parent instanceof LiteralGroup)
          {
@@ -338,7 +350,6 @@ public class MarkdownToDocOMConverter
          {
             ((ListItem) parent).getContent().add(link);
          }
-
       }
 
       @Override

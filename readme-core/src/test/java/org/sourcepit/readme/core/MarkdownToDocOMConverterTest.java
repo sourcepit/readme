@@ -786,6 +786,25 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) link.getLiterals().get(0);
       assertEquals("Über mich", text.getText());
    }
+   
+   @Test
+   public void testLinkLazyStyle() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("<http://www.sourcepit.org>");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Link link = (Link) paragraph.getLiterals().get(0);
+      assertEquals("http://www.sourcepit.org", link.getUrl());
+      assertNull(link.getTitle());
+      assertEquals(0, link.getLiterals().size());
+   }
 
    @Test
    public void testLinkWithTitle() throws Exception
