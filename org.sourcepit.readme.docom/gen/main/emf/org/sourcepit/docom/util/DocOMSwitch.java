@@ -123,6 +123,8 @@ public class DocOMSwitch<T> extends Switch<T>
             if (result == null)
                result = caseStructurable(list);
             if (result == null)
+               result = caseListable(list);
+            if (result == null)
                result = defaultCase(theEObject);
             return result;
          }

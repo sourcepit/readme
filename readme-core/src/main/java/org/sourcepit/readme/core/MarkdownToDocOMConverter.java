@@ -8,7 +8,6 @@ package org.sourcepit.readme.core;
 
 import java.util.Stack;
 
-import org.eclipse.emf.common.util.EList;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.ast.AbbreviationNode;
 import org.pegdown.ast.AutoLinkNode;
@@ -52,7 +51,8 @@ import org.pegdown.ast.WikiLinkNode;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.List;
-import org.sourcepit.docom.Literal;
+import org.sourcepit.docom.ListItem;
+import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Structured;
@@ -99,10 +99,17 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(RootNode node)
       {
-         document = factory.createDocument();
-         structure.push(document);
-         visitChildren(node);
-         pop(structure, document);
+         if (document == null)
+         {
+            document = factory.createDocument();
+            structure.push(document);
+            visitChildren(node);
+            pop(structure, document);
+         }
+         else
+         {
+            visitChildren(node);
+         }
       }
 
 
@@ -121,8 +128,8 @@ public class MarkdownToDocOMConverter
 
          if (!parents.isEmpty())
          {
-            final List list = (org.sourcepit.docom.List) parents.peek();
-            list.getListItems().add(paragraph);
+            final ListItem listItem = (ListItem) parents.peek();
+            listItem.getContent().add(paragraph);
          }
          else
          {
@@ -148,7 +155,7 @@ public class MarkdownToDocOMConverter
          }
          else
          {
-            ((List) parent).getListItems().add(text);
+            ((ListItem) parent).getContent().add(text);
          }
 
          if (!node.getChildren().isEmpty())
@@ -172,13 +179,6 @@ public class MarkdownToDocOMConverter
 
       @Override
       public void visit(BlockQuoteNode node)
-      {
-         throw new UnsupportedOperationException();
-
-      }
-
-      @Override
-      public void visit(BulletListNode node)
       {
          throw new UnsupportedOperationException();
 
@@ -250,8 +250,13 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(ListItemNode node)
       {
-         throw new UnsupportedOperationException();
+         final ListItem listItem = factory.createListItem();
 
+         ((List) parents.peek()).getItems().add(listItem);
+
+         parents.push(listItem);
+         visitChildren(node);
+         pop(parents, listItem);
       }
 
       @Override
@@ -262,10 +267,37 @@ public class MarkdownToDocOMConverter
       }
 
       @Override
+      public void visit(BulletListNode node)
+      {
+         final List list = factory.createList();
+         list.setType(ListType.UNORDERED);
+         processListNode(node, list);
+      }
+
+      @Override
       public void visit(OrderedListNode node)
       {
-         throw new UnsupportedOperationException();
+         final List list = factory.createList();
+         list.setType(ListType.ORDERED);
+         processListNode(node, list);
+      }
 
+      private void processListNode(Node node, final List list)
+      {
+         if (!parents.isEmpty())
+         {
+            final ListItem parent = (ListItem) parents.peek();
+            parent.getContent().add(list);
+         }
+         else
+         {
+            final Structured parent = structure.peek();
+            parent.getContent().add(list);
+         }
+      
+         parents.push(list);
+         visitChildren(node);
+         pop(parents, list);
       }
 
       @Override
@@ -336,7 +368,7 @@ public class MarkdownToDocOMConverter
          }
          else
          {
-            siblings = ((List) parent).getListItems();
+            siblings = ((ListItem) parent).getContent();
          }
 
          final int size = siblings.size();

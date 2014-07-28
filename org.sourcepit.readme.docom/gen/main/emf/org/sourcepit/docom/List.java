@@ -22,7 +22,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface List extends Structurable
+public interface List extends Structurable, Listable
 {
    /**
     * Returns the value of the '<em><b>Type</b></em>' attribute.

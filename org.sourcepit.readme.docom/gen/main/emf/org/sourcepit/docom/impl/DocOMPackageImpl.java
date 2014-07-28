@@ -553,6 +553,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       emphasisEClass.getESuperTypes().add(this.getLiteral());
       emphasisEClass.getESuperTypes().add(this.getLiteralGroup());
       listEClass.getESuperTypes().add(this.getStructurable());
+      listEClass.getESuperTypes().add(this.getListable());
       textEClass.getESuperTypes().add(this.getLiteral());
       literalEClass.getESuperTypes().add(this.getListable());
       documentEClass.getESuperTypes().add(this.getStructured());
