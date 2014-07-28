@@ -27,6 +27,7 @@ import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
+import org.sourcepit.docom.Reference;
 import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
@@ -175,6 +176,14 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * @generated
     */
    private EClass linkEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EClass referenceEClass = null;
 
    /**
     * <!-- begin-user-doc -->
@@ -573,6 +582,28 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   public EClass getReference()
+   {
+      return referenceEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EAttribute getReference_Id()
+   {
+      return (EAttribute) referenceEClass.getEStructuralFeatures().get(0);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EEnum getEmphasisType()
    {
       return emphasisTypeEEnum;
@@ -668,6 +699,9 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       createEAttribute(linkEClass, LINK__URL);
       createEAttribute(linkEClass, LINK__TITLE);
 
+      referenceEClass = createEClass(REFERENCE);
+      createEAttribute(referenceEClass, REFERENCE__ID);
+
       // Create enums
       emphasisTypeEEnum = createEEnum(EMPHASIS_TYPE);
       listTypeEEnum = createEEnum(LIST_TYPE);
@@ -726,6 +760,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       horizontalLineEClass.getESuperTypes().add(this.getListable());
       linkEClass.getESuperTypes().add(this.getLiteralGroup());
       linkEClass.getESuperTypes().add(this.getLiteral());
+      referenceEClass.getESuperTypes().add(this.getLiteralGroup());
+      referenceEClass.getESuperTypes().add(this.getLiteral());
 
       // Initialize classes, features, and operations; add parameters
       initEClass(paragraphEClass, Paragraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE,
@@ -792,6 +828,11 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       initEAttribute(getLink_Url(), ecorePackage.getEString(), "url", null, 1, 1, Link.class, !IS_TRANSIENT,
          !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
       initEAttribute(getLink_Title(), ecorePackage.getEString(), "title", null, 0, 1, Link.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+      initEClass(referenceEClass, Reference.class, "Reference", !IS_ABSTRACT, !IS_INTERFACE,
+         IS_GENERATED_INSTANCE_CLASS);
+      initEAttribute(getReference_Id(), ecorePackage.getEString(), "id", null, 1, 1, Reference.class, !IS_TRANSIENT,
          !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
       // Initialize enums and add enum literals

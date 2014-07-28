@@ -22,6 +22,7 @@ import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
+import org.sourcepit.docom.Reference;
 import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
@@ -194,6 +195,12 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
       public Adapter caseLink(Link object)
       {
          return createLinkAdapter();
+      }
+
+      @Override
+      public Adapter caseReference(Reference object)
+      {
+         return createReferenceAdapter();
       }
 
       @Override
@@ -488,6 +495,22 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
     * @generated
     */
    public Adapter createLinkAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.sourcepit.docom.Reference <em>Reference</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * 
+    * @return the new adapter.
+    * @see org.sourcepit.docom.Reference
+    * @generated
+    */
+   public Adapter createReferenceAdapter()
    {
       return null;
    }

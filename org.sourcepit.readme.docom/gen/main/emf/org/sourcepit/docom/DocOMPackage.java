@@ -772,6 +772,57 @@ public interface DocOMPackage extends EPackage
    int LINK_OPERATION_COUNT = LITERAL_GROUP_OPERATION_COUNT + 0;
 
    /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.ReferenceImpl <em>Reference</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.ReferenceImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getReference()
+    * @generated
+    */
+   int REFERENCE = 17;
+
+   /**
+    * The feature id for the '<em><b>Literals</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int REFERENCE__LITERALS = LITERAL_GROUP__LITERALS;
+
+   /**
+    * The feature id for the '<em><b>Id</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int REFERENCE__ID = LITERAL_GROUP_FEATURE_COUNT + 0;
+
+   /**
+    * The number of structural features of the '<em>Reference</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int REFERENCE_FEATURE_COUNT = LITERAL_GROUP_FEATURE_COUNT + 1;
+
+   /**
+    * The number of operations of the '<em>Reference</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int REFERENCE_OPERATION_COUNT = LITERAL_GROUP_OPERATION_COUNT + 0;
+
+   /**
     * The meta object id for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -780,7 +831,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getEmphasisType()
     * @generated
     */
-   int EMPHASIS_TYPE = 17;
+   int EMPHASIS_TYPE = 18;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.ListType <em>List Type</em>}' enum.
@@ -791,7 +842,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getListType()
     * @generated
     */
-   int LIST_TYPE = 18;
+   int LIST_TYPE = 19;
 
 
    /**
@@ -1117,6 +1168,29 @@ public interface DocOMPackage extends EPackage
     * @generated
     */
    EAttribute getLink_Title();
+
+   /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.Reference <em>Reference</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>Reference</em>'.
+    * @see org.sourcepit.docom.Reference
+    * @generated
+    */
+   EClass getReference();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.sourcepit.docom.Reference#getId <em>Id</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the attribute '<em>Id</em>'.
+    * @see org.sourcepit.docom.Reference#getId()
+    * @see #getReference()
+    * @generated
+    */
+   EAttribute getReference_Id();
 
    /**
     * Returns the meta object for enum '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}'.
@@ -1453,6 +1527,26 @@ public interface DocOMPackage extends EPackage
        * @generated
        */
       EAttribute LINK__TITLE = eINSTANCE.getLink_Title();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.ReferenceImpl <em>Reference</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.ReferenceImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getReference()
+       * @generated
+       */
+      EClass REFERENCE = eINSTANCE.getReference();
+
+      /**
+       * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EAttribute REFERENCE__ID = eINSTANCE.getReference_Id();
 
       /**
        * The meta object literal for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.

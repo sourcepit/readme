@@ -24,6 +24,7 @@ import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
+import org.sourcepit.docom.Reference;
 import org.sourcepit.docom.Text;
 
 /**
@@ -106,6 +107,8 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
             return createHorizontalLine();
          case DocOMPackage.LINK :
             return createLink();
+         case DocOMPackage.REFERENCE :
+            return createReference();
          default :
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
       }
@@ -293,6 +296,18 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
    {
       LinkImpl link = new LinkImpl();
       return link;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public Reference createReference()
+   {
+      ReferenceImpl reference = new ReferenceImpl();
+      return reference;
    }
 
    /**

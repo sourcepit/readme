@@ -63,6 +63,7 @@ import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
+import org.sourcepit.docom.Reference;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
 
@@ -382,7 +383,24 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(RefLinkNode node)
       {
-         throw new UnsupportedOperationException();
+         final Reference reference = factory.createReference();
+
+         final TextNode textNode = (TextNode) node.referenceKey.getChildren().get(0);
+         reference.setId(textNode.getText());
+
+         final Object parent = parents.peek();
+         if (parent instanceof LiteralGroup)
+         {
+            ((LiteralGroup) parent).getLiterals().add(reference);
+         }
+         else
+         {
+            ((ListItem) parent).getContent().add(reference);
+         }
+
+         parents.push(reference);
+         visitChildren(node);
+         pop(parents, reference);
 
       }
 

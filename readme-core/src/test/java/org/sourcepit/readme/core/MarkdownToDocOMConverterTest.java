@@ -6,10 +6,7 @@
 
 package org.sourcepit.readme.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +21,7 @@ import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
+import org.sourcepit.docom.Reference;
 import org.sourcepit.docom.Text;
 
 public class MarkdownToDocOMConverterTest
@@ -739,7 +737,7 @@ public class MarkdownToDocOMConverterTest
       assertEquals(1, document.getContent().size());
       assertTrue(document.getContent().get(0) instanceof HorizontalLine);
    }
-   
+
    @Test
    public void testHorizontalLineInList() throws Exception
    {
@@ -750,7 +748,7 @@ public class MarkdownToDocOMConverterTest
       Document document = converter.toDocOM(md.toString());
       assertNotNull(document);
       assertEquals(1, document.getContent().size());
-      
+
       List list = (List) document.getContent().get(0);
       assertEquals(1, list.getItems().size());
 
@@ -762,10 +760,10 @@ public class MarkdownToDocOMConverterTest
 
       Text text = (Text) paragraph.getLiterals().get(0);
       assertEquals("foo:", text.getText());
-      
+
       assertTrue(listItem.getContent().get(1) instanceof HorizontalLine);
    }
-   
+
    @Test
    public void testLink() throws Exception
    {
@@ -775,19 +773,19 @@ public class MarkdownToDocOMConverterTest
       Document document = converter.toDocOM(md.toString());
       assertNotNull(document);
       assertEquals(1, document.getContent().size());
-      
+
       Paragraph paragraph = (Paragraph) document.getContent().get(0);
       assertEquals(1, paragraph.getLiterals().size());
-      
+
       Link link = (Link) paragraph.getLiterals().get(0);
       assertEquals("/about/", link.getUrl());
       assertNull(link.getTitle());
       assertEquals(1, link.getLiterals().size());
-      
+
       Text text = (Text) link.getLiterals().get(0);
       assertEquals("Über mich", text.getText());
    }
-   
+
    @Test
    public void testLinkWithTitle() throws Exception
    {
@@ -797,19 +795,19 @@ public class MarkdownToDocOMConverterTest
       Document document = converter.toDocOM(md.toString());
       assertNotNull(document);
       assertEquals(1, document.getContent().size());
-      
+
       Paragraph paragraph = (Paragraph) document.getContent().get(0);
       assertEquals(1, paragraph.getLiterals().size());
-      
+
       Link link = (Link) paragraph.getLiterals().get(0);
       assertEquals("/about/", link.getUrl());
       assertEquals("Der Linktitel", link.getTitle());
       assertEquals(1, link.getLiterals().size());
-      
+
       Text text = (Text) link.getLiterals().get(0);
       assertEquals("Über mich", text.getText());
    }
-   
+
    @Test
    public void testLinkBetweenText() throws Exception
    {
@@ -819,27 +817,27 @@ public class MarkdownToDocOMConverterTest
       Document document = converter.toDocOM(md.toString());
       assertNotNull(document);
       assertEquals(1, document.getContent().size());
-      
+
       Text text;
-      
+
       Paragraph paragraph = (Paragraph) document.getContent().get(0);
       assertEquals(3, paragraph.getLiterals().size());
-      
+
       text = (Text) paragraph.getLiterals().get(0);
       assertEquals("Hier ", text.getText());
-      
+
       Link link = (Link) paragraph.getLiterals().get(1);
       assertEquals("/about/", link.getUrl());
       assertNull(link.getTitle());
       assertEquals(1, link.getLiterals().size());
-      
+
       text = (Text) link.getLiterals().get(0);
       assertEquals("gehts", text.getText());
-      
+
       text = (Text) paragraph.getLiterals().get(2);
       assertEquals(" weiter.", text.getText());
    }
-   
+
    @Test
    public void testLinkInList() throws Exception
    {
@@ -849,20 +847,92 @@ public class MarkdownToDocOMConverterTest
       Document document = converter.toDocOM(md.toString());
       assertNotNull(document);
       assertEquals(1, document.getContent().size());
-      
+
       List list = (List) document.getContent().get(0);
       assertEquals(1, list.getItems().size());
 
       ListItem item = list.getItems().get(0);
       assertEquals(1, item.getContent().size());
       Text text;
-      
+
       Link link = (Link) item.getContent().get(0);
       assertEquals("/bar/", link.getUrl());
       assertNull(link.getTitle());
       assertEquals(1, link.getLiterals().size());
-      
+
       text = (Text) link.getLiterals().get(0);
+      assertEquals("foo", text.getText());
+   }
+
+   @Test
+   public void testReference() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("[ein Beispiel][id]");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Reference reference = (Reference) paragraph.getLiterals().get(0);
+      assertEquals("id", reference.getId());
+      assertEquals(1, reference.getLiterals().size());
+
+      Text text = (Text) reference.getLiterals().get(0);
+      assertEquals("ein Beispiel", text.getText());
+   }
+   
+   @Test
+   public void testReferenceInList() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("* [foo][bar]");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      List list = (List) document.getContent().get(0);
+      assertEquals(1, list.getItems().size());
+
+      ListItem item = list.getItems().get(0);
+      assertEquals(1, item.getContent().size());
+      Text text;
+
+      Reference reference = (Reference) item.getContent().get(0);
+      assertEquals("bar", reference.getId());
+      assertEquals(1, reference.getLiterals().size());
+
+      text = (Text) reference.getLiterals().get(0);
+      assertEquals("foo", text.getText());
+   }
+   
+   @Test
+   public void testReferenceInHeader() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("# [foo][bar]");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Chapter chapter = (Chapter) document.getContent().get(0);
+      assertEquals(0, chapter.getContent().size());
+
+      Header header = chapter.getHeader();
+      assertEquals(1, header.getLiterals().size());
+      
+      Text text;
+
+      Reference reference = (Reference) header.getLiterals().get(0);
+      assertEquals("bar", reference.getId());
+      assertEquals(1, reference.getLiterals().size());
+
+      text = (Text) reference.getLiterals().get(0);
       assertEquals("foo", text.getText());
    }
 }

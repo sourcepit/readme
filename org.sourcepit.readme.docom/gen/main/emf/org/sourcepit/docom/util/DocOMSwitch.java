@@ -21,6 +21,7 @@ import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
+import org.sourcepit.docom.Reference;
 import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
@@ -273,6 +274,20 @@ public class DocOMSwitch<T> extends Switch<T>
                result = caseLiteral(link);
             if (result == null)
                result = caseListable(link);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.REFERENCE :
+         {
+            Reference reference = (Reference) theEObject;
+            T result = caseReference(reference);
+            if (result == null)
+               result = caseLiteralGroup(reference);
+            if (result == null)
+               result = caseLiteral(reference);
+            if (result == null)
+               result = caseListable(reference);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -567,6 +582,23 @@ public class DocOMSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseLink(Link object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Reference</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Reference</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseReference(Reference object)
    {
       return null;
    }
