@@ -12,6 +12,7 @@ import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.Header;
+import org.sourcepit.docom.HorizontalLine;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.Listable;
@@ -245,6 +246,18 @@ public class DocOMSwitch<T> extends Switch<T>
                result = caseStructurable(code);
             if (result == null)
                result = caseListable(code);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.HORIZONTAL_LINE :
+         {
+            HorizontalLine horizontalLine = (HorizontalLine) theEObject;
+            T result = caseHorizontalLine(horizontalLine);
+            if (result == null)
+               result = caseStructurable(horizontalLine);
+            if (result == null)
+               result = caseListable(horizontalLine);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -505,6 +518,23 @@ public class DocOMSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseCode(Code object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Horizontal Line</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Horizontal Line</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseHorizontalLine(HorizontalLine object)
    {
       return null;
    }

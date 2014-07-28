@@ -55,6 +55,7 @@ import org.sourcepit.docom.Code;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Header;
+import org.sourcepit.docom.HorizontalLine;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -370,8 +371,29 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(SimpleNode node)
       {
-         throw new UnsupportedOperationException();
-
+         switch (node.getType())
+         {
+            case HRule :
+               visitHorizontalLine(node);
+               break;
+            default :
+               throw new UnsupportedOperationException();
+         }
+      }
+      
+      private void visitHorizontalLine(SimpleNode node)
+      {
+         checkState(node.getChildren().isEmpty());
+         final HorizontalLine hl = factory.createHorizontalLine();
+         final Object parent = parents.peek();
+         if (parent instanceof ListItem)
+         {
+            ((ListItem) parent).getContent().add(hl);
+         }
+         else
+         {
+            ((Structured) parent).getContent().add(hl);
+         }
       }
 
       @Override

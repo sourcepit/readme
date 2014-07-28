@@ -680,6 +680,37 @@ public interface DocOMPackage extends EPackage
    int CODE_OPERATION_COUNT = STRUCTURABLE_OPERATION_COUNT + 0;
 
    /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.HorizontalLineImpl <em>Horizontal Line</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.HorizontalLineImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getHorizontalLine()
+    * @generated
+    */
+   int HORIZONTAL_LINE = 15;
+
+   /**
+    * The number of structural features of the '<em>Horizontal Line</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int HORIZONTAL_LINE_FEATURE_COUNT = STRUCTURABLE_FEATURE_COUNT + 0;
+
+   /**
+    * The number of operations of the '<em>Horizontal Line</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int HORIZONTAL_LINE_OPERATION_COUNT = STRUCTURABLE_OPERATION_COUNT + 0;
+
+   /**
     * The meta object id for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -688,7 +719,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getEmphasisType()
     * @generated
     */
-   int EMPHASIS_TYPE = 15;
+   int EMPHASIS_TYPE = 16;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.ListType <em>List Type</em>}' enum.
@@ -699,7 +730,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getListType()
     * @generated
     */
-   int LIST_TYPE = 16;
+   int LIST_TYPE = 17;
 
 
    /**
@@ -979,6 +1010,17 @@ public interface DocOMPackage extends EPackage
     * @generated
     */
    EAttribute getCode_Text();
+
+   /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.HorizontalLine <em>Horizontal Line</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>Horizontal Line</em>'.
+    * @see org.sourcepit.docom.HorizontalLine
+    * @generated
+    */
+   EClass getHorizontalLine();
 
    /**
     * Returns the meta object for enum '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}'.
@@ -1274,6 +1316,18 @@ public interface DocOMPackage extends EPackage
        * @generated
        */
       EAttribute CODE__TEXT = eINSTANCE.getCode_Text();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.HorizontalLineImpl <em>Horizontal Line</em>}'
+       * class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.HorizontalLineImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getHorizontalLine()
+       * @generated
+       */
+      EClass HORIZONTAL_LINE = eINSTANCE.getHorizontalLine();
 
       /**
        * The meta object literal for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.

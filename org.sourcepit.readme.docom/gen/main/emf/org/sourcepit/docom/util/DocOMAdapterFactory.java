@@ -13,6 +13,7 @@ import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.Header;
+import org.sourcepit.docom.HorizontalLine;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.Listable;
@@ -180,6 +181,12 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
       public Adapter caseCode(Code object)
       {
          return createCodeAdapter();
+      }
+
+      @Override
+      public Adapter caseHorizontalLine(HorizontalLine object)
+      {
+         return createHorizontalLineAdapter();
       }
 
       @Override
@@ -441,6 +448,23 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
     * @generated
     */
    public Adapter createCodeAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.sourcepit.docom.HorizontalLine <em>Horizontal Line</em>}
+    * '.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * 
+    * @return the new adapter.
+    * @see org.sourcepit.docom.HorizontalLine
+    * @generated
+    */
+   public Adapter createHorizontalLineAdapter()
    {
       return null;
    }

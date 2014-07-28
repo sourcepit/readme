@@ -6,8 +6,7 @@
 
 package org.sourcepit.readme.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +14,7 @@ import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Header;
+import org.sourcepit.docom.HorizontalLine;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -660,13 +660,13 @@ public class MarkdownToDocOMConverterTest
       assertEquals(1, item.getContent().size());
       text = (Text) item.getContent().get(0);
       assertEquals("item 1", text.getText());
-      
+
       item = list.getItems().get(1);
       assertEquals(1, item.getContent().size());
       text = (Text) item.getContent().get(0);
       assertEquals("item 2", text.getText());
    }
-   
+
    @Test
    public void testCode() throws Exception
    {
@@ -676,11 +676,11 @@ public class MarkdownToDocOMConverterTest
       Document document = converter.toDocOM(md.toString());
       assertNotNull(document);
       assertEquals(1, document.getContent().size());
-      
+
       Code code = (Code) document.getContent().get(0);
       assertEquals("code\n", code.getText());
    }
-   
+
    @Test
    public void testCodeMultiline() throws Exception
    {
@@ -691,11 +691,11 @@ public class MarkdownToDocOMConverterTest
       Document document = converter.toDocOM(md.toString());
       assertNotNull(document);
       assertEquals(1, document.getContent().size());
-      
+
       Code code = (Code) document.getContent().get(0);
       assertEquals("code\n{}\n", code.getText());
    }
-   
+
    @Test
    public void testCodeInList() throws Exception
    {
@@ -707,20 +707,58 @@ public class MarkdownToDocOMConverterTest
       Document document = converter.toDocOM(md.toString());
       assertNotNull(document);
       assertEquals(1, document.getContent().size());
+
+      List list = (List) document.getContent().get(0);
+      assertEquals(1, list.getItems().size());
+
+      ListItem listItem = list.getItems().get(0);
+      assertEquals(2, listItem.getContent().size());
+
+      Paragraph paragraph = (Paragraph) listItem.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Text text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("Snipped below:", text.getText());
+
+      Code code = (Code) listItem.getContent().get(1);
+      assertEquals("code\n{}\n", code.getText());
+   }
+
+   @Test
+   public void testHorizontalLine() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("---");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+      assertTrue(document.getContent().get(0) instanceof HorizontalLine);
+   }
+   
+   @Test
+   public void testHorizontalLineInList() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("* foo:\n\n");
+      md.append("    ---");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
       
       List list = (List) document.getContent().get(0);
       assertEquals(1, list.getItems().size());
-      
+
       ListItem listItem = list.getItems().get(0);
       assertEquals(2, listItem.getContent().size());
-      
+
       Paragraph paragraph = (Paragraph) listItem.getContent().get(0);
       assertEquals(1, paragraph.getLiterals().size());
-      
+
       Text text = (Text) paragraph.getLiterals().get(0);
-      assertEquals("Snipped below:", text.getText());
+      assertEquals("foo:", text.getText());
       
-      Code code = (Code) listItem.getContent().get(1);
-      assertEquals("code\n{}\n", code.getText());
+      assertTrue(listItem.getContent().get(1) instanceof HorizontalLine);
    }
 }

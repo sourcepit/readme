@@ -17,6 +17,7 @@ import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.EmphasisType;
 import org.sourcepit.docom.Header;
+import org.sourcepit.docom.HorizontalLine;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -100,6 +101,8 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
             return createQuote();
          case DocOMPackage.CODE :
             return createCode();
+         case DocOMPackage.HORIZONTAL_LINE :
+            return createHorizontalLine();
          default :
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
       }
@@ -263,6 +266,18 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
    {
       CodeImpl code = new CodeImpl();
       return code;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public HorizontalLine createHorizontalLine()
+   {
+      HorizontalLineImpl horizontalLine = new HorizontalLineImpl();
+      return horizontalLine;
    }
 
    /**
