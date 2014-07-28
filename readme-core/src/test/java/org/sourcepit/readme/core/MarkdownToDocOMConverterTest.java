@@ -6,7 +6,10 @@
 
 package org.sourcepit.readme.core;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +18,7 @@ import org.sourcepit.docom.Code;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Header;
 import org.sourcepit.docom.HorizontalLine;
+import org.sourcepit.docom.Link;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -760,5 +764,105 @@ public class MarkdownToDocOMConverterTest
       assertEquals("foo:", text.getText());
       
       assertTrue(listItem.getContent().get(1) instanceof HorizontalLine);
+   }
+   
+   @Test
+   public void testLink() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("[Über mich](/about/)");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+      
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+      
+      Link link = (Link) paragraph.getLiterals().get(0);
+      assertEquals("/about/", link.getUrl());
+      assertNull(link.getTitle());
+      assertEquals(1, link.getLiterals().size());
+      
+      Text text = (Text) link.getLiterals().get(0);
+      assertEquals("Über mich", text.getText());
+   }
+   
+   @Test
+   public void testLinkWithTitle() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("[Über mich](/about/ 'Der Linktitel')");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+      
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+      
+      Link link = (Link) paragraph.getLiterals().get(0);
+      assertEquals("/about/", link.getUrl());
+      assertEquals("Der Linktitel", link.getTitle());
+      assertEquals(1, link.getLiterals().size());
+      
+      Text text = (Text) link.getLiterals().get(0);
+      assertEquals("Über mich", text.getText());
+   }
+   
+   @Test
+   public void testLinkBetweenText() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("Hier [gehts](/about/) weiter.");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+      
+      Text text;
+      
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(3, paragraph.getLiterals().size());
+      
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("Hier ", text.getText());
+      
+      Link link = (Link) paragraph.getLiterals().get(1);
+      assertEquals("/about/", link.getUrl());
+      assertNull(link.getTitle());
+      assertEquals(1, link.getLiterals().size());
+      
+      text = (Text) link.getLiterals().get(0);
+      assertEquals("gehts", text.getText());
+      
+      text = (Text) paragraph.getLiterals().get(2);
+      assertEquals(" weiter.", text.getText());
+   }
+   
+   @Test
+   public void testLinkInList() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("* [foo](/bar/)");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+      
+      List list = (List) document.getContent().get(0);
+      assertEquals(1, list.getItems().size());
+
+      ListItem item = list.getItems().get(0);
+      assertEquals(1, item.getContent().size());
+      Text text;
+      
+      Link link = (Link) item.getContent().get(0);
+      assertEquals("/bar/", link.getUrl());
+      assertNull(link.getTitle());
+      assertEquals(1, link.getLiterals().size());
+      
+      text = (Text) link.getLiterals().get(0);
+      assertEquals("foo", text.getText());
    }
 }

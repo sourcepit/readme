@@ -711,6 +711,67 @@ public interface DocOMPackage extends EPackage
    int HORIZONTAL_LINE_OPERATION_COUNT = STRUCTURABLE_OPERATION_COUNT + 0;
 
    /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.LinkImpl <em>Link</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.LinkImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getLink()
+    * @generated
+    */
+   int LINK = 16;
+
+   /**
+    * The feature id for the '<em><b>Literals</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int LINK__LITERALS = LITERAL_GROUP__LITERALS;
+
+   /**
+    * The feature id for the '<em><b>Url</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int LINK__URL = LITERAL_GROUP_FEATURE_COUNT + 0;
+
+   /**
+    * The feature id for the '<em><b>Title</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int LINK__TITLE = LITERAL_GROUP_FEATURE_COUNT + 1;
+
+   /**
+    * The number of structural features of the '<em>Link</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int LINK_FEATURE_COUNT = LITERAL_GROUP_FEATURE_COUNT + 2;
+
+   /**
+    * The number of operations of the '<em>Link</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int LINK_OPERATION_COUNT = LITERAL_GROUP_OPERATION_COUNT + 0;
+
+   /**
     * The meta object id for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -719,7 +780,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getEmphasisType()
     * @generated
     */
-   int EMPHASIS_TYPE = 16;
+   int EMPHASIS_TYPE = 17;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.ListType <em>List Type</em>}' enum.
@@ -730,7 +791,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getListType()
     * @generated
     */
-   int LIST_TYPE = 17;
+   int LIST_TYPE = 18;
 
 
    /**
@@ -1021,6 +1082,41 @@ public interface DocOMPackage extends EPackage
     * @generated
     */
    EClass getHorizontalLine();
+
+   /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.Link <em>Link</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>Link</em>'.
+    * @see org.sourcepit.docom.Link
+    * @generated
+    */
+   EClass getLink();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.sourcepit.docom.Link#getUrl <em>Url</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the attribute '<em>Url</em>'.
+    * @see org.sourcepit.docom.Link#getUrl()
+    * @see #getLink()
+    * @generated
+    */
+   EAttribute getLink_Url();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.sourcepit.docom.Link#getTitle <em>Title</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the attribute '<em>Title</em>'.
+    * @see org.sourcepit.docom.Link#getTitle()
+    * @see #getLink()
+    * @generated
+    */
+   EAttribute getLink_Title();
 
    /**
     * Returns the meta object for enum '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}'.
@@ -1328,6 +1424,35 @@ public interface DocOMPackage extends EPackage
        * @generated
        */
       EClass HORIZONTAL_LINE = eINSTANCE.getHorizontalLine();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.LinkImpl <em>Link</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.LinkImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getLink()
+       * @generated
+       */
+      EClass LINK = eINSTANCE.getLink();
+
+      /**
+       * The meta object literal for the '<em><b>Url</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EAttribute LINK__URL = eINSTANCE.getLink_Url();
+
+      /**
+       * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EAttribute LINK__TITLE = eINSTANCE.getLink_Title();
 
       /**
        * The meta object literal for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.

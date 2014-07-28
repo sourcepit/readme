@@ -18,6 +18,7 @@ import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.EmphasisType;
 import org.sourcepit.docom.Header;
 import org.sourcepit.docom.HorizontalLine;
+import org.sourcepit.docom.Link;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -166,6 +167,14 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * @generated
     */
    private EClass horizontalLineEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EClass linkEClass = null;
 
    /**
     * <!-- begin-user-doc -->
@@ -531,6 +540,39 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   public EClass getLink()
+   {
+      return linkEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EAttribute getLink_Url()
+   {
+      return (EAttribute) linkEClass.getEStructuralFeatures().get(0);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EAttribute getLink_Title()
+   {
+      return (EAttribute) linkEClass.getEStructuralFeatures().get(1);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EEnum getEmphasisType()
    {
       return emphasisTypeEEnum;
@@ -622,6 +664,10 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       horizontalLineEClass = createEClass(HORIZONTAL_LINE);
 
+      linkEClass = createEClass(LINK);
+      createEAttribute(linkEClass, LINK__URL);
+      createEAttribute(linkEClass, LINK__TITLE);
+
       // Create enums
       emphasisTypeEEnum = createEEnum(EMPHASIS_TYPE);
       listTypeEEnum = createEEnum(LIST_TYPE);
@@ -678,6 +724,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       codeEClass.getESuperTypes().add(this.getListable());
       horizontalLineEClass.getESuperTypes().add(this.getStructurable());
       horizontalLineEClass.getESuperTypes().add(this.getListable());
+      linkEClass.getESuperTypes().add(this.getLiteralGroup());
+      linkEClass.getESuperTypes().add(this.getLiteral());
 
       // Initialize classes, features, and operations; add parameters
       initEClass(paragraphEClass, Paragraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE,
@@ -739,6 +787,12 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       initEClass(horizontalLineEClass, HorizontalLine.class, "HorizontalLine", !IS_ABSTRACT, !IS_INTERFACE,
          IS_GENERATED_INSTANCE_CLASS);
+
+      initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+      initEAttribute(getLink_Url(), ecorePackage.getEString(), "url", null, 1, 1, Link.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getLink_Title(), ecorePackage.getEString(), "title", null, 0, 1, Link.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
       // Initialize enums and add enum literals
       initEEnum(emphasisTypeEEnum, EmphasisType.class, "EmphasisType");

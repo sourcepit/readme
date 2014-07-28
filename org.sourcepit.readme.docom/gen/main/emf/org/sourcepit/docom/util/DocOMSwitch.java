@@ -13,6 +13,7 @@ import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.Header;
 import org.sourcepit.docom.HorizontalLine;
+import org.sourcepit.docom.Link;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.Listable;
@@ -258,6 +259,20 @@ public class DocOMSwitch<T> extends Switch<T>
                result = caseStructurable(horizontalLine);
             if (result == null)
                result = caseListable(horizontalLine);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.LINK :
+         {
+            Link link = (Link) theEObject;
+            T result = caseLink(link);
+            if (result == null)
+               result = caseLiteralGroup(link);
+            if (result == null)
+               result = caseLiteral(link);
+            if (result == null)
+               result = caseListable(link);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -535,6 +550,23 @@ public class DocOMSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseHorizontalLine(HorizontalLine object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Link</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Link</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseLink(Link object)
    {
       return null;
    }

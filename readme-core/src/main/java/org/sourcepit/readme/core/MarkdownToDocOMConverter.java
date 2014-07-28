@@ -56,6 +56,7 @@ import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Header;
 import org.sourcepit.docom.HorizontalLine;
+import org.sourcepit.docom.Link;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -64,6 +65,8 @@ import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
+
+import com.google.common.base.Strings;
 
 public class MarkdownToDocOMConverter
 {
@@ -241,8 +244,23 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(ExpLinkNode node)
       {
-         throw new UnsupportedOperationException();
+         final Link link = factory.createLink();
+         link.setUrl(node.url);
+         link.setTitle(Strings.isNullOrEmpty(node.title) ? null : node.title);
 
+         final Object parent = parents.peek();
+         if (parent instanceof LiteralGroup)
+         {
+            ((LiteralGroup) parent).getLiterals().add(link);
+         }
+         else
+         {
+            ((ListItem) parent).getContent().add(link);
+         }
+
+         parents.push(link);
+         visitChildren(node);
+         pop(parents, link);
       }
 
       private int level = 0;
@@ -380,7 +398,7 @@ public class MarkdownToDocOMConverter
                throw new UnsupportedOperationException();
          }
       }
-      
+
       private void visitHorizontalLine(SimpleNode node)
       {
          checkState(node.getChildren().isEmpty());
