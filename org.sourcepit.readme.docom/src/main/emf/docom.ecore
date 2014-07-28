@@ -45,4 +45,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Header" eSuperTypes="#//LiteralGroup"/>
   <eClassifiers xsi:type="ecore:EClass" name="Quote" eSuperTypes="#//Structured #//Structurable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Code" eSuperTypes="#//Structurable #//Listable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

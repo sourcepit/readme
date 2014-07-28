@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.sourcepit.docom.Chapter;
+import org.sourcepit.docom.Code;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
@@ -148,6 +149,14 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * @generated
     */
    private EClass quoteEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EClass codeEClass = null;
 
    /**
     * <!-- begin-user-doc -->
@@ -480,6 +489,28 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   public EClass getCode()
+   {
+      return codeEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EAttribute getCode_Text()
+   {
+      return (EAttribute) codeEClass.getEStructuralFeatures().get(0);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EEnum getEmphasisType()
    {
       return emphasisTypeEEnum;
@@ -566,6 +597,9 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       quoteEClass = createEClass(QUOTE);
 
+      codeEClass = createEClass(CODE);
+      createEAttribute(codeEClass, CODE__TEXT);
+
       // Create enums
       emphasisTypeEEnum = createEEnum(EMPHASIS_TYPE);
       listTypeEEnum = createEEnum(LIST_TYPE);
@@ -618,6 +652,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       headerEClass.getESuperTypes().add(this.getLiteralGroup());
       quoteEClass.getESuperTypes().add(this.getStructured());
       quoteEClass.getESuperTypes().add(this.getStructurable());
+      codeEClass.getESuperTypes().add(this.getStructurable());
+      codeEClass.getESuperTypes().add(this.getListable());
 
       // Initialize classes, features, and operations; add parameters
       initEClass(paragraphEClass, Paragraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE,
@@ -672,6 +708,10 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       initEClass(headerEClass, Header.class, "Header", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
       initEClass(quoteEClass, Quote.class, "Quote", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+      initEClass(codeEClass, Code.class, "Code", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+      initEAttribute(getCode_Text(), ecorePackage.getEString(), "text", null, 1, 1, Code.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
       // Initialize enums and add enum literals
       initEEnum(emphasisTypeEEnum, EmphasisType.class, "EmphasisType");

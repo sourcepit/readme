@@ -6,6 +6,8 @@
 
 package org.sourcepit.readme.core;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import java.util.Stack;
 
 import org.pegdown.PegDownProcessor;
@@ -49,6 +51,7 @@ import org.pegdown.ast.VerbatimNode;
 import org.pegdown.ast.Visitor;
 import org.pegdown.ast.WikiLinkNode;
 import org.sourcepit.docom.Chapter;
+import org.sourcepit.docom.Code;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Header;
@@ -477,8 +480,20 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(VerbatimNode node)
       {
-         throw new UnsupportedOperationException();
+         checkState(node.getChildren().isEmpty());
 
+         final Code code = factory.createCode();
+         code.setText(node.getText());
+
+         final Object parent = parents.peek();
+         if (parent instanceof Structured)
+         {
+            ((Structured) parent).getContent().add(code);
+         }
+         else
+         {
+            ((ListItem) parent).getContent().add(code);
+         }
       }
 
       @Override

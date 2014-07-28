@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import org.sourcepit.docom.Chapter;
+import org.sourcepit.docom.Code;
 import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
@@ -232,6 +233,18 @@ public class DocOMSwitch<T> extends Switch<T>
                result = caseStructured(quote);
             if (result == null)
                result = caseStructurable(quote);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.CODE :
+         {
+            Code code = (Code) theEObject;
+            T result = caseCode(code);
+            if (result == null)
+               result = caseStructurable(code);
+            if (result == null)
+               result = caseListable(code);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -475,6 +488,23 @@ public class DocOMSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseQuote(Quote object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Code</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Code</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseCode(Code object)
    {
       return null;
    }

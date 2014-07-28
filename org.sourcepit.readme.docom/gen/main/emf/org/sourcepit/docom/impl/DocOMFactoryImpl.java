@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.sourcepit.docom.Chapter;
+import org.sourcepit.docom.Code;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
@@ -97,6 +98,8 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
             return createHeader();
          case DocOMPackage.QUOTE :
             return createQuote();
+         case DocOMPackage.CODE :
+            return createCode();
          default :
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
       }
@@ -248,6 +251,18 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
    {
       QuoteImpl quote = new QuoteImpl();
       return quote;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public Code createCode()
+   {
+      CodeImpl code = new CodeImpl();
+      return code;
    }
 
    /**
