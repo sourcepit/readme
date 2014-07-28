@@ -57,6 +57,7 @@ import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
+import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
 
@@ -188,8 +189,14 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(BlockQuoteNode node)
       {
-         throw new UnsupportedOperationException();
+         final Structured parent = (Structured) parents.peek();
 
+         final Quote quote = factory.createQuote();
+         parent.getContent().add(quote);
+
+         parents.push(quote);
+         visitChildren(node);
+         pop(parents, quote);
       }
 
       @Override
@@ -252,7 +259,7 @@ public class MarkdownToDocOMConverter
 
          final Chapter chapter = factory.createChapter();
          chapter.setHeader(header);
-         
+
          parent.getContent().add(chapter);
 
          parents.push(chapter); // dangling chapters will are poped in visitChildren

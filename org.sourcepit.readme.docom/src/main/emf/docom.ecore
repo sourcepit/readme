@@ -44,4 +44,5 @@
         upperBound="-1" eType="#//Listable" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Header" eSuperTypes="#//LiteralGroup"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Quote" eSuperTypes="#//Structured #//Structurable"/>
 </ecore:EPackage>

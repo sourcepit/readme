@@ -23,6 +23,7 @@ import org.sourcepit.docom.Listable;
 import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
+import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
@@ -139,6 +140,14 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * @generated
     */
    private EClass headerEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EClass quoteEClass = null;
 
    /**
     * <!-- begin-user-doc -->
@@ -460,6 +469,17 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   public EClass getQuote()
+   {
+      return quoteEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EEnum getEmphasisType()
    {
       return emphasisTypeEEnum;
@@ -544,6 +564,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       headerEClass = createEClass(HEADER);
 
+      quoteEClass = createEClass(QUOTE);
+
       // Create enums
       emphasisTypeEEnum = createEEnum(EMPHASIS_TYPE);
       listTypeEEnum = createEEnum(LIST_TYPE);
@@ -594,6 +616,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       chapterEClass.getESuperTypes().add(this.getStructurable());
       chapterEClass.getESuperTypes().add(this.getStructured());
       headerEClass.getESuperTypes().add(this.getLiteralGroup());
+      quoteEClass.getESuperTypes().add(this.getStructured());
+      quoteEClass.getESuperTypes().add(this.getStructurable());
 
       // Initialize classes, features, and operations; add parameters
       initEClass(paragraphEClass, Paragraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE,
@@ -646,6 +670,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
          !IS_DERIVED, IS_ORDERED);
 
       initEClass(headerEClass, Header.class, "Header", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+      initEClass(quoteEClass, Quote.class, "Quote", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
       // Initialize enums and add enum literals
       initEEnum(emphasisTypeEEnum, EmphasisType.class, "EmphasisType");

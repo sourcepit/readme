@@ -20,6 +20,7 @@ import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.Paragraph;
+import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Text;
 
 /**
@@ -94,6 +95,8 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
             return createListItem();
          case DocOMPackage.HEADER :
             return createHeader();
+         case DocOMPackage.QUOTE :
+            return createQuote();
          default :
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
       }
@@ -233,6 +236,18 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
    {
       HeaderImpl header = new HeaderImpl();
       return header;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public Quote createQuote()
+   {
+      QuoteImpl quote = new QuoteImpl();
+      return quote;
    }
 
    /**

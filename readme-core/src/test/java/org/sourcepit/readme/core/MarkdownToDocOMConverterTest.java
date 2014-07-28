@@ -18,6 +18,7 @@ import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.Paragraph;
+import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Text;
 
 public class MarkdownToDocOMConverterTest
@@ -439,7 +440,7 @@ public class MarkdownToDocOMConverterTest
 
       text = (Text) nestedHeader.getLiterals().get(0);
       assertEquals("chapter 1.1", text.getText());
-      
+
       paragraph = (Paragraph) nestedChapter.getContent().get(0);
       assertEquals(1, paragraph.getLiterals().size());
 
@@ -454,11 +455,214 @@ public class MarkdownToDocOMConverterTest
 
       text = (Text) header.getLiterals().get(0);
       assertEquals("chapter 2", text.getText());
-      
+
       paragraph = (Paragraph) chapter.getContent().get(0);
       assertEquals(1, paragraph.getLiterals().size());
 
       text = (Text) paragraph.getLiterals().get(0);
       assertEquals("text 2", text.getText());
+   }
+
+   @Test
+   public void testQuote() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("> test");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Quote quote = (Quote) document.getContent().get(0);
+      assertEquals(1, quote.getContent().size());
+
+      Paragraph paragraph = (Paragraph) quote.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Text text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("test", text.getText());
+   }
+
+   @Test
+   public void testQuoteMultiline() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("> test\n");
+      md.append("test");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Quote quote = (Quote) document.getContent().get(0);
+      assertEquals(1, quote.getContent().size());
+
+      Paragraph paragraph = (Paragraph) quote.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Text text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("test test", text.getText());
+   }
+
+   @Test
+   public void testQuoteMultiparagraph() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("> test\n");
+      md.append("> test\n");
+      md.append("> \n");
+      md.append("> foo\n");
+      md.append("> bar");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Quote quote = (Quote) document.getContent().get(0);
+      assertEquals(2, quote.getContent().size());
+
+      Paragraph paragraph;
+      Text text;
+
+      paragraph = (Paragraph) quote.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("test test", text.getText());
+
+      paragraph = (Paragraph) quote.getContent().get(1);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("foo bar", text.getText());
+   }
+
+   @Test
+   public void testQuoteMultiparagraphLazyStyle() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("> test\n");
+      md.append("test\n");
+      md.append("\n");
+      md.append("> foo\n");
+      md.append("bar");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Quote quote = (Quote) document.getContent().get(0);
+      assertEquals(2, quote.getContent().size());
+
+      Paragraph paragraph;
+      Text text;
+
+      paragraph = (Paragraph) quote.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("test test", text.getText());
+
+      paragraph = (Paragraph) quote.getContent().get(1);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("foo bar", text.getText());
+   }
+
+   @Test
+   public void testQuotedChapter() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("> # test");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Quote quote = (Quote) document.getContent().get(0);
+      assertEquals(1, quote.getContent().size());
+
+      Chapter chapter = (Chapter) quote.getContent().get(0);
+      assertEquals(0, chapter.getContent().size());
+
+      Header header = chapter.getHeader();
+      assertEquals(1, header.getLiterals().size());
+
+      Text text = (Text) header.getLiterals().get(0);
+      assertEquals("test", text.getText());
+   }
+
+   @Test
+   public void testQuotedQuote() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("> foo\n");
+      md.append(">\n");
+      md.append("> >bar\n");
+      md.append(">\n");
+      md.append("> acme");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Quote quote = (Quote) document.getContent().get(0);
+      assertEquals(3, quote.getContent().size());
+
+      Paragraph paragraph;
+      Text text;
+
+      paragraph = (Paragraph) quote.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("foo", text.getText());
+
+      Quote nestedQuote = (Quote) quote.getContent().get(1);
+      assertEquals(1, nestedQuote.getContent().size());
+
+      paragraph = (Paragraph) nestedQuote.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("bar", text.getText());
+
+      paragraph = (Paragraph) quote.getContent().get(2);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("acme", text.getText());
+   }
+
+   @Test
+   public void testQuotedList() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("> * item 1\n");
+      md.append("> * item 2\n");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Quote quote = (Quote) document.getContent().get(0);
+      assertEquals(1, quote.getContent().size());
+
+      ListItem item;
+      Text text;
+
+      List list = (List) quote.getContent().get(0);
+      assertEquals(2, list.getItems().size());
+
+      item = list.getItems().get(0);
+      assertEquals(1, item.getContent().size());
+      text = (Text) item.getContent().get(0);
+      assertEquals("item 1", text.getText());
+      
+      item = list.getItems().get(1);
+      assertEquals(1, item.getContent().size());
+      text = (Text) item.getContent().get(0);
+      assertEquals("item 2", text.getText());
    }
 }

@@ -18,6 +18,7 @@ import org.sourcepit.docom.Listable;
 import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
+import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
@@ -166,6 +167,12 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
       public Adapter caseHeader(Header object)
       {
          return createHeaderAdapter();
+      }
+
+      @Override
+      public Adapter caseQuote(Quote object)
+      {
+         return createQuoteAdapter();
       }
 
       @Override
@@ -395,6 +402,22 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
     * @generated
     */
    public Adapter createHeaderAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.sourcepit.docom.Quote <em>Quote</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * 
+    * @return the new adapter.
+    * @see org.sourcepit.docom.Quote
+    * @generated
+    */
+   public Adapter createQuoteAdapter()
    {
       return null;
    }

@@ -17,6 +17,7 @@ import org.sourcepit.docom.Listable;
 import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
+import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
@@ -219,6 +220,18 @@ public class DocOMSwitch<T> extends Switch<T>
             T result = caseHeader(header);
             if (result == null)
                result = caseLiteralGroup(header);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.QUOTE :
+         {
+            Quote quote = (Quote) theEObject;
+            T result = caseQuote(quote);
+            if (result == null)
+               result = caseStructured(quote);
+            if (result == null)
+               result = caseStructurable(quote);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -445,6 +458,23 @@ public class DocOMSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseHeader(Header object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Quote</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Quote</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseQuote(Quote object)
    {
       return null;
    }

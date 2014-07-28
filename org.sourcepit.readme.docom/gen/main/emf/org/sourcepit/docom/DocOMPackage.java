@@ -598,6 +598,47 @@ public interface DocOMPackage extends EPackage
    int HEADER_OPERATION_COUNT = LITERAL_GROUP_OPERATION_COUNT + 0;
 
    /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.QuoteImpl <em>Quote</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.QuoteImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getQuote()
+    * @generated
+    */
+   int QUOTE = 13;
+
+   /**
+    * The feature id for the '<em><b>Content</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int QUOTE__CONTENT = STRUCTURED__CONTENT;
+
+   /**
+    * The number of structural features of the '<em>Quote</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int QUOTE_FEATURE_COUNT = STRUCTURED_FEATURE_COUNT + 0;
+
+   /**
+    * The number of operations of the '<em>Quote</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int QUOTE_OPERATION_COUNT = STRUCTURED_OPERATION_COUNT + 0;
+
+   /**
     * The meta object id for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -606,7 +647,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getEmphasisType()
     * @generated
     */
-   int EMPHASIS_TYPE = 13;
+   int EMPHASIS_TYPE = 14;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.ListType <em>List Type</em>}' enum.
@@ -617,7 +658,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getListType()
     * @generated
     */
-   int LIST_TYPE = 14;
+   int LIST_TYPE = 15;
 
 
    /**
@@ -863,6 +904,17 @@ public interface DocOMPackage extends EPackage
     * @generated
     */
    EClass getHeader();
+
+   /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.Quote <em>Quote</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>Quote</em>'.
+    * @see org.sourcepit.docom.Quote
+    * @generated
+    */
+   EClass getQuote();
 
    /**
     * Returns the meta object for enum '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}'.
@@ -1127,6 +1179,17 @@ public interface DocOMPackage extends EPackage
        * @generated
        */
       EClass HEADER = eINSTANCE.getHeader();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.QuoteImpl <em>Quote</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.QuoteImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getQuote()
+       * @generated
+       */
+      EClass QUOTE = eINSTANCE.getQuote();
 
       /**
        * The meta object literal for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
