@@ -952,4 +952,23 @@ public class MarkdownToDocOMConverterTest
       assertEquals("http://example.com/", declaration.getUrl());
       assertEquals("Optionaler Titel", declaration.getTitle());
    }
+   
+   @Test
+   public void testMail() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("<bernd.vogt@sourcepit.org>");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Link link = (Link) paragraph.getLiterals().get(0);
+      assertEquals("mailto:bernd.vogt@sourcepit.org", link.getUrl());
+      assertNull(link.getTitle());
+      assertEquals(0, link.getLiterals().size());
+   }
 }
