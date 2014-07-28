@@ -13,34 +13,34 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sourcepit.docom.DocOMPackage;
-import org.sourcepit.docom.Literal;
-import org.sourcepit.docom.LiteralGroup;
+import org.sourcepit.docom.ListItem;
+import org.sourcepit.docom.Listable;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Literal Group</b></em>'.
+ * An implementation of the model object '<em><b>List Item</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.sourcepit.docom.impl.LiteralGroupImpl#getLiterals <em>Literals</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.ListItemImpl#getContent <em>Content</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class LiteralGroupImpl extends MinimalEObjectImpl.Container implements LiteralGroup
+public class ListItemImpl extends MinimalEObjectImpl.Container implements ListItem
 {
    /**
-    * The cached value of the '{@link #getLiterals() <em>Literals</em>}' containment reference list.
+    * The cached value of the '{@link #getContent() <em>Content</em>}' containment reference list.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
-    * @see #getLiterals()
+    * @see #getContent()
     * @generated
     * @ordered
     */
-   protected EList<Literal> literals;
+   protected EList<Listable> content;
 
    /**
     * <!-- begin-user-doc -->
@@ -48,7 +48,7 @@ public abstract class LiteralGroupImpl extends MinimalEObjectImpl.Container impl
     * 
     * @generated
     */
-   protected LiteralGroupImpl()
+   protected ListItemImpl()
    {
       super();
    }
@@ -62,7 +62,7 @@ public abstract class LiteralGroupImpl extends MinimalEObjectImpl.Container impl
    @Override
    protected EClass eStaticClass()
    {
-      return DocOMPackage.Literals.LITERAL_GROUP;
+      return DocOMPackage.Literals.LIST_ITEM;
    }
 
    /**
@@ -71,13 +71,13 @@ public abstract class LiteralGroupImpl extends MinimalEObjectImpl.Container impl
     * 
     * @generated
     */
-   public EList<Literal> getLiterals()
+   public EList<Listable> getContent()
    {
-      if (literals == null)
+      if (content == null)
       {
-         literals = new EObjectContainmentEList<Literal>(Literal.class, this, DocOMPackage.LITERAL_GROUP__LITERALS);
+         content = new EObjectContainmentEList<Listable>(Listable.class, this, DocOMPackage.LIST_ITEM__CONTENT);
       }
-      return literals;
+      return content;
    }
 
    /**
@@ -91,8 +91,8 @@ public abstract class LiteralGroupImpl extends MinimalEObjectImpl.Container impl
    {
       switch (featureID)
       {
-         case DocOMPackage.LITERAL_GROUP__LITERALS :
-            return ((InternalEList<?>) getLiterals()).basicRemove(otherEnd, msgs);
+         case DocOMPackage.LIST_ITEM__CONTENT :
+            return ((InternalEList<?>) getContent()).basicRemove(otherEnd, msgs);
       }
       return super.eInverseRemove(otherEnd, featureID, msgs);
    }
@@ -108,8 +108,8 @@ public abstract class LiteralGroupImpl extends MinimalEObjectImpl.Container impl
    {
       switch (featureID)
       {
-         case DocOMPackage.LITERAL_GROUP__LITERALS :
-            return getLiterals();
+         case DocOMPackage.LIST_ITEM__CONTENT :
+            return getContent();
       }
       return super.eGet(featureID, resolve, coreType);
    }
@@ -126,9 +126,9 @@ public abstract class LiteralGroupImpl extends MinimalEObjectImpl.Container impl
    {
       switch (featureID)
       {
-         case DocOMPackage.LITERAL_GROUP__LITERALS :
-            getLiterals().clear();
-            getLiterals().addAll((Collection<? extends Literal>) newValue);
+         case DocOMPackage.LIST_ITEM__CONTENT :
+            getContent().clear();
+            getContent().addAll((Collection<? extends Listable>) newValue);
             return;
       }
       super.eSet(featureID, newValue);
@@ -145,8 +145,8 @@ public abstract class LiteralGroupImpl extends MinimalEObjectImpl.Container impl
    {
       switch (featureID)
       {
-         case DocOMPackage.LITERAL_GROUP__LITERALS :
-            getLiterals().clear();
+         case DocOMPackage.LIST_ITEM__CONTENT :
+            getContent().clear();
             return;
       }
       super.eUnset(featureID);
@@ -163,10 +163,10 @@ public abstract class LiteralGroupImpl extends MinimalEObjectImpl.Container impl
    {
       switch (featureID)
       {
-         case DocOMPackage.LITERAL_GROUP__LITERALS :
-            return literals != null && !literals.isEmpty();
+         case DocOMPackage.LIST_ITEM__CONTENT :
+            return content != null && !content.isEmpty();
       }
       return super.eIsSet(featureID);
    }
 
-} // LiteralGroupImpl
+} // ListItemImpl

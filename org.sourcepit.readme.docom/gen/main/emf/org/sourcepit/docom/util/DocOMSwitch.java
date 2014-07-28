@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom.util;
 
 import org.eclipse.emf.ecore.EObject;
@@ -10,6 +11,7 @@ import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.List;
+import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.Listable;
 import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
@@ -21,13 +23,14 @@ import org.sourcepit.docom.Text;
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch(EObject) doSwitch(object)}
- * to invoke the <code>caseXXX</code> method for each class of the model,
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)} to invoke the <code>caseXXX</code> method for each
+ * class of the model,
  * starting with the actual class of the object
  * and proceeding up the inheritance hierarchy
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
+ * 
  * @see org.sourcepit.docom.DocOMPackage
  * @generated
  */
@@ -37,6 +40,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * The cached model package
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    protected static DocOMPackage modelPackage;
@@ -45,6 +49,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * Creates an instance of the switch.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public DocOMSwitch()
@@ -59,6 +64,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * Checks whether this is a switch for the given package.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @parameter ePackage the package in question.
     * @return whether this is a switch for the given package.
     * @generated
@@ -73,6 +79,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @return the first non-null result returned by a <code>caseXXX</code> call.
     * @generated
     */
@@ -81,98 +88,132 @@ public class DocOMSwitch<T> extends Switch<T>
    {
       switch (classifierID)
       {
-         case DocOMPackage.PARAGRAPH:
+         case DocOMPackage.PARAGRAPH :
          {
-            Paragraph paragraph = (Paragraph)theEObject;
+            Paragraph paragraph = (Paragraph) theEObject;
             T result = caseParagraph(paragraph);
-            if (result == null) result = caseLiteralGroup(paragraph);
-            if (result == null) result = caseListable(paragraph);
-            if (result == null) result = caseStructurable(paragraph);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = caseLiteralGroup(paragraph);
+            if (result == null)
+               result = caseListable(paragraph);
+            if (result == null)
+               result = caseStructurable(paragraph);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         case DocOMPackage.EMPHASIS:
+         case DocOMPackage.EMPHASIS :
          {
-            Emphasis emphasis = (Emphasis)theEObject;
+            Emphasis emphasis = (Emphasis) theEObject;
             T result = caseEmphasis(emphasis);
-            if (result == null) result = caseLiteral(emphasis);
-            if (result == null) result = caseLiteralGroup(emphasis);
-            if (result == null) result = caseListable(emphasis);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = caseLiteral(emphasis);
+            if (result == null)
+               result = caseLiteralGroup(emphasis);
+            if (result == null)
+               result = caseListable(emphasis);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         case DocOMPackage.LIST:
+         case DocOMPackage.LIST :
          {
-            List list = (List)theEObject;
+            List list = (List) theEObject;
             T result = caseList(list);
-            if (result == null) result = caseStructurable(list);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = caseStructurable(list);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         case DocOMPackage.TEXT:
+         case DocOMPackage.TEXT :
          {
-            Text text = (Text)theEObject;
+            Text text = (Text) theEObject;
             T result = caseText(text);
-            if (result == null) result = caseLiteral(text);
-            if (result == null) result = caseListable(text);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = caseLiteral(text);
+            if (result == null)
+               result = caseListable(text);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         case DocOMPackage.LITERAL:
+         case DocOMPackage.LITERAL :
          {
-            Literal literal = (Literal)theEObject;
+            Literal literal = (Literal) theEObject;
             T result = caseLiteral(literal);
-            if (result == null) result = caseListable(literal);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = caseListable(literal);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         case DocOMPackage.DOCUMENT:
+         case DocOMPackage.DOCUMENT :
          {
-            Document document = (Document)theEObject;
+            Document document = (Document) theEObject;
             T result = caseDocument(document);
-            if (result == null) result = caseStructured(document);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = caseStructured(document);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         case DocOMPackage.CHAPTER:
+         case DocOMPackage.CHAPTER :
          {
-            Chapter chapter = (Chapter)theEObject;
+            Chapter chapter = (Chapter) theEObject;
             T result = caseChapter(chapter);
-            if (result == null) result = caseLiteralGroup(chapter);
-            if (result == null) result = caseStructured(chapter);
-            if (result == null) result = caseStructurable(chapter);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = caseLiteralGroup(chapter);
+            if (result == null)
+               result = caseStructured(chapter);
+            if (result == null)
+               result = caseStructurable(chapter);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         case DocOMPackage.LITERAL_GROUP:
+         case DocOMPackage.LITERAL_GROUP :
          {
-            LiteralGroup literalGroup = (LiteralGroup)theEObject;
+            LiteralGroup literalGroup = (LiteralGroup) theEObject;
             T result = caseLiteralGroup(literalGroup);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         case DocOMPackage.LISTABLE:
+         case DocOMPackage.LISTABLE :
          {
-            Listable listable = (Listable)theEObject;
+            Listable listable = (Listable) theEObject;
             T result = caseListable(listable);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         case DocOMPackage.STRUCTURABLE:
+         case DocOMPackage.STRUCTURABLE :
          {
-            Structurable structurable = (Structurable)theEObject;
+            Structurable structurable = (Structurable) theEObject;
             T result = caseStructurable(structurable);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         case DocOMPackage.STRUCTURED:
+         case DocOMPackage.STRUCTURED :
          {
-            Structured structured = (Structured)theEObject;
+            Structured structured = (Structured) theEObject;
             T result = caseStructured(structured);
-            if (result == null) result = defaultCase(theEObject);
+            if (result == null)
+               result = defaultCase(theEObject);
             return result;
          }
-         default: return defaultCase(theEObject);
+         case DocOMPackage.LIST_ITEM :
+         {
+            ListItem listItem = (ListItem) theEObject;
+            T result = caseListItem(listItem);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         default :
+            return defaultCase(theEObject);
       }
    }
 
@@ -182,6 +223,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Paragraph</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -198,6 +240,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Emphasis</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -214,6 +257,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>List</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -230,6 +274,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Text</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -246,6 +291,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Literal</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -262,6 +308,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Document</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -278,6 +325,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Chapter</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -294,6 +342,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Literal Group</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -310,6 +359,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Listable</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -326,6 +376,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Structurable</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -342,6 +393,7 @@ public class DocOMSwitch<T> extends Switch<T>
     * This implementation returns null;
     * returning a non-null result will terminate the switch.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Structured</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -353,11 +405,29 @@ public class DocOMSwitch<T> extends Switch<T>
    }
 
    /**
+    * Returns the result of interpreting the object as an instance of '<em>List Item</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>List Item</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseListItem(ListItem object)
+   {
+      return null;
+   }
+
+   /**
     * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
     * <!-- begin-user-doc -->
     * This implementation returns null;
     * returning a non-null result will terminate the switch, but this is the last case anyway.
     * <!-- end-user-doc -->
+    * 
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject)
@@ -369,4 +439,4 @@ public class DocOMSwitch<T> extends Switch<T>
       return null;
    }
 
-} //DocOMSwitch
+} // DocOMSwitch

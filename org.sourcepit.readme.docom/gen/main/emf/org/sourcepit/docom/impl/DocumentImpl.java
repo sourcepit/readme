@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom.impl;
 
 import org.eclipse.emf.ecore.EClass;
@@ -20,6 +21,7 @@ public class DocumentImpl extends StructuredImpl implements Document
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    protected DocumentImpl()
@@ -30,6 +32,7 @@ public class DocumentImpl extends StructuredImpl implements Document
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -38,4 +41,4 @@ public class DocumentImpl extends StructuredImpl implements Document
       return DocOMPackage.Literals.DOCUMENT;
    }
 
-} //DocumentImpl
+} // DocumentImpl

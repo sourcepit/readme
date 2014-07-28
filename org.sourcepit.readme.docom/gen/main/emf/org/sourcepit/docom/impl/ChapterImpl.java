@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom.impl;
 
 import java.util.Collection;
@@ -22,7 +23,7 @@ import org.sourcepit.docom.Structured;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.sourcepit.docom.impl.ChapterImpl#getContent <em>Content</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.ChapterImpl#getContent <em>Content</em>}</li>
  * </ul>
  * </p>
  *
@@ -34,6 +35,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
     * The cached value of the '{@link #getContent() <em>Content</em>}' containment reference list.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #getContent()
     * @generated
     * @ordered
@@ -43,6 +45,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    protected ChapterImpl()
@@ -53,6 +56,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -64,6 +68,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EList<Structurable> getContent()
@@ -78,6 +83,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -85,8 +91,8 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    {
       switch (featureID)
       {
-         case DocOMPackage.CHAPTER__CONTENT:
-            return ((InternalEList<?>)getContent()).basicRemove(otherEnd, msgs);
+         case DocOMPackage.CHAPTER__CONTENT :
+            return ((InternalEList<?>) getContent()).basicRemove(otherEnd, msgs);
       }
       return super.eInverseRemove(otherEnd, featureID, msgs);
    }
@@ -94,6 +100,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -101,7 +108,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    {
       switch (featureID)
       {
-         case DocOMPackage.CHAPTER__CONTENT:
+         case DocOMPackage.CHAPTER__CONTENT :
             return getContent();
       }
       return super.eGet(featureID, resolve, coreType);
@@ -110,6 +117,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @SuppressWarnings("unchecked")
@@ -118,9 +126,9 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    {
       switch (featureID)
       {
-         case DocOMPackage.CHAPTER__CONTENT:
+         case DocOMPackage.CHAPTER__CONTENT :
             getContent().clear();
-            getContent().addAll((Collection<? extends Structurable>)newValue);
+            getContent().addAll((Collection<? extends Structurable>) newValue);
             return;
       }
       super.eSet(featureID, newValue);
@@ -129,6 +137,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -136,7 +145,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    {
       switch (featureID)
       {
-         case DocOMPackage.CHAPTER__CONTENT:
+         case DocOMPackage.CHAPTER__CONTENT :
             getContent().clear();
             return;
       }
@@ -146,6 +155,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -153,7 +163,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    {
       switch (featureID)
       {
-         case DocOMPackage.CHAPTER__CONTENT:
+         case DocOMPackage.CHAPTER__CONTENT :
             return content != null && !content.isEmpty();
       }
       return super.eIsSet(featureID);
@@ -162,6 +172,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -171,15 +182,18 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
       {
          switch (derivedFeatureID)
          {
-            case DocOMPackage.CHAPTER__CONTENT: return DocOMPackage.STRUCTURED__CONTENT;
-            default: return -1;
+            case DocOMPackage.CHAPTER__CONTENT :
+               return DocOMPackage.STRUCTURED__CONTENT;
+            default :
+               return -1;
          }
       }
       if (baseClass == Structurable.class)
       {
          switch (derivedFeatureID)
          {
-            default: return -1;
+            default :
+               return -1;
          }
       }
       return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -188,6 +202,7 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -197,18 +212,21 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
       {
          switch (baseFeatureID)
          {
-            case DocOMPackage.STRUCTURED__CONTENT: return DocOMPackage.CHAPTER__CONTENT;
-            default: return -1;
+            case DocOMPackage.STRUCTURED__CONTENT :
+               return DocOMPackage.CHAPTER__CONTENT;
+            default :
+               return -1;
          }
       }
       if (baseClass == Structurable.class)
       {
          switch (baseFeatureID)
          {
-            default: return -1;
+            default :
+               return -1;
          }
       }
       return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
    }
 
-} //ChapterImpl
+} // ChapterImpl

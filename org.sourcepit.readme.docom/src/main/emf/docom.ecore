@@ -12,8 +12,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="List" eSuperTypes="#//Structurable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//ListType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="listItems" upperBound="-1"
-        eType="#//Listable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
+        eType="#//ListItem" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//Literal">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -35,5 +35,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="Structured" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="content" upperBound="-1"
         eType="#//Structurable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ListItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" lowerBound="1"
+        upperBound="-1" eType="#//Listable" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

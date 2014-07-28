@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom;
 
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>List Type</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
+ * 
  * @see org.sourcepit.docom.DocOMPackage#getListType()
  * @model
  * @generated
@@ -23,6 +25,7 @@ public enum ListType implements Enumerator
     * The '<em><b>SIMPLE</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #SIMPLE_VALUE
     * @generated
     * @ordered
@@ -33,6 +36,7 @@ public enum ListType implements Enumerator
     * The '<em><b>NUMERIC</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #NUMERIC_VALUE
     * @generated
     * @ordered
@@ -43,10 +47,11 @@ public enum ListType implements Enumerator
     * The '<em><b>SIMPLE</b></em>' literal value.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of '<em><b>SIMPLE</b></em>' literal object isn't clear,
-    * there really should be more of a description here...
+    * If the meaning of '<em><b>SIMPLE</b></em>' literal object isn't clear, there really should be more of a
+    * description here...
     * </p>
     * <!-- end-user-doc -->
+    * 
     * @see #SIMPLE
     * @model
     * @generated
@@ -58,10 +63,11 @@ public enum ListType implements Enumerator
     * The '<em><b>NUMERIC</b></em>' literal value.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of '<em><b>NUMERIC</b></em>' literal object isn't clear,
-    * there really should be more of a description here...
+    * If the meaning of '<em><b>NUMERIC</b></em>' literal object isn't clear, there really should be more of a
+    * description here...
     * </p>
     * <!-- end-user-doc -->
+    * 
     * @see #NUMERIC
     * @model
     * @generated
@@ -73,19 +79,16 @@ public enum ListType implements Enumerator
     * An array of all the '<em><b>List Type</b></em>' enumerators.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
-   private static final ListType[] VALUES_ARRAY =
-      new ListType[]
-      {
-         SIMPLE,
-         NUMERIC,
-      };
+   private static final ListType[] VALUES_ARRAY = new ListType[] { SIMPLE, NUMERIC, };
 
    /**
     * A public read-only list of all the '<em><b>List Type</b></em>' enumerators.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public static final List<ListType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -94,6 +97,7 @@ public enum ListType implements Enumerator
     * Returns the '<em><b>List Type</b></em>' literal with the specified literal value.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public static ListType get(String literal)
@@ -113,6 +117,7 @@ public enum ListType implements Enumerator
     * Returns the '<em><b>List Type</b></em>' literal with the specified name.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public static ListType getByName(String name)
@@ -132,14 +137,17 @@ public enum ListType implements Enumerator
     * Returns the '<em><b>List Type</b></em>' literal with the specified integer value.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public static ListType get(int value)
    {
       switch (value)
       {
-         case SIMPLE_VALUE: return SIMPLE;
-         case NUMERIC_VALUE: return NUMERIC;
+         case SIMPLE_VALUE :
+            return SIMPLE;
+         case NUMERIC_VALUE :
+            return NUMERIC;
       }
       return null;
    }
@@ -147,6 +155,7 @@ public enum ListType implements Enumerator
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private final int value;
@@ -154,6 +163,7 @@ public enum ListType implements Enumerator
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private final String name;
@@ -161,6 +171,7 @@ public enum ListType implements Enumerator
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private final String literal;
@@ -169,6 +180,7 @@ public enum ListType implements Enumerator
     * Only this class can construct instances.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private ListType(int value, String name, String literal)
@@ -181,37 +193,41 @@ public enum ListType implements Enumerator
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public int getValue()
    {
-     return value;
+      return value;
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public String getName()
    {
-     return name;
+      return name;
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public String getLiteral()
    {
-     return literal;
+      return literal;
    }
 
    /**
     * Returns the literal value of the enumerator, which is its string representation.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -219,5 +235,5 @@ public enum ListType implements Enumerator
    {
       return literal;
    }
-   
-} //ListType
+
+} // ListType

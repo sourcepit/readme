@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom.impl;
 
 import org.eclipse.emf.ecore.EClass;
@@ -20,6 +21,7 @@ public class ParagraphImpl extends LiteralGroupImpl implements Paragraph
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    protected ParagraphImpl()
@@ -30,6 +32,7 @@ public class ParagraphImpl extends LiteralGroupImpl implements Paragraph
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -38,4 +41,4 @@ public class ParagraphImpl extends LiteralGroupImpl implements Paragraph
       return DocOMPackage.Literals.PARAGRAPH;
    }
 
-} //ParagraphImpl
+} // ParagraphImpl

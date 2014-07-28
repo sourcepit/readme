@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom;
 
 import org.eclipse.emf.common.util.EList;
@@ -13,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.sourcepit.docom.LiteralGroup#getLiterals <em>Literals</em>}</li>
+ * <li>{@link org.sourcepit.docom.LiteralGroup#getLiterals <em>Literals</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,10 +29,11 @@ public interface LiteralGroup extends EObject
     * The list contents are of type {@link org.sourcepit.docom.Literal}.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of the '<em>Literals</em>' containment reference list isn't clear,
-    * there really should be more of a description here...
+    * If the meaning of the '<em>Literals</em>' containment reference list isn't clear, there really should be more of a
+    * description here...
     * </p>
     * <!-- end-user-doc -->
+    * 
     * @return the value of the '<em>Literals</em>' containment reference list.
     * @see org.sourcepit.docom.DocOMPackage#getLiteralGroup_Literals()
     * @model containment="true"

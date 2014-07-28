@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom;
 
 import org.eclipse.emf.ecore.EFactory;
@@ -9,6 +10,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
+ * 
  * @see org.sourcepit.docom.DocOMPackage
  * @generated
  */
@@ -18,6 +20,7 @@ public interface DocOMFactory extends EFactory
     * The singleton instance of the factory.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    DocOMFactory eINSTANCE = org.sourcepit.docom.impl.DocOMFactoryImpl.init();
@@ -26,6 +29,7 @@ public interface DocOMFactory extends EFactory
     * Returns a new object of class '<em>Paragraph</em>'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @return a new object of class '<em>Paragraph</em>'.
     * @generated
     */
@@ -35,6 +39,7 @@ public interface DocOMFactory extends EFactory
     * Returns a new object of class '<em>Emphasis</em>'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @return a new object of class '<em>Emphasis</em>'.
     * @generated
     */
@@ -44,6 +49,7 @@ public interface DocOMFactory extends EFactory
     * Returns a new object of class '<em>List</em>'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @return a new object of class '<em>List</em>'.
     * @generated
     */
@@ -53,6 +59,7 @@ public interface DocOMFactory extends EFactory
     * Returns a new object of class '<em>Text</em>'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @return a new object of class '<em>Text</em>'.
     * @generated
     */
@@ -62,6 +69,7 @@ public interface DocOMFactory extends EFactory
     * Returns a new object of class '<em>Document</em>'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @return a new object of class '<em>Document</em>'.
     * @generated
     */
@@ -71,18 +79,30 @@ public interface DocOMFactory extends EFactory
     * Returns a new object of class '<em>Chapter</em>'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @return a new object of class '<em>Chapter</em>'.
     * @generated
     */
    Chapter createChapter();
 
    /**
+    * Returns a new object of class '<em>List Item</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return a new object of class '<em>List Item</em>'.
+    * @generated
+    */
+   ListItem createListItem();
+
+   /**
     * Returns the package supported by this factory.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @return the package supported by this factory.
     * @generated
     */
    DocOMPackage getDocOMPackage();
 
-} //DocOMFactory
+} // DocOMFactory

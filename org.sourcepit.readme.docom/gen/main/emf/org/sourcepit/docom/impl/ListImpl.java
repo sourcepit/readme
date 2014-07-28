@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom.impl;
 
 import java.util.Collection;
@@ -15,8 +16,8 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.List;
+import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
-import org.sourcepit.docom.Listable;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,8 +26,8 @@ import org.sourcepit.docom.Listable;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.sourcepit.docom.impl.ListImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.sourcepit.docom.impl.ListImpl#getListItems <em>List Items</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.ListImpl#getType <em>Type</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.ListImpl#getItems <em>Items</em>}</li>
  * </ul>
  * </p>
  *
@@ -38,6 +39,7 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
     * The default value of the '{@link #getType() <em>Type</em>}' attribute.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #getType()
     * @generated
     * @ordered
@@ -48,6 +50,7 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
     * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #getType()
     * @generated
     * @ordered
@@ -55,18 +58,20 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    protected ListType type = TYPE_EDEFAULT;
 
    /**
-    * The cached value of the '{@link #getListItems() <em>List Items</em>}' containment reference list.
+    * The cached value of the '{@link #getItems() <em>Items</em>}' containment reference list.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getListItems()
+    * 
+    * @see #getItems()
     * @generated
     * @ordered
     */
-   protected EList<Listable> listItems;
+   protected EList<ListItem> items;
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    protected ListImpl()
@@ -77,6 +82,7 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -88,6 +94,7 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public ListType getType()
@@ -98,6 +105,7 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public void setType(ListType newType)
@@ -111,20 +119,22 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
-   public EList<Listable> getListItems()
+   public EList<ListItem> getItems()
    {
-      if (listItems == null)
+      if (items == null)
       {
-         listItems = new EObjectContainmentEList<Listable>(Listable.class, this, DocOMPackage.LIST__LIST_ITEMS);
+         items = new EObjectContainmentEList<ListItem>(ListItem.class, this, DocOMPackage.LIST__ITEMS);
       }
-      return listItems;
+      return items;
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -132,8 +142,8 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    {
       switch (featureID)
       {
-         case DocOMPackage.LIST__LIST_ITEMS:
-            return ((InternalEList<?>)getListItems()).basicRemove(otherEnd, msgs);
+         case DocOMPackage.LIST__ITEMS :
+            return ((InternalEList<?>) getItems()).basicRemove(otherEnd, msgs);
       }
       return super.eInverseRemove(otherEnd, featureID, msgs);
    }
@@ -141,6 +151,7 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -148,10 +159,10 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    {
       switch (featureID)
       {
-         case DocOMPackage.LIST__TYPE:
+         case DocOMPackage.LIST__TYPE :
             return getType();
-         case DocOMPackage.LIST__LIST_ITEMS:
-            return getListItems();
+         case DocOMPackage.LIST__ITEMS :
+            return getItems();
       }
       return super.eGet(featureID, resolve, coreType);
    }
@@ -159,6 +170,7 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @SuppressWarnings("unchecked")
@@ -167,12 +179,12 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    {
       switch (featureID)
       {
-         case DocOMPackage.LIST__TYPE:
-            setType((ListType)newValue);
+         case DocOMPackage.LIST__TYPE :
+            setType((ListType) newValue);
             return;
-         case DocOMPackage.LIST__LIST_ITEMS:
-            getListItems().clear();
-            getListItems().addAll((Collection<? extends Listable>)newValue);
+         case DocOMPackage.LIST__ITEMS :
+            getItems().clear();
+            getItems().addAll((Collection<? extends ListItem>) newValue);
             return;
       }
       super.eSet(featureID, newValue);
@@ -181,6 +193,7 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -188,11 +201,11 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    {
       switch (featureID)
       {
-         case DocOMPackage.LIST__TYPE:
+         case DocOMPackage.LIST__TYPE :
             setType(TYPE_EDEFAULT);
             return;
-         case DocOMPackage.LIST__LIST_ITEMS:
-            getListItems().clear();
+         case DocOMPackage.LIST__ITEMS :
+            getItems().clear();
             return;
       }
       super.eUnset(featureID);
@@ -201,6 +214,7 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -208,10 +222,10 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    {
       switch (featureID)
       {
-         case DocOMPackage.LIST__TYPE:
+         case DocOMPackage.LIST__TYPE :
             return type != TYPE_EDEFAULT;
-         case DocOMPackage.LIST__LIST_ITEMS:
-            return listItems != null && !listItems.isEmpty();
+         case DocOMPackage.LIST__ITEMS :
+            return items != null && !items.isEmpty();
       }
       return super.eIsSet(featureID);
    }
@@ -219,12 +233,14 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
    public String toString()
    {
-      if (eIsProxy()) return super.toString();
+      if (eIsProxy())
+         return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
       result.append(" (type: ");
@@ -233,4 +249,4 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
       return result.toString();
    }
 
-} //ListImpl
+} // ListImpl

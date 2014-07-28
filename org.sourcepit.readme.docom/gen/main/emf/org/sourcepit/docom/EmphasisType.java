@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom;
 
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Emphasis Type</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
+ * 
  * @see org.sourcepit.docom.DocOMPackage#getEmphasisType()
  * @model
  * @generated
@@ -23,6 +25,7 @@ public enum EmphasisType implements Enumerator
     * The '<em><b>ITALIC</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #ITALIC_VALUE
     * @generated
     * @ordered
@@ -33,6 +36,7 @@ public enum EmphasisType implements Enumerator
     * The '<em><b>BOLD</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #BOLD_VALUE
     * @generated
     * @ordered
@@ -43,6 +47,7 @@ public enum EmphasisType implements Enumerator
     * The '<em><b>CODE</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #CODE_VALUE
     * @generated
     * @ordered
@@ -53,10 +58,11 @@ public enum EmphasisType implements Enumerator
     * The '<em><b>ITALIC</b></em>' literal value.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of '<em><b>ITALIC</b></em>' literal object isn't clear,
-    * there really should be more of a description here...
+    * If the meaning of '<em><b>ITALIC</b></em>' literal object isn't clear, there really should be more of a
+    * description here...
     * </p>
     * <!-- end-user-doc -->
+    * 
     * @see #ITALIC
     * @model
     * @generated
@@ -68,10 +74,11 @@ public enum EmphasisType implements Enumerator
     * The '<em><b>BOLD</b></em>' literal value.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of '<em><b>BOLD</b></em>' literal object isn't clear,
-    * there really should be more of a description here...
+    * If the meaning of '<em><b>BOLD</b></em>' literal object isn't clear, there really should be more of a description
+    * here...
     * </p>
     * <!-- end-user-doc -->
+    * 
     * @see #BOLD
     * @model
     * @generated
@@ -83,10 +90,11 @@ public enum EmphasisType implements Enumerator
     * The '<em><b>CODE</b></em>' literal value.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of '<em><b>CODE</b></em>' literal object isn't clear,
-    * there really should be more of a description here...
+    * If the meaning of '<em><b>CODE</b></em>' literal object isn't clear, there really should be more of a description
+    * here...
     * </p>
     * <!-- end-user-doc -->
+    * 
     * @see #CODE
     * @model
     * @generated
@@ -98,20 +106,16 @@ public enum EmphasisType implements Enumerator
     * An array of all the '<em><b>Emphasis Type</b></em>' enumerators.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
-   private static final EmphasisType[] VALUES_ARRAY =
-      new EmphasisType[]
-      {
-         ITALIC,
-         BOLD,
-         CODE,
-      };
+   private static final EmphasisType[] VALUES_ARRAY = new EmphasisType[] { ITALIC, BOLD, CODE, };
 
    /**
     * A public read-only list of all the '<em><b>Emphasis Type</b></em>' enumerators.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public static final List<EmphasisType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -120,6 +124,7 @@ public enum EmphasisType implements Enumerator
     * Returns the '<em><b>Emphasis Type</b></em>' literal with the specified literal value.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public static EmphasisType get(String literal)
@@ -139,6 +144,7 @@ public enum EmphasisType implements Enumerator
     * Returns the '<em><b>Emphasis Type</b></em>' literal with the specified name.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public static EmphasisType getByName(String name)
@@ -158,15 +164,19 @@ public enum EmphasisType implements Enumerator
     * Returns the '<em><b>Emphasis Type</b></em>' literal with the specified integer value.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public static EmphasisType get(int value)
    {
       switch (value)
       {
-         case ITALIC_VALUE: return ITALIC;
-         case BOLD_VALUE: return BOLD;
-         case CODE_VALUE: return CODE;
+         case ITALIC_VALUE :
+            return ITALIC;
+         case BOLD_VALUE :
+            return BOLD;
+         case CODE_VALUE :
+            return CODE;
       }
       return null;
    }
@@ -174,6 +184,7 @@ public enum EmphasisType implements Enumerator
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private final int value;
@@ -181,6 +192,7 @@ public enum EmphasisType implements Enumerator
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private final String name;
@@ -188,6 +200,7 @@ public enum EmphasisType implements Enumerator
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private final String literal;
@@ -196,6 +209,7 @@ public enum EmphasisType implements Enumerator
     * Only this class can construct instances.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EmphasisType(int value, String name, String literal)
@@ -208,37 +222,41 @@ public enum EmphasisType implements Enumerator
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public int getValue()
    {
-     return value;
+      return value;
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public String getName()
    {
-     return name;
+      return name;
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public String getLiteral()
    {
-     return literal;
+      return literal;
    }
 
    /**
     * Returns the literal value of the enumerator, which is its string representation.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -246,5 +264,5 @@ public enum EmphasisType implements Enumerator
    {
       return literal;
    }
-   
-} //EmphasisType
+
+} // EmphasisType

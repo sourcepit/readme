@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -15,6 +16,7 @@ import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.EmphasisType;
 import org.sourcepit.docom.List;
+import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.Listable;
 import org.sourcepit.docom.Literal;
@@ -28,6 +30,7 @@ import org.sourcepit.docom.Text;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Package</b>.
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
@@ -35,6 +38,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass paragraphEClass = null;
@@ -42,6 +46,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass emphasisEClass = null;
@@ -49,6 +54,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass listEClass = null;
@@ -56,6 +62,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass textEClass = null;
@@ -63,6 +70,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass literalEClass = null;
@@ -70,6 +78,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass documentEClass = null;
@@ -77,6 +86,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass chapterEClass = null;
@@ -84,6 +94,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass literalGroupEClass = null;
@@ -91,6 +102,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass listableEClass = null;
@@ -98,6 +110,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass structurableEClass = null;
@@ -105,6 +118,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EClass structuredEClass = null;
@@ -112,6 +126,15 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EClass listItemEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EEnum emphasisTypeEEnum = null;
@@ -119,20 +142,20 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private EEnum listTypeEEnum = null;
 
    /**
-    * Creates an instance of the model <b>Package</b>, registered with
-    * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+    * Creates an instance of the model <b>Package</b>, registered with {@link org.eclipse.emf.ecore.EPackage.Registry
+    * EPackage.Registry} by the package
     * package URI value.
-    * <p>Note: the correct way to create the package is via the static
-    * factory method {@link #init init()}, which also performs
-    * initialization of the package, or returns the registered package,
-    * if one already exists.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
+    * <p>
+    * Note: the correct way to create the package is via the static factory method {@link #init init()}, which also
+    * performs initialization of the package, or returns the registered package, if one already exists. <!--
+    * begin-user-doc --> <!-- end-user-doc -->
+    * 
     * @see org.eclipse.emf.ecore.EPackage.Registry
     * @see org.sourcepit.docom.DocOMPackage#eNS_URI
     * @see #init()
@@ -146,6 +169,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private static boolean isInited = false;
@@ -153,10 +177,11 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
     * 
-    * <p>This method is used to initialize {@link DocOMPackage#eINSTANCE} when that field is accessed.
-    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
-    * <!-- begin-user-doc -->
+    * <p>
+    * This method is used to initialize {@link DocOMPackage#eINSTANCE} when that field is accessed. Clients should not
+    * invoke it directly. Instead, they should simply access that field to obtain the package. <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #eNS_URI
     * @see #createPackageContents()
     * @see #initializePackageContents()
@@ -164,10 +189,13 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     */
    public static DocOMPackage init()
    {
-      if (isInited) return (DocOMPackage)EPackage.Registry.INSTANCE.getEPackage(DocOMPackage.eNS_URI);
+      if (isInited)
+         return (DocOMPackage) EPackage.Registry.INSTANCE.getEPackage(DocOMPackage.eNS_URI);
 
       // Obtain or create and register package
-      DocOMPackageImpl theDocOMPackage = (DocOMPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DocOMPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DocOMPackageImpl());
+      DocOMPackageImpl theDocOMPackage = (DocOMPackageImpl) (EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DocOMPackageImpl
+         ? EPackage.Registry.INSTANCE.get(eNS_URI)
+         : new DocOMPackageImpl());
 
       isInited = true;
 
@@ -180,7 +208,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       // Mark meta-data to indicate it can't be changed
       theDocOMPackage.freeze();
 
-  
+
       // Update the registry and return the package
       EPackage.Registry.INSTANCE.put(DocOMPackage.eNS_URI, theDocOMPackage);
       return theDocOMPackage;
@@ -189,6 +217,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getParagraph()
@@ -199,6 +228,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getEmphasis()
@@ -209,16 +239,18 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EAttribute getEmphasis_Type()
    {
-      return (EAttribute)emphasisEClass.getEStructuralFeatures().get(0);
+      return (EAttribute) emphasisEClass.getEStructuralFeatures().get(0);
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getList()
@@ -229,26 +261,29 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EAttribute getList_Type()
    {
-      return (EAttribute)listEClass.getEStructuralFeatures().get(0);
+      return (EAttribute) listEClass.getEStructuralFeatures().get(0);
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
-   public EReference getList_ListItems()
+   public EReference getList_Items()
    {
-      return (EReference)listEClass.getEStructuralFeatures().get(1);
+      return (EReference) listEClass.getEStructuralFeatures().get(1);
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getText()
@@ -259,16 +294,18 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EAttribute getText_Text()
    {
-      return (EAttribute)textEClass.getEStructuralFeatures().get(0);
+      return (EAttribute) textEClass.getEStructuralFeatures().get(0);
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getLiteral()
@@ -279,6 +316,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getDocument()
@@ -289,6 +327,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getChapter()
@@ -299,6 +338,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getLiteralGroup()
@@ -309,16 +349,18 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EReference getLiteralGroup_Literals()
    {
-      return (EReference)literalGroupEClass.getEStructuralFeatures().get(0);
+      return (EReference) literalGroupEClass.getEStructuralFeatures().get(0);
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getListable()
@@ -329,6 +371,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getStructurable()
@@ -339,6 +382,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EClass getStructured()
@@ -349,16 +393,40 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EReference getStructured_Content()
    {
-      return (EReference)structuredEClass.getEStructuralFeatures().get(0);
+      return (EReference) structuredEClass.getEStructuralFeatures().get(0);
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EClass getListItem()
+   {
+      return listItemEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EReference getListItem_Content()
+   {
+      return (EReference) listItemEClass.getEStructuralFeatures().get(0);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EEnum getEmphasisType()
@@ -369,6 +437,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EEnum getListType()
@@ -379,30 +448,34 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public DocOMFactory getDocOMFactory()
    {
-      return (DocOMFactory)getEFactoryInstance();
+      return (DocOMFactory) getEFactoryInstance();
    }
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private boolean isCreated = false;
 
    /**
-    * Creates the meta-model objects for the package.  This method is
+    * Creates the meta-model objects for the package. This method is
     * guarded to have no affect on any invocation but its first.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public void createPackageContents()
    {
-      if (isCreated) return;
+      if (isCreated)
+         return;
       isCreated = true;
 
       // Create classes and their features
@@ -413,7 +486,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       listEClass = createEClass(LIST);
       createEAttribute(listEClass, LIST__TYPE);
-      createEReference(listEClass, LIST__LIST_ITEMS);
+      createEReference(listEClass, LIST__ITEMS);
 
       textEClass = createEClass(TEXT);
       createEAttribute(textEClass, TEXT__TEXT);
@@ -434,6 +507,9 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       structuredEClass = createEClass(STRUCTURED);
       createEReference(structuredEClass, STRUCTURED__CONTENT);
 
+      listItemEClass = createEClass(LIST_ITEM);
+      createEReference(listItemEClass, LIST_ITEM__CONTENT);
+
       // Create enums
       emphasisTypeEEnum = createEEnum(EMPHASIS_TYPE);
       listTypeEEnum = createEEnum(LIST_TYPE);
@@ -442,20 +518,23 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    private boolean isInitialized = false;
 
    /**
-    * Complete the initialization of the package and its meta-model.  This
+    * Complete the initialization of the package and its meta-model. This
     * method is guarded to have no affect on any invocation but its first.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public void initializePackageContents()
    {
-      if (isInitialized) return;
+      if (isInitialized)
+         return;
       isInitialized = true;
 
       // Initialize package
@@ -482,17 +561,23 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       chapterEClass.getESuperTypes().add(this.getStructurable());
 
       // Initialize classes, features, and operations; add parameters
-      initEClass(paragraphEClass, Paragraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+      initEClass(paragraphEClass, Paragraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE,
+         IS_GENERATED_INSTANCE_CLASS);
 
       initEClass(emphasisEClass, Emphasis.class, "Emphasis", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEAttribute(getEmphasis_Type(), this.getEmphasisType(), "type", null, 1, 1, Emphasis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getEmphasis_Type(), this.getEmphasisType(), "type", null, 1, 1, Emphasis.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
       initEClass(listEClass, List.class, "List", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEAttribute(getList_Type(), this.getListType(), "type", null, 1, 1, List.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getList_ListItems(), this.getListable(), null, "listItems", null, 0, -1, List.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getList_Type(), this.getListType(), "type", null, 1, 1, List.class, !IS_TRANSIENT, !IS_VOLATILE,
+         IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEReference(getList_Items(), this.getListItem(), null, "items", null, 0, -1, List.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+         IS_ORDERED);
 
       initEClass(textEClass, Text.class, "Text", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEAttribute(getText_Text(), ecorePackage.getEString(), "text", null, 1, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getText_Text(), ecorePackage.getEString(), "text", null, 1, 1, Text.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
       initEClass(literalEClass, Literal.class, "Literal", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -500,15 +585,27 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       initEClass(chapterEClass, Chapter.class, "Chapter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-      initEClass(literalGroupEClass, LiteralGroup.class, "LiteralGroup", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEReference(getLiteralGroup_Literals(), this.getLiteral(), null, "literals", null, 0, -1, LiteralGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEClass(literalGroupEClass, LiteralGroup.class, "LiteralGroup", IS_ABSTRACT, !IS_INTERFACE,
+         IS_GENERATED_INSTANCE_CLASS);
+      initEReference(getLiteralGroup_Literals(), this.getLiteral(), null, "literals", null, 0, -1, LiteralGroup.class,
+         !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+         !IS_DERIVED, IS_ORDERED);
 
       initEClass(listableEClass, Listable.class, "Listable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-      initEClass(structurableEClass, Structurable.class, "Structurable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+      initEClass(structurableEClass, Structurable.class, "Structurable", IS_ABSTRACT, IS_INTERFACE,
+         IS_GENERATED_INSTANCE_CLASS);
 
-      initEClass(structuredEClass, Structured.class, "Structured", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEReference(getStructured_Content(), this.getStructurable(), null, "content", null, 0, -1, Structured.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEClass(structuredEClass, Structured.class, "Structured", IS_ABSTRACT, !IS_INTERFACE,
+         IS_GENERATED_INSTANCE_CLASS);
+      initEReference(getStructured_Content(), this.getStructurable(), null, "content", null, 0, -1, Structured.class,
+         !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+         !IS_DERIVED, IS_ORDERED);
+
+      initEClass(listItemEClass, ListItem.class, "ListItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+      initEReference(getListItem_Content(), this.getListable(), null, "content", null, 1, -1, ListItem.class,
+         !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+         !IS_DERIVED, IS_ORDERED);
 
       // Initialize enums and add enum literals
       initEEnum(emphasisTypeEEnum, EmphasisType.class, "EmphasisType");
@@ -524,4 +621,4 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       createResource(eNS_URI);
    }
 
-} //DocOMPackageImpl
+} // DocOMPackageImpl

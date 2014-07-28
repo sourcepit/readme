@@ -8,25 +8,25 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Structured</b></em>'.
+ * A representation of the model object '<em><b>List Item</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.sourcepit.docom.Structured#getContent <em>Content</em>}</li>
+ * <li>{@link org.sourcepit.docom.ListItem#getContent <em>Content</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.sourcepit.docom.DocOMPackage#getStructured()
- * @model abstract="true"
+ * @see org.sourcepit.docom.DocOMPackage#getListItem()
+ * @model
  * @generated
  */
-public interface Structured extends EObject
+public interface ListItem extends EObject
 {
    /**
     * Returns the value of the '<em><b>Content</b></em>' containment reference list.
-    * The list contents are of type {@link org.sourcepit.docom.Structurable}.
+    * The list contents are of type {@link org.sourcepit.docom.Listable}.
     * <!-- begin-user-doc -->
     * <p>
     * If the meaning of the '<em>Content</em>' containment reference list isn't clear, there really should be more of a
@@ -35,10 +35,10 @@ public interface Structured extends EObject
     * <!-- end-user-doc -->
     * 
     * @return the value of the '<em>Content</em>' containment reference list.
-    * @see org.sourcepit.docom.DocOMPackage#getStructured_Content()
-    * @model containment="true"
+    * @see org.sourcepit.docom.DocOMPackage#getListItem_Content()
+    * @model containment="true" required="true"
     * @generated
     */
-   EList<Structurable> getContent();
+   EList<Listable> getContent();
 
-} // Structured
+} // ListItem

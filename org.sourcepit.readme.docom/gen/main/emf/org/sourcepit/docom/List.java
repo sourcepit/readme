@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom;
 
 import org.eclipse.emf.common.util.EList;
@@ -12,8 +13,8 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.sourcepit.docom.List#getType <em>Type</em>}</li>
- *   <li>{@link org.sourcepit.docom.List#getListItems <em>List Items</em>}</li>
+ * <li>{@link org.sourcepit.docom.List#getType <em>Type</em>}</li>
+ * <li>{@link org.sourcepit.docom.List#getItems <em>Items</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,10 +29,10 @@ public interface List extends Structurable
     * The literals are from the enumeration {@link org.sourcepit.docom.ListType}.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of the '<em>Type</em>' attribute isn't clear,
-    * there really should be more of a description here...
+    * If the meaning of the '<em>Type</em>' attribute isn't clear, there really should be more of a description here...
     * </p>
     * <!-- end-user-doc -->
+    * 
     * @return the value of the '<em>Type</em>' attribute.
     * @see org.sourcepit.docom.ListType
     * @see #setType(ListType)
@@ -45,6 +46,7 @@ public interface List extends Structurable
     * Sets the value of the '{@link org.sourcepit.docom.List#getType <em>Type</em>}' attribute.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @param value the new value of the '<em>Type</em>' attribute.
     * @see org.sourcepit.docom.ListType
     * @see #getType()
@@ -53,19 +55,20 @@ public interface List extends Structurable
    void setType(ListType value);
 
    /**
-    * Returns the value of the '<em><b>List Items</b></em>' containment reference list.
-    * The list contents are of type {@link org.sourcepit.docom.Listable}.
+    * Returns the value of the '<em><b>Items</b></em>' containment reference list.
+    * The list contents are of type {@link org.sourcepit.docom.ListItem}.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of the '<em>List Items</em>' containment reference list isn't clear,
-    * there really should be more of a description here...
+    * If the meaning of the '<em>Items</em>' containment reference list isn't clear, there really should be more of a
+    * description here...
     * </p>
     * <!-- end-user-doc -->
-    * @return the value of the '<em>List Items</em>' containment reference list.
-    * @see org.sourcepit.docom.DocOMPackage#getList_ListItems()
+    * 
+    * @return the value of the '<em>Items</em>' containment reference list.
+    * @see org.sourcepit.docom.DocOMPackage#getList_Items()
     * @model containment="true"
     * @generated
     */
-   EList<Listable> getListItems();
+   EList<ListItem> getItems();
 
 } // List

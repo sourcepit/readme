@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom.impl;
 
 import java.util.Collection;
@@ -22,7 +23,7 @@ import org.sourcepit.docom.Structured;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.sourcepit.docom.impl.StructuredImpl#getContent <em>Content</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.StructuredImpl#getContent <em>Content</em>}</li>
  * </ul>
  * </p>
  *
@@ -34,6 +35,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
     * The cached value of the '{@link #getContent() <em>Content</em>}' containment reference list.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #getContent()
     * @generated
     * @ordered
@@ -43,6 +45,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    protected StructuredImpl()
@@ -53,6 +56,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -64,6 +68,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EList<Structurable> getContent()
@@ -78,6 +83,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -85,8 +91,8 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    {
       switch (featureID)
       {
-         case DocOMPackage.STRUCTURED__CONTENT:
-            return ((InternalEList<?>)getContent()).basicRemove(otherEnd, msgs);
+         case DocOMPackage.STRUCTURED__CONTENT :
+            return ((InternalEList<?>) getContent()).basicRemove(otherEnd, msgs);
       }
       return super.eInverseRemove(otherEnd, featureID, msgs);
    }
@@ -94,6 +100,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -101,7 +108,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    {
       switch (featureID)
       {
-         case DocOMPackage.STRUCTURED__CONTENT:
+         case DocOMPackage.STRUCTURED__CONTENT :
             return getContent();
       }
       return super.eGet(featureID, resolve, coreType);
@@ -110,6 +117,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @SuppressWarnings("unchecked")
@@ -118,9 +126,9 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    {
       switch (featureID)
       {
-         case DocOMPackage.STRUCTURED__CONTENT:
+         case DocOMPackage.STRUCTURED__CONTENT :
             getContent().clear();
-            getContent().addAll((Collection<? extends Structurable>)newValue);
+            getContent().addAll((Collection<? extends Structurable>) newValue);
             return;
       }
       super.eSet(featureID, newValue);
@@ -129,6 +137,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -136,7 +145,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    {
       switch (featureID)
       {
-         case DocOMPackage.STRUCTURED__CONTENT:
+         case DocOMPackage.STRUCTURED__CONTENT :
             getContent().clear();
             return;
       }
@@ -146,6 +155,7 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -153,10 +163,10 @@ public abstract class StructuredImpl extends MinimalEObjectImpl.Container implem
    {
       switch (featureID)
       {
-         case DocOMPackage.STRUCTURED__CONTENT:
+         case DocOMPackage.STRUCTURED__CONTENT :
             return content != null && !content.isEmpty();
       }
       return super.eIsSet(featureID);
    }
 
-} //StructuredImpl
+} // StructuredImpl

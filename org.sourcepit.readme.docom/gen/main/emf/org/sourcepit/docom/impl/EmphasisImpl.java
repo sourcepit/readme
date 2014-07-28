@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom.impl;
 
 import java.util.Collection;
@@ -26,8 +27,8 @@ import org.sourcepit.docom.LiteralGroup;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.sourcepit.docom.impl.EmphasisImpl#getLiterals <em>Literals</em>}</li>
- *   <li>{@link org.sourcepit.docom.impl.EmphasisImpl#getType <em>Type</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.EmphasisImpl#getLiterals <em>Literals</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.EmphasisImpl#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -39,6 +40,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
     * The cached value of the '{@link #getLiterals() <em>Literals</em>}' containment reference list.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #getLiterals()
     * @generated
     * @ordered
@@ -49,6 +51,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
     * The default value of the '{@link #getType() <em>Type</em>}' attribute.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #getType()
     * @generated
     * @ordered
@@ -59,6 +62,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
     * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #getType()
     * @generated
     * @ordered
@@ -68,6 +72,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    protected EmphasisImpl()
@@ -78,6 +83,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -89,6 +95,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EList<Literal> getLiterals()
@@ -103,6 +110,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public EmphasisType getType()
@@ -113,6 +121,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public void setType(EmphasisType newType)
@@ -126,6 +135,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -133,8 +143,8 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    {
       switch (featureID)
       {
-         case DocOMPackage.EMPHASIS__LITERALS:
-            return ((InternalEList<?>)getLiterals()).basicRemove(otherEnd, msgs);
+         case DocOMPackage.EMPHASIS__LITERALS :
+            return ((InternalEList<?>) getLiterals()).basicRemove(otherEnd, msgs);
       }
       return super.eInverseRemove(otherEnd, featureID, msgs);
    }
@@ -142,6 +152,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -149,9 +160,9 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    {
       switch (featureID)
       {
-         case DocOMPackage.EMPHASIS__LITERALS:
+         case DocOMPackage.EMPHASIS__LITERALS :
             return getLiterals();
-         case DocOMPackage.EMPHASIS__TYPE:
+         case DocOMPackage.EMPHASIS__TYPE :
             return getType();
       }
       return super.eGet(featureID, resolve, coreType);
@@ -160,6 +171,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @SuppressWarnings("unchecked")
@@ -168,12 +180,12 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    {
       switch (featureID)
       {
-         case DocOMPackage.EMPHASIS__LITERALS:
+         case DocOMPackage.EMPHASIS__LITERALS :
             getLiterals().clear();
-            getLiterals().addAll((Collection<? extends Literal>)newValue);
+            getLiterals().addAll((Collection<? extends Literal>) newValue);
             return;
-         case DocOMPackage.EMPHASIS__TYPE:
-            setType((EmphasisType)newValue);
+         case DocOMPackage.EMPHASIS__TYPE :
+            setType((EmphasisType) newValue);
             return;
       }
       super.eSet(featureID, newValue);
@@ -182,6 +194,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -189,10 +202,10 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    {
       switch (featureID)
       {
-         case DocOMPackage.EMPHASIS__LITERALS:
+         case DocOMPackage.EMPHASIS__LITERALS :
             getLiterals().clear();
             return;
-         case DocOMPackage.EMPHASIS__TYPE:
+         case DocOMPackage.EMPHASIS__TYPE :
             setType(TYPE_EDEFAULT);
             return;
       }
@@ -202,6 +215,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -209,9 +223,9 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    {
       switch (featureID)
       {
-         case DocOMPackage.EMPHASIS__LITERALS:
+         case DocOMPackage.EMPHASIS__LITERALS :
             return literals != null && !literals.isEmpty();
-         case DocOMPackage.EMPHASIS__TYPE:
+         case DocOMPackage.EMPHASIS__TYPE :
             return type != TYPE_EDEFAULT;
       }
       return super.eIsSet(featureID);
@@ -220,6 +234,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -229,8 +244,10 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
       {
          switch (derivedFeatureID)
          {
-            case DocOMPackage.EMPHASIS__LITERALS: return DocOMPackage.LITERAL_GROUP__LITERALS;
-            default: return -1;
+            case DocOMPackage.EMPHASIS__LITERALS :
+               return DocOMPackage.LITERAL_GROUP__LITERALS;
+            default :
+               return -1;
          }
       }
       return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -239,6 +256,7 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -248,8 +266,10 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
       {
          switch (baseFeatureID)
          {
-            case DocOMPackage.LITERAL_GROUP__LITERALS: return DocOMPackage.EMPHASIS__LITERALS;
-            default: return -1;
+            case DocOMPackage.LITERAL_GROUP__LITERALS :
+               return DocOMPackage.EMPHASIS__LITERALS;
+            default :
+               return -1;
          }
       }
       return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
@@ -258,12 +278,14 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
    public String toString()
    {
-      if (eIsProxy()) return super.toString();
+      if (eIsProxy())
+         return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
       result.append(" (type: ");
@@ -272,4 +294,4 @@ public class EmphasisImpl extends MinimalEObjectImpl.Container implements Emphas
       return result.toString();
    }
 
-} //EmphasisImpl
+} // EmphasisImpl

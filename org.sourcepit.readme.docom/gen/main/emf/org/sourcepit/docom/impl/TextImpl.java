@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom.impl;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -16,7 +17,7 @@ import org.sourcepit.docom.Text;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.sourcepit.docom.impl.TextImpl#getText <em>Text</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.TextImpl#getText <em>Text</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,6 +29,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
     * The default value of the '{@link #getText() <em>Text</em>}' attribute.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #getText()
     * @generated
     * @ordered
@@ -38,6 +40,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
     * The cached value of the '{@link #getText() <em>Text</em>}' attribute.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @see #getText()
     * @generated
     * @ordered
@@ -47,6 +50,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    protected TextImpl()
@@ -57,6 +61,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -68,6 +73,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public String getText()
@@ -78,6 +84,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    public void setText(String newText)
@@ -91,6 +98,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -98,7 +106,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    {
       switch (featureID)
       {
-         case DocOMPackage.TEXT__TEXT:
+         case DocOMPackage.TEXT__TEXT :
             return getText();
       }
       return super.eGet(featureID, resolve, coreType);
@@ -107,6 +115,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -114,8 +123,8 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    {
       switch (featureID)
       {
-         case DocOMPackage.TEXT__TEXT:
-            setText((String)newValue);
+         case DocOMPackage.TEXT__TEXT :
+            setText((String) newValue);
             return;
       }
       super.eSet(featureID, newValue);
@@ -124,6 +133,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -131,7 +141,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    {
       switch (featureID)
       {
-         case DocOMPackage.TEXT__TEXT:
+         case DocOMPackage.TEXT__TEXT :
             setText(TEXT_EDEFAULT);
             return;
       }
@@ -141,6 +151,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
@@ -148,7 +159,7 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    {
       switch (featureID)
       {
-         case DocOMPackage.TEXT__TEXT:
+         case DocOMPackage.TEXT__TEXT :
             return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
       }
       return super.eIsSet(featureID);
@@ -157,12 +168,14 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * 
     * @generated
     */
    @Override
    public String toString()
    {
-      if (eIsProxy()) return super.toString();
+      if (eIsProxy())
+         return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
       result.append(" (text: ");
@@ -171,4 +184,4 @@ public class TextImpl extends MinimalEObjectImpl.Container implements Text
       return result.toString();
    }
 
-} //TextImpl
+} // TextImpl

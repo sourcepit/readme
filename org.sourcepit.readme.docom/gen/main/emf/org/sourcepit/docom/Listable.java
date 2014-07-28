@@ -1,5 +1,6 @@
 /**
  */
+
 package org.sourcepit.docom;
 
 import org.eclipse.emf.ecore.EObject;
