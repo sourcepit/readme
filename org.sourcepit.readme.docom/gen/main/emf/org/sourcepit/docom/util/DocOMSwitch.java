@@ -10,6 +10,7 @@ import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
+import org.sourcepit.docom.Header;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.Listable;
@@ -165,11 +166,9 @@ public class DocOMSwitch<T> extends Switch<T>
             Chapter chapter = (Chapter) theEObject;
             T result = caseChapter(chapter);
             if (result == null)
-               result = caseLiteralGroup(chapter);
+               result = caseStructurable(chapter);
             if (result == null)
                result = caseStructured(chapter);
-            if (result == null)
-               result = caseStructurable(chapter);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -210,6 +209,16 @@ public class DocOMSwitch<T> extends Switch<T>
          {
             ListItem listItem = (ListItem) theEObject;
             T result = caseListItem(listItem);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.HEADER :
+         {
+            Header header = (Header) theEObject;
+            T result = caseHeader(header);
+            if (result == null)
+               result = caseLiteralGroup(header);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -419,6 +428,23 @@ public class DocOMSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseListItem(ListItem object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Header</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Header</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseHeader(Header object)
    {
       return null;
    }

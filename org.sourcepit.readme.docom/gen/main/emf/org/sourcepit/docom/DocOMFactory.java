@@ -96,6 +96,16 @@ public interface DocOMFactory extends EFactory
    ListItem createListItem();
 
    /**
+    * Returns a new object of class '<em>Header</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return a new object of class '<em>Header</em>'.
+    * @generated
+    */
+   Header createHeader();
+
+   /**
     * Returns the package supported by this factory.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

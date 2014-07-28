@@ -15,6 +15,7 @@ import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.EmphasisType;
+import org.sourcepit.docom.Header;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -91,6 +92,8 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
             return createChapter();
          case DocOMPackage.LIST_ITEM :
             return createListItem();
+         case DocOMPackage.HEADER :
+            return createHeader();
          default :
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
       }
@@ -218,6 +221,18 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
    {
       ListItemImpl listItem = new ListItemImpl();
       return listItem;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public Header createHeader()
+   {
+      HeaderImpl header = new HeaderImpl();
+      return header;
    }
 
    /**

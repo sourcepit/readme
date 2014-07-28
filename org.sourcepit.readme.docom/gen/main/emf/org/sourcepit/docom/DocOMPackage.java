@@ -476,16 +476,6 @@ public interface DocOMPackage extends EPackage
    int CHAPTER = 6;
 
    /**
-    * The feature id for the '<em><b>Literals</b></em>' containment reference list.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * 
-    * @generated
-    * @ordered
-    */
-   int CHAPTER__LITERALS = LITERAL_GROUP__LITERALS;
-
-   /**
     * The feature id for the '<em><b>Content</b></em>' containment reference list.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -493,7 +483,17 @@ public interface DocOMPackage extends EPackage
     * @generated
     * @ordered
     */
-   int CHAPTER__CONTENT = LITERAL_GROUP_FEATURE_COUNT + 0;
+   int CHAPTER__CONTENT = STRUCTURABLE_FEATURE_COUNT + 0;
+
+   /**
+    * The feature id for the '<em><b>Header</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int CHAPTER__HEADER = STRUCTURABLE_FEATURE_COUNT + 1;
 
    /**
     * The number of structural features of the '<em>Chapter</em>' class.
@@ -503,7 +503,7 @@ public interface DocOMPackage extends EPackage
     * @generated
     * @ordered
     */
-   int CHAPTER_FEATURE_COUNT = LITERAL_GROUP_FEATURE_COUNT + 1;
+   int CHAPTER_FEATURE_COUNT = STRUCTURABLE_FEATURE_COUNT + 2;
 
    /**
     * The number of operations of the '<em>Chapter</em>' class.
@@ -513,7 +513,7 @@ public interface DocOMPackage extends EPackage
     * @generated
     * @ordered
     */
-   int CHAPTER_OPERATION_COUNT = LITERAL_GROUP_OPERATION_COUNT + 0;
+   int CHAPTER_OPERATION_COUNT = STRUCTURABLE_OPERATION_COUNT + 0;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.impl.ListItemImpl <em>List Item</em>}' class.
@@ -557,6 +557,47 @@ public interface DocOMPackage extends EPackage
    int LIST_ITEM_OPERATION_COUNT = 0;
 
    /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.HeaderImpl <em>Header</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.HeaderImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getHeader()
+    * @generated
+    */
+   int HEADER = 12;
+
+   /**
+    * The feature id for the '<em><b>Literals</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int HEADER__LITERALS = LITERAL_GROUP__LITERALS;
+
+   /**
+    * The number of structural features of the '<em>Header</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int HEADER_FEATURE_COUNT = LITERAL_GROUP_FEATURE_COUNT + 0;
+
+   /**
+    * The number of operations of the '<em>Header</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int HEADER_OPERATION_COUNT = LITERAL_GROUP_OPERATION_COUNT + 0;
+
+   /**
     * The meta object id for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -565,7 +606,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getEmphasisType()
     * @generated
     */
-   int EMPHASIS_TYPE = 12;
+   int EMPHASIS_TYPE = 13;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.ListType <em>List Type</em>}' enum.
@@ -576,7 +617,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getListType()
     * @generated
     */
-   int LIST_TYPE = 13;
+   int LIST_TYPE = 14;
 
 
    /**
@@ -706,6 +747,19 @@ public interface DocOMPackage extends EPackage
    EClass getChapter();
 
    /**
+    * Returns the meta object for the containment reference '{@link org.sourcepit.docom.Chapter#getHeader
+    * <em>Header</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the containment reference '<em>Header</em>'.
+    * @see org.sourcepit.docom.Chapter#getHeader()
+    * @see #getChapter()
+    * @generated
+    */
+   EReference getChapter_Header();
+
+   /**
     * Returns the meta object for class '{@link org.sourcepit.docom.LiteralGroup <em>Literal Group</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -798,6 +852,17 @@ public interface DocOMPackage extends EPackage
     * @generated
     */
    EReference getListItem_Content();
+
+   /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.Header <em>Header</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>Header</em>'.
+    * @see org.sourcepit.docom.Header
+    * @generated
+    */
+   EClass getHeader();
 
    /**
     * Returns the meta object for enum '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}'.
@@ -961,6 +1026,15 @@ public interface DocOMPackage extends EPackage
       EClass CHAPTER = eINSTANCE.getChapter();
 
       /**
+       * The meta object literal for the '<em><b>Header</b></em>' containment reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EReference CHAPTER__HEADER = eINSTANCE.getChapter_Header();
+
+      /**
        * The meta object literal for the '{@link org.sourcepit.docom.impl.LiteralGroupImpl <em>Literal Group</em>}'
        * class.
        * <!-- begin-user-doc -->
@@ -1042,6 +1116,17 @@ public interface DocOMPackage extends EPackage
        * @generated
        */
       EReference LIST_ITEM__CONTENT = eINSTANCE.getListItem_Content();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.HeaderImpl <em>Header</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.HeaderImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getHeader()
+       * @generated
+       */
+      EClass HEADER = eINSTANCE.getHeader();
 
       /**
        * The meta object literal for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.

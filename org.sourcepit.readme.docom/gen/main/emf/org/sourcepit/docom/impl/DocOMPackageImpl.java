@@ -15,6 +15,7 @@ import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.EmphasisType;
+import org.sourcepit.docom.Header;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -130,6 +131,14 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * @generated
     */
    private EClass listItemEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EClass headerEClass = null;
 
    /**
     * <!-- begin-user-doc -->
@@ -341,6 +350,17 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   public EReference getChapter_Header()
+   {
+      return (EReference) chapterEClass.getEStructuralFeatures().get(0);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EClass getLiteralGroup()
    {
       return literalGroupEClass;
@@ -429,6 +449,17 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   public EClass getHeader()
+   {
+      return headerEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EEnum getEmphasisType()
    {
       return emphasisTypeEEnum;
@@ -496,6 +527,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       documentEClass = createEClass(DOCUMENT);
 
       chapterEClass = createEClass(CHAPTER);
+      createEReference(chapterEClass, CHAPTER__HEADER);
 
       literalGroupEClass = createEClass(LITERAL_GROUP);
       createEReference(literalGroupEClass, LITERAL_GROUP__LITERALS);
@@ -509,6 +541,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       listItemEClass = createEClass(LIST_ITEM);
       createEReference(listItemEClass, LIST_ITEM__CONTENT);
+
+      headerEClass = createEClass(HEADER);
 
       // Create enums
       emphasisTypeEEnum = createEEnum(EMPHASIS_TYPE);
@@ -557,9 +591,9 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       textEClass.getESuperTypes().add(this.getLiteral());
       literalEClass.getESuperTypes().add(this.getListable());
       documentEClass.getESuperTypes().add(this.getStructured());
-      chapterEClass.getESuperTypes().add(this.getLiteralGroup());
-      chapterEClass.getESuperTypes().add(this.getStructured());
       chapterEClass.getESuperTypes().add(this.getStructurable());
+      chapterEClass.getESuperTypes().add(this.getStructured());
+      headerEClass.getESuperTypes().add(this.getLiteralGroup());
 
       // Initialize classes, features, and operations; add parameters
       initEClass(paragraphEClass, Paragraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE,
@@ -585,6 +619,9 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       initEClass(documentEClass, Document.class, "Document", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
       initEClass(chapterEClass, Chapter.class, "Chapter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+      initEReference(getChapter_Header(), this.getHeader(), null, "header", null, 1, 1, Chapter.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+         IS_ORDERED);
 
       initEClass(literalGroupEClass, LiteralGroup.class, "LiteralGroup", IS_ABSTRACT, !IS_INTERFACE,
          IS_GENERATED_INSTANCE_CLASS);
@@ -607,6 +644,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       initEReference(getListItem_Content(), this.getListable(), null, "content", null, 1, -1, ListItem.class,
          !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
          !IS_DERIVED, IS_ORDERED);
+
+      initEClass(headerEClass, Header.class, "Header", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
       // Initialize enums and add enum literals
       initEEnum(emphasisTypeEEnum, EmphasisType.class, "EmphasisType");

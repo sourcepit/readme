@@ -11,7 +11,9 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Document;
+import org.sourcepit.docom.Header;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -95,7 +97,7 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) item.getContent().get(0);
       assertEquals("item 1", text.getText());
    }
-   
+
    @Test
    public void testListOrdered() throws Exception
    {
@@ -113,7 +115,7 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) item.getContent().get(0);
       assertEquals("item 1", text.getText());
    }
-   
+
    @Test
    public void testNestedList() throws Exception
    {
@@ -131,19 +133,19 @@ public class MarkdownToDocOMConverterTest
       Text text;
       text = (Text) item.getContent().get(0);
       assertEquals("item 1", text.getText());
-      
+
       List nestedList = (List) item.getContent().get(1);
       assertEquals(1, nestedList.getItems().size());
-      
+
       ListItem nestedItem = nestedList.getItems().get(0);
       assertEquals(1, nestedItem.getContent().size());
-      
+
       text = (Text) nestedItem.getContent().get(0);
       assertEquals("item 1.1", text.getText());
-      
+
       item = list.getItems().get(1);
       assertEquals(1, item.getContent().size());
-      
+
       text = (Text) item.getContent().get(0);
       assertEquals("item 2", text.getText());
    }
@@ -183,7 +185,7 @@ public class MarkdownToDocOMConverterTest
       List list;
       list = (List) document.getContent().get(0);
       assertEquals(1, list.getItems().size());
-      
+
       ListItem item;
       item = list.getItems().get(0);
       assertEquals(1, item.getContent().size());
@@ -197,17 +199,17 @@ public class MarkdownToDocOMConverterTest
 
       text = (Text) paragraph.getLiterals().get(0);
       assertEquals("hallo", text.getText());
-      
+
       list = (List) document.getContent().get(2);
       assertEquals(1, list.getItems().size());
-      
+
       item = list.getItems().get(0);
       assertEquals(1, item.getContent().size());
-      
+
       text = (Text) item.getContent().get(0);
       assertEquals("item 2", text.getText());
    }
-   
+
    @Test
    public void testListItemsWithParagraph() throws Exception
    {
@@ -218,25 +220,25 @@ public class MarkdownToDocOMConverterTest
       List list;
       list = (List) document.getContent().get(0);
       assertEquals(2, list.getItems().size());
-      
+
       ListItem item;
       item = list.getItems().get(0);
       assertEquals(1, item.getContent().size());
-      
+
       Paragraph paragraph;
       paragraph = (Paragraph) item.getContent().get(0);
       assertEquals(1, paragraph.getLiterals().size());
-      
+
       Text text;
       text = (Text) paragraph.getLiterals().get(0);
       assertEquals("item 1", text.getText());
-      
+
       item = list.getItems().get(1);
       assertEquals(1, item.getContent().size());
-      
+
       paragraph = (Paragraph) item.getContent().get(0);
       assertEquals(1, paragraph.getLiterals().size());
-      
+
       text = (Text) paragraph.getLiterals().get(0);
       assertEquals("item 2", text.getText());
 
@@ -252,32 +254,211 @@ public class MarkdownToDocOMConverterTest
       List list;
       list = (List) document.getContent().get(0);
       assertEquals(2, list.getItems().size());
-      
+
       ListItem item;
       item = list.getItems().get(0);
       assertEquals(2, item.getContent().size());
-      
+
       Paragraph paragraph;
       paragraph = (Paragraph) item.getContent().get(0);
       assertEquals(1, paragraph.getLiterals().size());
-      
+
       Text text;
       text = (Text) paragraph.getLiterals().get(0);
       assertEquals("item 1", text.getText());
-      
+
       paragraph = (Paragraph) item.getContent().get(1);
       assertEquals(1, paragraph.getLiterals().size());
-      
+
       text = (Text) paragraph.getLiterals().get(0);
       assertEquals("hallo", text.getText());
-      
+
       item = list.getItems().get(1);
       assertEquals(1, item.getContent().size());
-      
+
       paragraph = (Paragraph) item.getContent().get(0);
       assertEquals(1, paragraph.getLiterals().size());
-      
+
       text = (Text) paragraph.getLiterals().get(0);
       assertEquals("item 2", text.getText());
+   }
+
+   @Test
+   public void testChapter() throws Exception
+   {
+      Document document = converter.toDocOM("# chapter 1");
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Chapter chapter = (Chapter) document.getContent().get(0);
+
+      Header header = chapter.getHeader();
+      assertEquals(1, header.getLiterals().size());
+
+      Text text = (Text) header.getLiterals().get(0);
+      assertEquals("chapter 1", text.getText());
+
+      assertEquals(0, chapter.getContent().size());
+   }
+
+   @Test
+   public void testChapterWithParagraph() throws Exception
+   {
+      Document document = converter.toDocOM("# chapter 1\n\nHallo");
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Chapter chapter = (Chapter) document.getContent().get(0);
+
+      Header header = chapter.getHeader();
+      assertEquals(1, header.getLiterals().size());
+
+      Text text;
+      text = (Text) header.getLiterals().get(0);
+      assertEquals("chapter 1", text.getText());
+
+      assertEquals(1, chapter.getContent().size());
+
+      Paragraph paragraph = (Paragraph) chapter.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("Hallo", text.getText());
+   }
+
+   @Test
+   public void testChapterWithList() throws Exception
+   {
+      Document document = converter.toDocOM("# chapter 1\n\n* item");
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Chapter chapter = (Chapter) document.getContent().get(0);
+
+      Header header = chapter.getHeader();
+      assertEquals(1, header.getLiterals().size());
+
+      Text text;
+      text = (Text) header.getLiterals().get(0);
+      assertEquals("chapter 1", text.getText());
+
+      assertEquals(1, chapter.getContent().size());
+
+      List list = (List) chapter.getContent().get(0);
+      assertEquals(1, list.getItems().size());
+
+      ListItem item = list.getItems().get(0);
+      assertEquals(1, item.getContent().size());
+
+      text = (Text) item.getContent().get(0);
+      assertEquals("item", text.getText());
+   }
+
+   @Test
+   public void testChapterNested() throws Exception
+   {
+      Document document = converter.toDocOM("# chapter 1\n\n##chapter 1.1\n\n# chapter 2");
+      assertNotNull(document);
+      assertEquals(2, document.getContent().size());
+
+      Chapter chapter = (Chapter) document.getContent().get(0);
+      assertEquals(1, chapter.getContent().size());
+
+      Header header;
+      header = chapter.getHeader();
+      assertEquals(1, header.getLiterals().size());
+
+      Text text;
+      text = (Text) header.getLiterals().get(0);
+      assertEquals("chapter 1", text.getText());
+
+      assertEquals(1, chapter.getContent().size());
+
+      Chapter nestedChapter = (Chapter) chapter.getContent().get(0);
+      assertEquals(0, nestedChapter.getContent().size());
+
+      Header nestedHeader = nestedChapter.getHeader();
+      assertEquals(1, nestedHeader.getLiterals().size());
+
+      text = (Text) nestedHeader.getLiterals().get(0);
+      assertEquals("chapter 1.1", text.getText());
+
+      chapter = (Chapter) document.getContent().get(1);
+      assertEquals(0, chapter.getContent().size());
+
+      header = chapter.getHeader();
+      assertEquals(1, header.getLiterals().size());
+
+      text = (Text) header.getLiterals().get(0);
+      assertEquals("chapter 2", text.getText());
+   }
+
+   @Test
+   public void testChapterNestedWithContent() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("# chapter 1\n");
+      md.append("\n");
+      md.append("text 1\n");
+      md.append("\n");
+      md.append("## chapter 1.1\n");
+      md.append("\n");
+      md.append("text 1.1\n");
+      md.append("\n");
+      md.append("# chapter 2\n");
+      md.append("text 2\n");
+      md.append("\n");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(2, document.getContent().size());
+
+      Chapter chapter = (Chapter) document.getContent().get(0);
+      assertEquals(2, chapter.getContent().size());
+
+      Header header;
+      header = chapter.getHeader();
+      assertEquals(1, header.getLiterals().size());
+
+      Text text;
+      text = (Text) header.getLiterals().get(0);
+      assertEquals("chapter 1", text.getText());
+
+      Paragraph paragraph;
+      paragraph = (Paragraph) chapter.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("text 1", text.getText());
+
+      Chapter nestedChapter = (Chapter) chapter.getContent().get(1);
+      assertEquals(1, nestedChapter.getContent().size());
+
+      Header nestedHeader = nestedChapter.getHeader();
+      assertEquals(1, nestedHeader.getLiterals().size());
+
+      text = (Text) nestedHeader.getLiterals().get(0);
+      assertEquals("chapter 1.1", text.getText());
+      
+      paragraph = (Paragraph) nestedChapter.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("text 1.1", text.getText());
+
+      chapter = (Chapter) document.getContent().get(1);
+      assertEquals(1, chapter.getContent().size());
+
+      header = chapter.getHeader();
+      assertEquals(1, header.getLiterals().size());
+
+      text = (Text) header.getLiterals().get(0);
+      assertEquals("chapter 2", text.getText());
+      
+      paragraph = (Paragraph) chapter.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("text 2", text.getText());
    }
 }

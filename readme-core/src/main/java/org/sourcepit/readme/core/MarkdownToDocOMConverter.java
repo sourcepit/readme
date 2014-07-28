@@ -48,8 +48,10 @@ import org.pegdown.ast.TextNode;
 import org.pegdown.ast.VerbatimNode;
 import org.pegdown.ast.Visitor;
 import org.pegdown.ast.WikiLinkNode;
+import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
+import org.sourcepit.docom.Header;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -74,8 +76,6 @@ public class MarkdownToDocOMConverter
 
       private Document document;
 
-      private final Stack<Structured> structure = new Stack<Structured>();
-
       private final Stack<Object> parents = new Stack<Object>();
 
       public DocOMBuilder(DocOMFactory factory)
@@ -90,9 +90,17 @@ public class MarkdownToDocOMConverter
 
       private void visitChildren(Node node)
       {
+         final int parentsSize = parents.size();
+
          for (Node child : node.getChildren())
          {
             child.accept(this);
+         }
+
+         if (parents.size() > parentsSize) // fix dangling chapter
+         {
+            final Chapter chapter = (Chapter) parents.peek();
+            pop(parents, chapter);
          }
       }
 
@@ -102,9 +110,9 @@ public class MarkdownToDocOMConverter
          if (document == null)
          {
             document = factory.createDocument();
-            structure.push(document);
+            parents.push(document);
             visitChildren(node);
-            pop(structure, document);
+            pop(parents, document);
          }
          else
          {
@@ -113,9 +121,9 @@ public class MarkdownToDocOMConverter
       }
 
 
-      private static <T> void pop(Stack<T> stack, T structured)
+      private static <T> void pop(Stack<T> stack, T object)
       {
-         if (stack.pop() != structured)
+         if (stack.pop() != object)
          {
             throw new IllegalStateException();
          }
@@ -126,15 +134,15 @@ public class MarkdownToDocOMConverter
       {
          final Paragraph paragraph = factory.createParagraph();
 
-         if (!parents.isEmpty())
+         final Object parent = parents.peek();
+
+         if (parent instanceof ListItem)
          {
-            final ListItem listItem = (ListItem) parents.peek();
-            listItem.getContent().add(paragraph);
+            ((ListItem) parent).getContent().add(paragraph);
          }
          else
          {
-            final Structured parent = structure.peek();
-            parent.getContent().add(paragraph);
+            ((Structured) parent).getContent().add(paragraph);
          }
 
          parents.push(paragraph);
@@ -226,11 +234,33 @@ public class MarkdownToDocOMConverter
 
       }
 
+      private int level = 0;
+
       @Override
       public void visit(HeaderNode node)
       {
-         throw new UnsupportedOperationException();
+         Structured parent = (Structured) parents.peek();
+         while (level >= node.getLevel())
+         {
+            pop(parents, parent);
+            level--;
 
+            parent = (Structured) parents.peek();
+         }
+
+         final Header header = factory.createHeader();
+
+         final Chapter chapter = factory.createChapter();
+         chapter.setHeader(header);
+         
+         parent.getContent().add(chapter);
+
+         parents.push(chapter); // dangling chapters will are poped in visitChildren
+         level++;
+
+         parents.push(header);
+         visitChildren(node);
+         pop(parents, header);
       }
 
       @Override
@@ -284,17 +314,16 @@ public class MarkdownToDocOMConverter
 
       private void processListNode(Node node, final List list)
       {
-         if (!parents.isEmpty())
+         final Object parent = parents.peek();
+         if (parent instanceof ListItem)
          {
-            final ListItem parent = (ListItem) parents.peek();
-            parent.getContent().add(list);
+            ((ListItem) parent).getContent().add(list);
          }
          else
          {
-            final Structured parent = structure.peek();
-            parent.getContent().add(list);
+            ((Structured) parent).getContent().add(list);
          }
-      
+
          parents.push(list);
          visitChildren(node);
          pop(parents, list);

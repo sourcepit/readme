@@ -5,14 +5,18 @@ package org.sourcepit.docom.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.DocOMPackage;
+import org.sourcepit.docom.Header;
 import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
 
@@ -24,12 +28,13 @@ import org.sourcepit.docom.Structured;
  * The following features are implemented:
  * <ul>
  * <li>{@link org.sourcepit.docom.impl.ChapterImpl#getContent <em>Content</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.ChapterImpl#getHeader <em>Header</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ChapterImpl extends LiteralGroupImpl implements Chapter
+public class ChapterImpl extends MinimalEObjectImpl.Container implements Chapter
 {
    /**
     * The cached value of the '{@link #getContent() <em>Content</em>}' containment reference list.
@@ -41,6 +46,17 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
     * @ordered
     */
    protected EList<Structurable> content;
+
+   /**
+    * The cached value of the '{@link #getHeader() <em>Header</em>}' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see #getHeader()
+    * @generated
+    * @ordered
+    */
+   protected Header header;
 
    /**
     * <!-- begin-user-doc -->
@@ -86,6 +102,64 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
     * 
     * @generated
     */
+   public Header getHeader()
+   {
+      return header;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public NotificationChain basicSetHeader(Header newHeader, NotificationChain msgs)
+   {
+      Header oldHeader = header;
+      header = newHeader;
+      if (eNotificationRequired())
+      {
+         ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DocOMPackage.CHAPTER__HEADER,
+            oldHeader, newHeader);
+         if (msgs == null)
+            msgs = notification;
+         else
+            msgs.add(notification);
+      }
+      return msgs;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public void setHeader(Header newHeader)
+   {
+      if (newHeader != header)
+      {
+         NotificationChain msgs = null;
+         if (header != null)
+            msgs = ((InternalEObject) header).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+               - DocOMPackage.CHAPTER__HEADER, null, msgs);
+         if (newHeader != null)
+            msgs = ((InternalEObject) newHeader).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+               - DocOMPackage.CHAPTER__HEADER, null, msgs);
+         msgs = basicSetHeader(newHeader, msgs);
+         if (msgs != null)
+            msgs.dispatch();
+      }
+      else if (eNotificationRequired())
+         eNotify(new ENotificationImpl(this, Notification.SET, DocOMPackage.CHAPTER__HEADER, newHeader, newHeader));
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    @Override
    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
    {
@@ -93,6 +167,8 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
       {
          case DocOMPackage.CHAPTER__CONTENT :
             return ((InternalEList<?>) getContent()).basicRemove(otherEnd, msgs);
+         case DocOMPackage.CHAPTER__HEADER :
+            return basicSetHeader(null, msgs);
       }
       return super.eInverseRemove(otherEnd, featureID, msgs);
    }
@@ -110,6 +186,8 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
       {
          case DocOMPackage.CHAPTER__CONTENT :
             return getContent();
+         case DocOMPackage.CHAPTER__HEADER :
+            return getHeader();
       }
       return super.eGet(featureID, resolve, coreType);
    }
@@ -130,6 +208,9 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
             getContent().clear();
             getContent().addAll((Collection<? extends Structurable>) newValue);
             return;
+         case DocOMPackage.CHAPTER__HEADER :
+            setHeader((Header) newValue);
+            return;
       }
       super.eSet(featureID, newValue);
    }
@@ -148,6 +229,9 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
          case DocOMPackage.CHAPTER__CONTENT :
             getContent().clear();
             return;
+         case DocOMPackage.CHAPTER__HEADER :
+            setHeader((Header) null);
+            return;
       }
       super.eUnset(featureID);
    }
@@ -165,6 +249,8 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
       {
          case DocOMPackage.CHAPTER__CONTENT :
             return content != null && !content.isEmpty();
+         case DocOMPackage.CHAPTER__HEADER :
+            return header != null;
       }
       return super.eIsSet(featureID);
    }
@@ -188,14 +274,6 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
                return -1;
          }
       }
-      if (baseClass == Structurable.class)
-      {
-         switch (derivedFeatureID)
-         {
-            default :
-               return -1;
-         }
-      }
       return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
    }
 
@@ -214,14 +292,6 @@ public class ChapterImpl extends LiteralGroupImpl implements Chapter
          {
             case DocOMPackage.STRUCTURED__CONTENT :
                return DocOMPackage.CHAPTER__CONTENT;
-            default :
-               return -1;
-         }
-      }
-      if (baseClass == Structurable.class)
-      {
-         switch (baseFeatureID)
-         {
             default :
                return -1;
          }
