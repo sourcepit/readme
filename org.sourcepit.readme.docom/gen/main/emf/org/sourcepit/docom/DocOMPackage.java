@@ -823,6 +823,67 @@ public interface DocOMPackage extends EPackage
    int REFERENCE_OPERATION_COUNT = LITERAL_GROUP_OPERATION_COUNT + 0;
 
    /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.DeclarationImpl <em>Declaration</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.DeclarationImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getDeclaration()
+    * @generated
+    */
+   int DECLARATION = 18;
+
+   /**
+    * The feature id for the '<em><b>Id</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int DECLARATION__ID = STRUCTURABLE_FEATURE_COUNT + 0;
+
+   /**
+    * The feature id for the '<em><b>Url</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int DECLARATION__URL = STRUCTURABLE_FEATURE_COUNT + 1;
+
+   /**
+    * The feature id for the '<em><b>Title</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int DECLARATION__TITLE = STRUCTURABLE_FEATURE_COUNT + 2;
+
+   /**
+    * The number of structural features of the '<em>Declaration</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int DECLARATION_FEATURE_COUNT = STRUCTURABLE_FEATURE_COUNT + 3;
+
+   /**
+    * The number of operations of the '<em>Declaration</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int DECLARATION_OPERATION_COUNT = STRUCTURABLE_OPERATION_COUNT + 0;
+
+   /**
     * The meta object id for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -831,7 +892,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getEmphasisType()
     * @generated
     */
-   int EMPHASIS_TYPE = 18;
+   int EMPHASIS_TYPE = 19;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.ListType <em>List Type</em>}' enum.
@@ -842,7 +903,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getListType()
     * @generated
     */
-   int LIST_TYPE = 19;
+   int LIST_TYPE = 20;
 
 
    /**
@@ -1191,6 +1252,53 @@ public interface DocOMPackage extends EPackage
     * @generated
     */
    EAttribute getReference_Id();
+
+   /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.Declaration <em>Declaration</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>Declaration</em>'.
+    * @see org.sourcepit.docom.Declaration
+    * @generated
+    */
+   EClass getDeclaration();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.sourcepit.docom.Declaration#getId <em>Id</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the attribute '<em>Id</em>'.
+    * @see org.sourcepit.docom.Declaration#getId()
+    * @see #getDeclaration()
+    * @generated
+    */
+   EAttribute getDeclaration_Id();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.sourcepit.docom.Declaration#getUrl <em>Url</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the attribute '<em>Url</em>'.
+    * @see org.sourcepit.docom.Declaration#getUrl()
+    * @see #getDeclaration()
+    * @generated
+    */
+   EAttribute getDeclaration_Url();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.sourcepit.docom.Declaration#getTitle <em>Title</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the attribute '<em>Title</em>'.
+    * @see org.sourcepit.docom.Declaration#getTitle()
+    * @see #getDeclaration()
+    * @generated
+    */
+   EAttribute getDeclaration_Title();
 
    /**
     * Returns the meta object for enum '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}'.
@@ -1547,6 +1655,44 @@ public interface DocOMPackage extends EPackage
        * @generated
        */
       EAttribute REFERENCE__ID = eINSTANCE.getReference_Id();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.DeclarationImpl <em>Declaration</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.DeclarationImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getDeclaration()
+       * @generated
+       */
+      EClass DECLARATION = eINSTANCE.getDeclaration();
+
+      /**
+       * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EAttribute DECLARATION__ID = eINSTANCE.getDeclaration_Id();
+
+      /**
+       * The meta object literal for the '<em><b>Url</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EAttribute DECLARATION__URL = eINSTANCE.getDeclaration_Url();
+
+      /**
+       * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EAttribute DECLARATION__TITLE = eINSTANCE.getDeclaration_Title();
 
       /**
        * The meta object literal for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.

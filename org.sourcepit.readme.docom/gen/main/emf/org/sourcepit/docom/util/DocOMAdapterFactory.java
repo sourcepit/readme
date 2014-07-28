@@ -9,6 +9,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
+import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
@@ -201,6 +202,12 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
       public Adapter caseReference(Reference object)
       {
          return createReferenceAdapter();
+      }
+
+      @Override
+      public Adapter caseDeclaration(Declaration object)
+      {
+         return createDeclarationAdapter();
       }
 
       @Override
@@ -511,6 +518,22 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
     * @generated
     */
    public Adapter createReferenceAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.sourcepit.docom.Declaration <em>Declaration</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * 
+    * @return the new adapter.
+    * @see org.sourcepit.docom.Declaration
+    * @generated
+    */
+   public Adapter createDeclarationAdapter()
    {
       return null;
    }

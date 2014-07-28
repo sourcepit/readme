@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
+import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Header;
 import org.sourcepit.docom.HorizontalLine;
@@ -884,7 +885,7 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) reference.getLiterals().get(0);
       assertEquals("ein Beispiel", text.getText());
    }
-   
+
    @Test
    public void testReferenceInList() throws Exception
    {
@@ -909,7 +910,7 @@ public class MarkdownToDocOMConverterTest
       text = (Text) reference.getLiterals().get(0);
       assertEquals("foo", text.getText());
    }
-   
+
    @Test
    public void testReferenceInHeader() throws Exception
    {
@@ -925,7 +926,7 @@ public class MarkdownToDocOMConverterTest
 
       Header header = chapter.getHeader();
       assertEquals(1, header.getLiterals().size());
-      
+
       Text text;
 
       Reference reference = (Reference) header.getLiterals().get(0);
@@ -934,5 +935,21 @@ public class MarkdownToDocOMConverterTest
 
       text = (Text) reference.getLiterals().get(0);
       assertEquals("foo", text.getText());
+   }
+
+   @Test
+   public void testDeclaration() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("[foo]: http://example.com/  (Optionaler Titel)");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Declaration declaration = (Declaration) document.getContent().get(0);
+      assertEquals("foo", declaration.getId());
+      assertEquals("http://example.com/", declaration.getUrl());
+      assertEquals("Optionaler Titel", declaration.getTitle());
    }
 }

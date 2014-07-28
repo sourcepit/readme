@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
+import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
@@ -184,6 +185,14 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * @generated
     */
    private EClass referenceEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EClass declarationEClass = null;
 
    /**
     * <!-- begin-user-doc -->
@@ -604,6 +613,50 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   public EClass getDeclaration()
+   {
+      return declarationEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EAttribute getDeclaration_Id()
+   {
+      return (EAttribute) declarationEClass.getEStructuralFeatures().get(0);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EAttribute getDeclaration_Url()
+   {
+      return (EAttribute) declarationEClass.getEStructuralFeatures().get(1);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EAttribute getDeclaration_Title()
+   {
+      return (EAttribute) declarationEClass.getEStructuralFeatures().get(2);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EEnum getEmphasisType()
    {
       return emphasisTypeEEnum;
@@ -702,6 +755,11 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       referenceEClass = createEClass(REFERENCE);
       createEAttribute(referenceEClass, REFERENCE__ID);
 
+      declarationEClass = createEClass(DECLARATION);
+      createEAttribute(declarationEClass, DECLARATION__ID);
+      createEAttribute(declarationEClass, DECLARATION__URL);
+      createEAttribute(declarationEClass, DECLARATION__TITLE);
+
       // Create enums
       emphasisTypeEEnum = createEEnum(EMPHASIS_TYPE);
       listTypeEEnum = createEEnum(LIST_TYPE);
@@ -762,6 +820,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       linkEClass.getESuperTypes().add(this.getLiteral());
       referenceEClass.getESuperTypes().add(this.getLiteralGroup());
       referenceEClass.getESuperTypes().add(this.getLiteral());
+      declarationEClass.getESuperTypes().add(this.getStructurable());
+      declarationEClass.getESuperTypes().add(this.getListable());
 
       // Initialize classes, features, and operations; add parameters
       initEClass(paragraphEClass, Paragraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE,
@@ -834,6 +894,15 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
          IS_GENERATED_INSTANCE_CLASS);
       initEAttribute(getReference_Id(), ecorePackage.getEString(), "id", null, 1, 1, Reference.class, !IS_TRANSIENT,
          !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+      initEClass(declarationEClass, Declaration.class, "Declaration", !IS_ABSTRACT, !IS_INTERFACE,
+         IS_GENERATED_INSTANCE_CLASS);
+      initEAttribute(getDeclaration_Id(), ecorePackage.getEString(), "id", null, 1, 1, Declaration.class,
+         !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getDeclaration_Url(), ecorePackage.getEString(), "url", null, 1, 1, Declaration.class,
+         !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getDeclaration_Title(), ecorePackage.getEString(), "title", null, 0, 1, Declaration.class,
+         !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
       // Initialize enums and add enum literals
       initEEnum(emphasisTypeEEnum, EmphasisType.class, "EmphasisType");

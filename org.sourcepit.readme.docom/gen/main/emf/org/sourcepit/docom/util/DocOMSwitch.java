@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
+import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
@@ -288,6 +289,18 @@ public class DocOMSwitch<T> extends Switch<T>
                result = caseLiteral(reference);
             if (result == null)
                result = caseListable(reference);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.DECLARATION :
+         {
+            Declaration declaration = (Declaration) theEObject;
+            T result = caseDeclaration(declaration);
+            if (result == null)
+               result = caseStructurable(declaration);
+            if (result == null)
+               result = caseListable(declaration);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -599,6 +612,23 @@ public class DocOMSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseReference(Reference object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Declaration</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Declaration</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseDeclaration(Declaration object)
    {
       return null;
    }

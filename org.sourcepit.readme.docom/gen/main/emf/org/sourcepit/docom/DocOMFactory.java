@@ -156,6 +156,16 @@ public interface DocOMFactory extends EFactory
    Reference createReference();
 
    /**
+    * Returns a new object of class '<em>Declaration</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return a new object of class '<em>Declaration</em>'.
+    * @generated
+    */
+   Declaration createDeclaration();
+
+   /**
     * Returns the package supported by this factory.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

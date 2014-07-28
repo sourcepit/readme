@@ -7,6 +7,7 @@
 package org.sourcepit.readme.core;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 import java.util.Stack;
 
@@ -52,6 +53,7 @@ import org.pegdown.ast.Visitor;
 import org.pegdown.ast.WikiLinkNode;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
+import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Header;
@@ -246,7 +248,7 @@ public class MarkdownToDocOMConverter
       public void visit(ExpLinkNode node)
       {
          final Link link = factory.createLink();
-         link.setUrl(node.url);
+         link.setUrl(Strings.isNullOrEmpty(node.url) ? null : node.url);
          link.setTitle(Strings.isNullOrEmpty(node.title) ? null : node.title);
 
          final Object parent = parents.peek();
@@ -369,8 +371,36 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(ReferenceNode node)
       {
-         throw new UnsupportedOperationException();
+         final Declaration declaration = factory.createDeclaration();
 
+         final TextNode textNode = (TextNode) node.getChildren().get(0).getChildren().get(0);
+         final String id = textNode.getText();
+         if (!isNullOrEmpty(id))
+         {
+            declaration.setId(id);
+         }
+         
+         final String url = node.getUrl();
+         if (!isNullOrEmpty(url))
+         {
+            declaration.setUrl(url);
+         }
+         
+         final String title = node.getTitle();
+         if (!isNullOrEmpty(title))
+         {
+            declaration.setTitle(title);
+         }
+         
+         final Object parent = parents.peek();
+         if (parent instanceof ListItem)
+         {
+            ((ListItem) parent).getContent().add(declaration);
+         }
+         else
+         {
+            ((Structured) parent).getContent().add(declaration);
+         }
       }
 
       @Override
