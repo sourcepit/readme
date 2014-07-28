@@ -44,7 +44,7 @@ public class ListImpl extends MinimalEObjectImpl.Container implements List
     * @generated
     * @ordered
     */
-   protected static final ListType TYPE_EDEFAULT = ListType.SIMPLE;
+   protected static final ListType TYPE_EDEFAULT = ListType.UNORDERED;
 
    /**
     * The cached value of the '{@link #getType() <em>Type</em>}' attribute.

@@ -614,8 +614,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       addEEnumLiteral(emphasisTypeEEnum, EmphasisType.CODE);
 
       initEEnum(listTypeEEnum, ListType.class, "ListType");
-      addEEnumLiteral(listTypeEEnum, ListType.SIMPLE);
-      addEEnumLiteral(listTypeEEnum, ListType.NUMERIC);
+      addEEnumLiteral(listTypeEEnum, ListType.UNORDERED);
+      addEEnumLiteral(listTypeEEnum, ListType.ORDERED);
 
       // Create resource
       createResource(eNS_URI);

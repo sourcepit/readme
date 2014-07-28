@@ -22,8 +22,8 @@
       eSuperTypes="#//Listable"/>
   <eClassifiers xsi:type="ecore:EClass" name="Document" eSuperTypes="#//Structured"/>
   <eClassifiers xsi:type="ecore:EEnum" name="ListType">
-    <eLiterals name="SIMPLE"/>
-    <eLiterals name="NUMERIC" value="1"/>
+    <eLiterals name="UNORDERED"/>
+    <eLiterals name="ORDERED" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Chapter" eSuperTypes="#//LiteralGroup #//Structured #//Structurable"/>
   <eClassifiers xsi:type="ecore:EClass" name="LiteralGroup" abstract="true">

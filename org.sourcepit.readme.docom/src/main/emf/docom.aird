@@ -639,7 +639,7 @@
           <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_IbfopBM2EeSzxOPJgylMow" red="255" green="252" blue="216"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_HH-yUBM2EeSzxOPJgylMow" name="type : ListType = SIMPLE" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_HH-yUBM2EeSzxOPJgylMow" name="type : ListType = UNORDERED" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="docom.ecore#//List/type"/>
           <semanticElements xmi:type="ecore:EAttribute" href="docom.ecore#//List/type"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_Ibir8RM2EeSzxOPJgylMow" labelFormat="bold" labelAlignment="LEFT" description="_Ibir8BM2EeSzxOPJgylMow">
@@ -734,9 +734,9 @@
           <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_--lpVBM1EeSzxOPJgylMow" red="221" green="236" blue="202"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EEnum']"/>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tfMtcBT6EeSYDue0SFgT1w" name="SIMPLE" tooltipText="">
-          <target xmi:type="ecore:EEnumLiteral" href="docom.ecore#//ListType/SIMPLE"/>
-          <semanticElements xmi:type="ecore:EEnumLiteral" href="docom.ecore#//ListType/SIMPLE"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tfMtcBT6EeSYDue0SFgT1w" name="UNORDERED" tooltipText="">
+          <target xmi:type="ecore:EEnumLiteral" href="docom.ecore#//ListType/UNORDERED"/>
+          <semanticElements xmi:type="ecore:EEnumLiteral" href="docom.ecore#//ListType/UNORDERED"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_tfMtcRT6EeSYDue0SFgT1w" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_tfMtchT6EeSYDue0SFgT1w"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EEnum']/@subNodeMappings[name='EC%20EEnumLiteral']/@style"/>
@@ -745,9 +745,9 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EEnum']/@subNodeMappings[name='EC%20EEnumLiteral']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tfMtdRT6EeSYDue0SFgT1w" name="NUMERIC" tooltipText="">
-          <target xmi:type="ecore:EEnumLiteral" href="docom.ecore#//ListType/NUMERIC"/>
-          <semanticElements xmi:type="ecore:EEnumLiteral" href="docom.ecore#//ListType/NUMERIC"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tfMtdRT6EeSYDue0SFgT1w" name="ORDERED" tooltipText="">
+          <target xmi:type="ecore:EEnumLiteral" href="docom.ecore#//ListType/ORDERED"/>
+          <semanticElements xmi:type="ecore:EEnumLiteral" href="docom.ecore#//ListType/ORDERED"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_tfMtdhT6EeSYDue0SFgT1w" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_tfMtdxT6EeSYDue0SFgT1w"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EEnum']/@subNodeMappings[name='EC%20EEnumLiteral']/@style"/>

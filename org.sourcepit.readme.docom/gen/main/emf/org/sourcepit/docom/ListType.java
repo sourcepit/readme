@@ -22,58 +22,58 @@ import org.eclipse.emf.common.util.Enumerator;
 public enum ListType implements Enumerator
 {
    /**
-    * The '<em><b>SIMPLE</b></em>' literal object.
+    * The '<em><b>UNORDERED</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
-    * @see #SIMPLE_VALUE
+    * @see #UNORDERED_VALUE
     * @generated
     * @ordered
     */
-   SIMPLE(0, "SIMPLE", "SIMPLE"),
+   UNORDERED(0, "UNORDERED", "UNORDERED"),
 
    /**
-    * The '<em><b>NUMERIC</b></em>' literal object.
+    * The '<em><b>ORDERED</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
-    * @see #NUMERIC_VALUE
+    * @see #ORDERED_VALUE
     * @generated
     * @ordered
     */
-   NUMERIC(1, "NUMERIC", "NUMERIC");
+   ORDERED(1, "ORDERED", "ORDERED");
 
    /**
-    * The '<em><b>SIMPLE</b></em>' literal value.
+    * The '<em><b>UNORDERED</b></em>' literal value.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of '<em><b>SIMPLE</b></em>' literal object isn't clear, there really should be more of a
+    * If the meaning of '<em><b>UNORDERED</b></em>' literal object isn't clear, there really should be more of a
     * description here...
     * </p>
     * <!-- end-user-doc -->
     * 
-    * @see #SIMPLE
+    * @see #UNORDERED
     * @model
     * @generated
     * @ordered
     */
-   public static final int SIMPLE_VALUE = 0;
+   public static final int UNORDERED_VALUE = 0;
 
    /**
-    * The '<em><b>NUMERIC</b></em>' literal value.
+    * The '<em><b>ORDERED</b></em>' literal value.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of '<em><b>NUMERIC</b></em>' literal object isn't clear, there really should be more of a
+    * If the meaning of '<em><b>ORDERED</b></em>' literal object isn't clear, there really should be more of a
     * description here...
     * </p>
     * <!-- end-user-doc -->
     * 
-    * @see #NUMERIC
+    * @see #ORDERED
     * @model
     * @generated
     * @ordered
     */
-   public static final int NUMERIC_VALUE = 1;
+   public static final int ORDERED_VALUE = 1;
 
    /**
     * An array of all the '<em><b>List Type</b></em>' enumerators.
@@ -82,7 +82,7 @@ public enum ListType implements Enumerator
     * 
     * @generated
     */
-   private static final ListType[] VALUES_ARRAY = new ListType[] { SIMPLE, NUMERIC, };
+   private static final ListType[] VALUES_ARRAY = new ListType[] { UNORDERED, ORDERED, };
 
    /**
     * A public read-only list of all the '<em><b>List Type</b></em>' enumerators.
@@ -144,10 +144,10 @@ public enum ListType implements Enumerator
    {
       switch (value)
       {
-         case SIMPLE_VALUE :
-            return SIMPLE;
-         case NUMERIC_VALUE :
-            return NUMERIC;
+         case UNORDERED_VALUE :
+            return UNORDERED;
+         case ORDERED_VALUE :
+            return ORDERED;
       }
       return null;
    }
