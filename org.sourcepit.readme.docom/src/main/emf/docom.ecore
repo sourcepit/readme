@@ -47,6 +47,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Quote" eSuperTypes="#//Structured #//Structurable"/>
   <eClassifiers xsi:type="ecore:EClass" name="Code" eSuperTypes="#//Structurable #//Listable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="HorizontalLine" eSuperTypes="#//Structurable #//Listable"/>
   <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="#//LiteralGroup #//Literal">

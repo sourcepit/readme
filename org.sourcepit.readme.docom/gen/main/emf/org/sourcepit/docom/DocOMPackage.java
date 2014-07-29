@@ -660,6 +660,16 @@ public interface DocOMPackage extends EPackage
    int CODE__TEXT = STRUCTURABLE_FEATURE_COUNT + 0;
 
    /**
+    * The feature id for the '<em><b>Language</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int CODE__LANGUAGE = STRUCTURABLE_FEATURE_COUNT + 1;
+
+   /**
     * The number of structural features of the '<em>Code</em>' class.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -667,7 +677,7 @@ public interface DocOMPackage extends EPackage
     * @generated
     * @ordered
     */
-   int CODE_FEATURE_COUNT = STRUCTURABLE_FEATURE_COUNT + 1;
+   int CODE_FEATURE_COUNT = STRUCTURABLE_FEATURE_COUNT + 2;
 
    /**
     * The number of operations of the '<em>Code</em>' class.
@@ -1257,6 +1267,18 @@ public interface DocOMPackage extends EPackage
    EAttribute getCode_Text();
 
    /**
+    * Returns the meta object for the attribute '{@link org.sourcepit.docom.Code#getLanguage <em>Language</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the attribute '<em>Language</em>'.
+    * @see org.sourcepit.docom.Code#getLanguage()
+    * @see #getCode()
+    * @generated
+    */
+   EAttribute getCode_Language();
+
+   /**
     * Returns the meta object for class '{@link org.sourcepit.docom.HorizontalLine <em>Horizontal Line</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -1700,6 +1722,15 @@ public interface DocOMPackage extends EPackage
        * @generated
        */
       EAttribute CODE__TEXT = eINSTANCE.getCode_Text();
+
+      /**
+       * The meta object literal for the '<em><b>Language</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EAttribute CODE__LANGUAGE = eINSTANCE.getCode_Language();
 
       /**
        * The meta object literal for the '{@link org.sourcepit.docom.impl.HorizontalLineImpl <em>Horizontal Line</em>}'

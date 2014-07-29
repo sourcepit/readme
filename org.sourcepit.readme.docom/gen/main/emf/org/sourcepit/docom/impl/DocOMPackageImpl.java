@@ -565,6 +565,17 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   public EAttribute getCode_Language()
+   {
+      return (EAttribute) codeEClass.getEStructuralFeatures().get(1);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EClass getHorizontalLine()
    {
       return horizontalLineEClass;
@@ -796,6 +807,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       codeEClass = createEClass(CODE);
       createEAttribute(codeEClass, CODE__TEXT);
+      createEAttribute(codeEClass, CODE__LANGUAGE);
 
       horizontalLineEClass = createEClass(HORIZONTAL_LINE);
 
@@ -939,6 +951,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       initEClass(codeEClass, Code.class, "Code", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
       initEAttribute(getCode_Text(), ecorePackage.getEString(), "text", null, 1, 1, Code.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getCode_Language(), ecorePackage.getEString(), "language", null, 0, 1, Code.class, !IS_TRANSIENT,
          !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
       initEClass(horizontalLineEClass, HorizontalLine.class, "HorizontalLine", !IS_ABSTRACT, !IS_INTERFACE,

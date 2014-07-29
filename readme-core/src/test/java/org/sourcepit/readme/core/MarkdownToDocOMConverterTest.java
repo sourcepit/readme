@@ -687,6 +687,39 @@ public class MarkdownToDocOMConverterTest
       Code code = (Code) document.getContent().get(0);
       assertEquals("code\n", code.getText());
    }
+   
+   @Test
+   public void testFencedCodeBlockEmpty() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("```\n");
+      md.append("```\n");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Code code = (Code) document.getContent().get(0);
+      assertNull(code.getLanguage());
+      assertEquals("", code.getText());
+   }
+   
+   @Test
+   public void testFencedCodeBlock() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("```java\n");
+      md.append("code");
+      md.append("```\n");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Code code = (Code) document.getContent().get(0);
+      assertEquals("java", code.getLanguage());
+      assertEquals("code", code.getText());
+   }
 
    @Test
    public void testCodeBlockMultiline() throws Exception

@@ -18,6 +18,7 @@ import org.sourcepit.docom.DocOMPackage;
  * The following features are implemented:
  * <ul>
  * <li>{@link org.sourcepit.docom.impl.CodeImpl#getText <em>Text</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.CodeImpl#getLanguage <em>Language</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,6 +46,27 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
     * @ordered
     */
    protected String text = TEXT_EDEFAULT;
+
+   /**
+    * The default value of the '{@link #getLanguage() <em>Language</em>}' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see #getLanguage()
+    * @generated
+    * @ordered
+    */
+   protected static final String LANGUAGE_EDEFAULT = null;
+   /**
+    * The cached value of the '{@link #getLanguage() <em>Language</em>}' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see #getLanguage()
+    * @generated
+    * @ordered
+    */
+   protected String language = LANGUAGE_EDEFAULT;
 
    /**
     * <!-- begin-user-doc -->
@@ -100,6 +122,31 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
     * 
     * @generated
     */
+   public String getLanguage()
+   {
+      return language;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public void setLanguage(String newLanguage)
+   {
+      String oldLanguage = language;
+      language = newLanguage;
+      if (eNotificationRequired())
+         eNotify(new ENotificationImpl(this, Notification.SET, DocOMPackage.CODE__LANGUAGE, oldLanguage, language));
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    @Override
    public Object eGet(int featureID, boolean resolve, boolean coreType)
    {
@@ -107,6 +154,8 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
       {
          case DocOMPackage.CODE__TEXT :
             return getText();
+         case DocOMPackage.CODE__LANGUAGE :
+            return getLanguage();
       }
       return super.eGet(featureID, resolve, coreType);
    }
@@ -124,6 +173,9 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
       {
          case DocOMPackage.CODE__TEXT :
             setText((String) newValue);
+            return;
+         case DocOMPackage.CODE__LANGUAGE :
+            setLanguage((String) newValue);
             return;
       }
       super.eSet(featureID, newValue);
@@ -143,6 +195,9 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
          case DocOMPackage.CODE__TEXT :
             setText(TEXT_EDEFAULT);
             return;
+         case DocOMPackage.CODE__LANGUAGE :
+            setLanguage(LANGUAGE_EDEFAULT);
+            return;
       }
       super.eUnset(featureID);
    }
@@ -160,6 +215,8 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
       {
          case DocOMPackage.CODE__TEXT :
             return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
+         case DocOMPackage.CODE__LANGUAGE :
+            return LANGUAGE_EDEFAULT == null ? language != null : !LANGUAGE_EDEFAULT.equals(language);
       }
       return super.eIsSet(featureID);
    }
@@ -179,6 +236,8 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
       StringBuffer result = new StringBuffer(super.toString());
       result.append(" (text: ");
       result.append(text);
+      result.append(", language: ");
+      result.append(language);
       result.append(')');
       return result.toString();
    }

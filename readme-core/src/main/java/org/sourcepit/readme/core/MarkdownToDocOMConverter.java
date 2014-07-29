@@ -147,22 +147,86 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(ParaNode node)
       {
-         final Paragraph paragraph = factory.createParagraph();
-
-         final Object parent = parents.peek();
-
-         if (parent instanceof ListItem)
+         final CodeNode codeNode = getFencedCodeNode(node);
+         if (codeNode == null)
          {
-            ((ListItem) parent).getContent().add(paragraph);
+            final Paragraph paragraph = factory.createParagraph();
+
+            final Object parent = parents.peek();
+
+            if (parent instanceof ListItem)
+            {
+               ((ListItem) parent).getContent().add(paragraph);
+            }
+            else
+            {
+               ((Structured) parent).getContent().add(paragraph);
+            }
+
+            parents.push(paragraph);
+            visitChildren(node);
+            pop(parents, paragraph);
          }
          else
          {
-            ((Structured) parent).getContent().add(paragraph);
+            visitFencedCodeBlock(codeNode);
+         }
+      }
+
+      private CodeNode getFencedCodeNode(ParaNode node)
+      {
+         CodeNode codeNode = null;
+         if (node.getChildren().size() == 1)
+         {
+            Node child = node.getChildren().get(0);
+            if (child instanceof SuperNode)
+            {
+               if (child.getChildren().size() == 1)
+               {
+                  child = child.getChildren().get(0);
+                  if (child instanceof CodeNode)
+                  {
+                     codeNode = (CodeNode) child;
+                  }
+               }
+            }
+         }
+         if (codeNode != null && codeNode.getText().contains("\n"))
+         {
+            return codeNode;
+         }
+         return null;
+      }
+
+      private void visitFencedCodeBlock(CodeNode node)
+      {
+         String code = node.getText();
+
+         int idx = code.indexOf('\n');
+
+         final String language = code.substring(0, idx);
+
+         code = code.substring(idx + 1, code.length());
+         
+         checkState(node.getChildren().isEmpty());
+
+         final Code codeBlock = factory.createCode();
+         codeBlock.setText(code);
+         
+         if (!isNullOrEmpty(language))
+         {
+            codeBlock.setLanguage(language);
          }
 
-         parents.push(paragraph);
-         visitChildren(node);
-         pop(parents, paragraph);
+         final Object parent = parents.peek();
+         if (parent instanceof Structured)
+         {
+            ((Structured) parent).getContent().add(codeBlock);
+         }
+         else
+         {
+            ((ListItem) parent).getContent().add(codeBlock);
+         }
       }
 
       @Override
@@ -229,10 +293,10 @@ public class MarkdownToDocOMConverter
       public void visit(CodeNode node)
       {
          checkState(node.getChildren().isEmpty());
-         
+
          final CodeLiteral code = factory.createCodeLiteral();
          code.setText(node.getText());
-         
+
          final Object parent = parents.peek();
          if (parent instanceof LiteralGroup)
          {
@@ -504,7 +568,7 @@ public class MarkdownToDocOMConverter
             ((Structured) parent).getContent().add(hl);
          }
       }
-      
+
       private void visitNewLine(SimpleNode node)
       {
          checkState(node.getChildren().isEmpty());
@@ -581,7 +645,7 @@ public class MarkdownToDocOMConverter
          }
          final Emphasis em = factory.createEmphasis();
          em.setType(type);
-         
+
          final Object parent = parents.peek();
          if (parent instanceof LiteralGroup)
          {
@@ -591,7 +655,7 @@ public class MarkdownToDocOMConverter
          {
             ((ListItem) parent).getContent().add(em);
          }
-         
+
          parents.add(em);
          visitChildren(node);
          pop(parents, em);
