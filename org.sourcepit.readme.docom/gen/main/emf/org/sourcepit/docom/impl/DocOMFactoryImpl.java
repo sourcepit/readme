@@ -24,6 +24,7 @@ import org.sourcepit.docom.Link;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
+import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
@@ -115,6 +116,8 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
             return createDeclaration();
          case DocOMPackage.CODE_LITERAL :
             return createCodeLiteral();
+         case DocOMPackage.NEW_LINE :
+            return createNewLine();
          default :
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
       }
@@ -338,6 +341,18 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
    {
       CodeLiteralImpl codeLiteral = new CodeLiteralImpl();
       return codeLiteral;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public NewLine createNewLine()
+   {
+      NewLineImpl newLine = new NewLineImpl();
+      return newLine;
    }
 
    /**

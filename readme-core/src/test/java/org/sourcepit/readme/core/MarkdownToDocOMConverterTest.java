@@ -6,10 +6,7 @@
 
 package org.sourcepit.readme.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +23,7 @@ import org.sourcepit.docom.Link;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
+import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
@@ -1017,7 +1015,7 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) emphasis.getLiterals().get(0);
       assertEquals("italic", text.getText());
    }
-   
+
    @Test
    public void testBold() throws Exception
    {
@@ -1038,7 +1036,7 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) emphasis.getLiterals().get(0);
       assertEquals("bold", text.getText());
    }
-   
+
    @Test
    public void testBoldAndItalic() throws Exception
    {
@@ -1055,7 +1053,7 @@ public class MarkdownToDocOMConverterTest
       Emphasis emphasis = (Emphasis) paragraph.getLiterals().get(0);
       assertEquals(EmphasisType.BOLD, emphasis.getType());
       assertEquals(1, emphasis.getLiterals().size());
-      
+
       emphasis = (Emphasis) emphasis.getLiterals().get(0);
       assertEquals(EmphasisType.ITALIC, emphasis.getType());
       assertEquals(1, emphasis.getLiterals().size());
@@ -1063,7 +1061,7 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) emphasis.getLiterals().get(0);
       assertEquals("bold and italic", text.getText());
    }
-   
+
    @Test
    public void testCode() throws Exception
    {
@@ -1079,5 +1077,29 @@ public class MarkdownToDocOMConverterTest
 
       CodeLiteral code = (CodeLiteral) paragraph.getLiterals().get(0);
       assertEquals("code", code.getText());
+   }
+
+   @Test
+   public void testNewLine() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("Take a  \n");
+      md.append("break.");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(3, paragraph.getLiterals().size());
+
+      Text text;
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("Take a", text.getText());
+
+      assertTrue(paragraph.getLiterals().get(1) instanceof NewLine);
+
+      text = (Text) paragraph.getLiterals().get(2);
+      assertEquals("break.", text.getText());
    }
 }

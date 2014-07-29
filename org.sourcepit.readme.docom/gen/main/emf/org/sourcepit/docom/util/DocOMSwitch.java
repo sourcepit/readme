@@ -21,6 +21,7 @@ import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.Listable;
 import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
+import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
@@ -314,6 +315,20 @@ public class DocOMSwitch<T> extends Switch<T>
                result = caseLiteral(codeLiteral);
             if (result == null)
                result = caseListable(codeLiteral);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.NEW_LINE :
+         {
+            NewLine newLine = (NewLine) theEObject;
+            T result = caseNewLine(newLine);
+            if (result == null)
+               result = caseStructurable(newLine);
+            if (result == null)
+               result = caseLiteral(newLine);
+            if (result == null)
+               result = caseListable(newLine);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -659,6 +674,23 @@ public class DocOMSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseCodeLiteral(CodeLiteral object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>New Line</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>New Line</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseNewLine(NewLine object)
    {
       return null;
    }

@@ -27,6 +27,7 @@ import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.Listable;
 import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
+import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
@@ -202,6 +203,14 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * @generated
     */
    private EClass codeLiteralEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EClass newLineEClass = null;
 
    /**
     * <!-- begin-user-doc -->
@@ -688,6 +697,17 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   public EClass getNewLine()
+   {
+      return newLineEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EEnum getEmphasisType()
    {
       return emphasisTypeEEnum;
@@ -794,6 +814,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       codeLiteralEClass = createEClass(CODE_LITERAL);
       createEAttribute(codeLiteralEClass, CODE_LITERAL__TEXT);
 
+      newLineEClass = createEClass(NEW_LINE);
+
       // Create enums
       emphasisTypeEEnum = createEEnum(EMPHASIS_TYPE);
       listTypeEEnum = createEEnum(LIST_TYPE);
@@ -858,6 +880,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       declarationEClass.getESuperTypes().add(this.getListable());
       codeLiteralEClass.getESuperTypes().add(this.getLiteral());
       codeLiteralEClass.getESuperTypes().add(this.getListable());
+      newLineEClass.getESuperTypes().add(this.getStructurable());
+      newLineEClass.getESuperTypes().add(this.getLiteral());
 
       // Initialize classes, features, and operations; add parameters
       initEClass(paragraphEClass, Paragraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE,
@@ -944,6 +968,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
          IS_GENERATED_INSTANCE_CLASS);
       initEAttribute(getCodeLiteral_Text(), ecorePackage.getEString(), "text", null, 1, 1, CodeLiteral.class,
          !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+      initEClass(newLineEClass, NewLine.class, "NewLine", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
       // Initialize enums and add enum literals
       initEEnum(emphasisTypeEEnum, EmphasisType.class, "EmphasisType");

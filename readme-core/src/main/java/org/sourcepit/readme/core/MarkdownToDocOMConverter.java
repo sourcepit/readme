@@ -66,6 +66,7 @@ import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.LiteralGroup;
+import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
@@ -481,6 +482,9 @@ public class MarkdownToDocOMConverter
             case HRule :
                visitHorizontalLine(node);
                break;
+            case Linebreak :
+               visitNewLine(node);
+               break;
             default :
                throw new UnsupportedOperationException();
          }
@@ -498,6 +502,21 @@ public class MarkdownToDocOMConverter
          else
          {
             ((Structured) parent).getContent().add(hl);
+         }
+      }
+      
+      private void visitNewLine(SimpleNode node)
+      {
+         checkState(node.getChildren().isEmpty());
+         final NewLine nl = factory.createNewLine();
+         final Object parent = parents.peek();
+         if (parent instanceof LiteralGroup)
+         {
+            ((LiteralGroup) parent).getLiterals().add(nl);
+         }
+         else
+         {
+            ((Structured) parent).getContent().add(nl);
          }
       }
 

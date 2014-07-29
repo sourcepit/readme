@@ -925,6 +925,37 @@ public interface DocOMPackage extends EPackage
    int CODE_LITERAL_OPERATION_COUNT = LITERAL_OPERATION_COUNT + 0;
 
    /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.NewLineImpl <em>New Line</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.NewLineImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getNewLine()
+    * @generated
+    */
+   int NEW_LINE = 20;
+
+   /**
+    * The number of structural features of the '<em>New Line</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int NEW_LINE_FEATURE_COUNT = STRUCTURABLE_FEATURE_COUNT + 0;
+
+   /**
+    * The number of operations of the '<em>New Line</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int NEW_LINE_OPERATION_COUNT = STRUCTURABLE_OPERATION_COUNT + 0;
+
+   /**
     * The meta object id for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -933,7 +964,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getEmphasisType()
     * @generated
     */
-   int EMPHASIS_TYPE = 20;
+   int EMPHASIS_TYPE = 21;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.ListType <em>List Type</em>}' enum.
@@ -944,7 +975,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getListType()
     * @generated
     */
-   int LIST_TYPE = 21;
+   int LIST_TYPE = 22;
 
 
    /**
@@ -1365,6 +1396,17 @@ public interface DocOMPackage extends EPackage
    EAttribute getCodeLiteral_Text();
 
    /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.NewLine <em>New Line</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>New Line</em>'.
+    * @see org.sourcepit.docom.NewLine
+    * @generated
+    */
+   EClass getNewLine();
+
+   /**
     * Returns the meta object for enum '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -1777,6 +1819,17 @@ public interface DocOMPackage extends EPackage
        * @generated
        */
       EAttribute CODE_LITERAL__TEXT = eINSTANCE.getCodeLiteral_Text();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.NewLineImpl <em>New Line</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.NewLineImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getNewLine()
+       * @generated
+       */
+      EClass NEW_LINE = eINSTANCE.getNewLine();
 
       /**
        * The meta object literal for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.

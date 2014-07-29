@@ -22,6 +22,7 @@ import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.Listable;
 import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
+import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
@@ -215,6 +216,12 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
       public Adapter caseCodeLiteral(CodeLiteral object)
       {
          return createCodeLiteralAdapter();
+      }
+
+      @Override
+      public Adapter caseNewLine(NewLine object)
+      {
+         return createNewLineAdapter();
       }
 
       @Override
@@ -557,6 +564,22 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
     * @generated
     */
    public Adapter createCodeLiteralAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.sourcepit.docom.NewLine <em>New Line</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * 
+    * @return the new adapter.
+    * @see org.sourcepit.docom.NewLine
+    * @generated
+    */
+   public Adapter createNewLineAdapter()
    {
       return null;
    }
