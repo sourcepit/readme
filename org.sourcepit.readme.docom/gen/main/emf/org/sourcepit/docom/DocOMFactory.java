@@ -166,6 +166,16 @@ public interface DocOMFactory extends EFactory
    Declaration createDeclaration();
 
    /**
+    * Returns a new object of class '<em>Code Literal</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return a new object of class '<em>Code Literal</em>'.
+    * @generated
+    */
+   CodeLiteral createCodeLiteral();
+
+   /**
     * Returns the package supported by this factory.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

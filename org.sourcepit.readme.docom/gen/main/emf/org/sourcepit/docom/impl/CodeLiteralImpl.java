@@ -7,23 +7,23 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.sourcepit.docom.Code;
+import org.sourcepit.docom.CodeLiteral;
 import org.sourcepit.docom.DocOMPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Code</b></em>'.
+ * An implementation of the model object '<em><b>Code Literal</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.sourcepit.docom.impl.CodeImpl#getText <em>Text</em>}</li>
+ * <li>{@link org.sourcepit.docom.impl.CodeLiteralImpl#getText <em>Text</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class CodeImpl extends MinimalEObjectImpl.Container implements Code
+public class CodeLiteralImpl extends MinimalEObjectImpl.Container implements CodeLiteral
 {
    /**
     * The default value of the '{@link #getText() <em>Text</em>}' attribute.
@@ -35,6 +35,7 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
     * @ordered
     */
    protected static final String TEXT_EDEFAULT = null;
+
    /**
     * The cached value of the '{@link #getText() <em>Text</em>}' attribute.
     * <!-- begin-user-doc -->
@@ -52,7 +53,7 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
     * 
     * @generated
     */
-   protected CodeImpl()
+   protected CodeLiteralImpl()
    {
       super();
    }
@@ -66,7 +67,7 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
    @Override
    protected EClass eStaticClass()
    {
-      return DocOMPackage.Literals.CODE;
+      return DocOMPackage.Literals.CODE_LITERAL;
    }
 
    /**
@@ -91,7 +92,7 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
       String oldText = text;
       text = newText;
       if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, DocOMPackage.CODE__TEXT, oldText, text));
+         eNotify(new ENotificationImpl(this, Notification.SET, DocOMPackage.CODE_LITERAL__TEXT, oldText, text));
    }
 
    /**
@@ -105,7 +106,7 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
    {
       switch (featureID)
       {
-         case DocOMPackage.CODE__TEXT :
+         case DocOMPackage.CODE_LITERAL__TEXT :
             return getText();
       }
       return super.eGet(featureID, resolve, coreType);
@@ -122,7 +123,7 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
    {
       switch (featureID)
       {
-         case DocOMPackage.CODE__TEXT :
+         case DocOMPackage.CODE_LITERAL__TEXT :
             setText((String) newValue);
             return;
       }
@@ -140,7 +141,7 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
    {
       switch (featureID)
       {
-         case DocOMPackage.CODE__TEXT :
+         case DocOMPackage.CODE_LITERAL__TEXT :
             setText(TEXT_EDEFAULT);
             return;
       }
@@ -158,7 +159,7 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
    {
       switch (featureID)
       {
-         case DocOMPackage.CODE__TEXT :
+         case DocOMPackage.CODE_LITERAL__TEXT :
             return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
       }
       return super.eIsSet(featureID);
@@ -183,4 +184,4 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
       return result.toString();
    }
 
-} // CodeImpl
+} // CodeLiteralImpl

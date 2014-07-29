@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
+import org.sourcepit.docom.CodeLiteral;
 import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.DocOMPackage;
@@ -112,6 +113,8 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
             return createReference();
          case DocOMPackage.DECLARATION :
             return createDeclaration();
+         case DocOMPackage.CODE_LITERAL :
+            return createCodeLiteral();
          default :
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
       }
@@ -323,6 +326,18 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
    {
       DeclarationImpl declaration = new DeclarationImpl();
       return declaration;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public CodeLiteral createCodeLiteral()
+   {
+      CodeLiteralImpl codeLiteral = new CodeLiteralImpl();
+      return codeLiteral;
    }
 
    /**

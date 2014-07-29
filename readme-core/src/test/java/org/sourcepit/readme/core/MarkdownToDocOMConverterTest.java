@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
+import org.sourcepit.docom.CodeLiteral;
 import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
@@ -676,7 +677,7 @@ public class MarkdownToDocOMConverterTest
    }
 
    @Test
-   public void testCode() throws Exception
+   public void testCodeBlock() throws Exception
    {
       StringBuilder md = new StringBuilder();
       md.append("    code");
@@ -690,7 +691,7 @@ public class MarkdownToDocOMConverterTest
    }
 
    @Test
-   public void testCodeMultiline() throws Exception
+   public void testCodeBlockMultiline() throws Exception
    {
       StringBuilder md = new StringBuilder();
       md.append("    code\n");
@@ -705,7 +706,7 @@ public class MarkdownToDocOMConverterTest
    }
 
    @Test
-   public void testCodeInList() throws Exception
+   public void testCodeBlockInList() throws Exception
    {
       StringBuilder md = new StringBuilder();
       md.append("* Snipped below:\n\n");
@@ -1061,5 +1062,22 @@ public class MarkdownToDocOMConverterTest
 
       Text text = (Text) emphasis.getLiterals().get(0);
       assertEquals("bold and italic", text.getText());
+   }
+   
+   @Test
+   public void testCode() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("`code`");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      CodeLiteral code = (CodeLiteral) paragraph.getLiterals().get(0);
+      assertEquals("code", code.getText());
    }
 }

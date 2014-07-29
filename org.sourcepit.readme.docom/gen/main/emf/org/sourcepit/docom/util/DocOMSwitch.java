@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
+import org.sourcepit.docom.CodeLiteral;
 import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.DocOMPackage;
 import org.sourcepit.docom.Document;
@@ -301,6 +302,18 @@ public class DocOMSwitch<T> extends Switch<T>
                result = caseStructurable(declaration);
             if (result == null)
                result = caseListable(declaration);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.CODE_LITERAL :
+         {
+            CodeLiteral codeLiteral = (CodeLiteral) theEObject;
+            T result = caseCodeLiteral(codeLiteral);
+            if (result == null)
+               result = caseLiteral(codeLiteral);
+            if (result == null)
+               result = caseListable(codeLiteral);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -629,6 +642,23 @@ public class DocOMSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseDeclaration(Declaration object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Code Literal</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Code Literal</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseCodeLiteral(CodeLiteral object)
    {
       return null;
    }

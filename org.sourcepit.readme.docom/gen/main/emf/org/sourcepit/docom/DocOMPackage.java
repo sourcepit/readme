@@ -884,6 +884,47 @@ public interface DocOMPackage extends EPackage
    int DECLARATION_OPERATION_COUNT = STRUCTURABLE_OPERATION_COUNT + 0;
 
    /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.CodeLiteralImpl <em>Code Literal</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.CodeLiteralImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getCodeLiteral()
+    * @generated
+    */
+   int CODE_LITERAL = 19;
+
+   /**
+    * The feature id for the '<em><b>Text</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int CODE_LITERAL__TEXT = LITERAL_FEATURE_COUNT + 0;
+
+   /**
+    * The number of structural features of the '<em>Code Literal</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int CODE_LITERAL_FEATURE_COUNT = LITERAL_FEATURE_COUNT + 1;
+
+   /**
+    * The number of operations of the '<em>Code Literal</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int CODE_LITERAL_OPERATION_COUNT = LITERAL_OPERATION_COUNT + 0;
+
+   /**
     * The meta object id for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -892,7 +933,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getEmphasisType()
     * @generated
     */
-   int EMPHASIS_TYPE = 19;
+   int EMPHASIS_TYPE = 20;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.ListType <em>List Type</em>}' enum.
@@ -903,7 +944,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getListType()
     * @generated
     */
-   int LIST_TYPE = 20;
+   int LIST_TYPE = 21;
 
 
    /**
@@ -1301,6 +1342,29 @@ public interface DocOMPackage extends EPackage
    EAttribute getDeclaration_Title();
 
    /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.CodeLiteral <em>Code Literal</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>Code Literal</em>'.
+    * @see org.sourcepit.docom.CodeLiteral
+    * @generated
+    */
+   EClass getCodeLiteral();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.sourcepit.docom.CodeLiteral#getText <em>Text</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the attribute '<em>Text</em>'.
+    * @see org.sourcepit.docom.CodeLiteral#getText()
+    * @see #getCodeLiteral()
+    * @generated
+    */
+   EAttribute getCodeLiteral_Text();
+
+   /**
     * Returns the meta object for enum '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -1693,6 +1757,26 @@ public interface DocOMPackage extends EPackage
        * @generated
        */
       EAttribute DECLARATION__TITLE = eINSTANCE.getDeclaration_Title();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.CodeLiteralImpl <em>Code Literal</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.CodeLiteralImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getCodeLiteral()
+       * @generated
+       */
+      EClass CODE_LITERAL = eINSTANCE.getCodeLiteral();
+
+      /**
+       * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EAttribute CODE_LITERAL__TEXT = eINSTANCE.getCodeLiteral_Text();
 
       /**
        * The meta object literal for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.

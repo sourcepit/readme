@@ -53,6 +53,7 @@ import org.pegdown.ast.Visitor;
 import org.pegdown.ast.WikiLinkNode;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
+import org.sourcepit.docom.CodeLiteral;
 import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
@@ -226,8 +227,20 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(CodeNode node)
       {
-         throw new UnsupportedOperationException();
-
+         checkState(node.getChildren().isEmpty());
+         
+         final CodeLiteral code = factory.createCodeLiteral();
+         code.setText(node.getText());
+         
+         final Object parent = parents.peek();
+         if (parent instanceof LiteralGroup)
+         {
+            ((LiteralGroup) parent).getLiterals().add(code);
+         }
+         else
+         {
+            ((ListItem) parent).getContent().add(code);
+         }
       }
 
       @Override
@@ -538,8 +551,6 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(StrongEmphSuperNode node)
       {
-         Emphasis em = factory.createEmphasis();
-
          final EmphasisType type;
          if (node.isStrong())
          {
@@ -549,9 +560,9 @@ public class MarkdownToDocOMConverter
          {
             type = EmphasisType.ITALIC;
          }
-
+         final Emphasis em = factory.createEmphasis();
          em.setType(type);
-
+         
          final Object parent = parents.peek();
          if (parent instanceof LiteralGroup)
          {
@@ -561,11 +572,10 @@ public class MarkdownToDocOMConverter
          {
             ((ListItem) parent).getContent().add(em);
          }
-
+         
          parents.add(em);
          visitChildren(node);
          pop(parents, em);
-
       }
 
       @Override
