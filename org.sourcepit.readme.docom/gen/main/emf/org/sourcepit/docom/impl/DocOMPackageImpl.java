@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.sourcepit.docom.Alignment;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
 import org.sourcepit.docom.CodeLiteral;
@@ -33,6 +34,9 @@ import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
 import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
+import org.sourcepit.docom.Table;
+import org.sourcepit.docom.TableCell;
+import org.sourcepit.docom.TableRow;
 import org.sourcepit.docom.Text;
 
 /**
@@ -218,6 +222,30 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   private EClass tableEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EClass tableRowEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EClass tableCellEClass = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    private EEnum emphasisTypeEEnum = null;
 
    /**
@@ -227,6 +255,14 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * @generated
     */
    private EEnum listTypeEEnum = null;
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   private EEnum alignmentEEnum = null;
 
    /**
     * Creates an instance of the model <b>Package</b>, registered with {@link org.eclipse.emf.ecore.EPackage.Registry
@@ -719,6 +755,105 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
     * 
     * @generated
     */
+   public EClass getTable()
+   {
+      return tableEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EAttribute getTable_ColumnDefinitions()
+   {
+      return (EAttribute) tableEClass.getEStructuralFeatures().get(0);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EReference getTable_Header()
+   {
+      return (EReference) tableEClass.getEStructuralFeatures().get(1);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EReference getTable_Body()
+   {
+      return (EReference) tableEClass.getEStructuralFeatures().get(2);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EClass getTableRow()
+   {
+      return tableRowEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EReference getTableRow_Cells()
+   {
+      return (EReference) tableRowEClass.getEStructuralFeatures().get(0);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EClass getTableCell()
+   {
+      return tableCellEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EReference getTableCell_Row()
+   {
+      return (EReference) tableCellEClass.getEStructuralFeatures().get(0);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EAttribute getTableCell_ColumnSpan()
+   {
+      return (EAttribute) tableCellEClass.getEStructuralFeatures().get(1);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EEnum getEmphasisType()
    {
       return emphasisTypeEEnum;
@@ -733,6 +868,17 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
    public EEnum getListType()
    {
       return listTypeEEnum;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public EEnum getAlignment()
+   {
+      return alignmentEEnum;
    }
 
    /**
@@ -828,9 +974,22 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       newLineEClass = createEClass(NEW_LINE);
 
+      tableEClass = createEClass(TABLE);
+      createEAttribute(tableEClass, TABLE__COLUMN_DEFINITIONS);
+      createEReference(tableEClass, TABLE__HEADER);
+      createEReference(tableEClass, TABLE__BODY);
+
+      tableRowEClass = createEClass(TABLE_ROW);
+      createEReference(tableRowEClass, TABLE_ROW__CELLS);
+
+      tableCellEClass = createEClass(TABLE_CELL);
+      createEReference(tableCellEClass, TABLE_CELL__ROW);
+      createEAttribute(tableCellEClass, TABLE_CELL__COLUMN_SPAN);
+
       // Create enums
       emphasisTypeEEnum = createEEnum(EMPHASIS_TYPE);
       listTypeEEnum = createEEnum(LIST_TYPE);
+      alignmentEEnum = createEEnum(ALIGNMENT);
    }
 
    /**
@@ -894,6 +1053,8 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       codeLiteralEClass.getESuperTypes().add(this.getListable());
       newLineEClass.getESuperTypes().add(this.getStructurable());
       newLineEClass.getESuperTypes().add(this.getLiteral());
+      tableEClass.getESuperTypes().add(this.getStructurable());
+      tableCellEClass.getESuperTypes().add(this.getLiteralGroup());
 
       // Initialize classes, features, and operations; add parameters
       initEClass(paragraphEClass, Paragraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE,
@@ -985,6 +1146,29 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
 
       initEClass(newLineEClass, NewLine.class, "NewLine", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+      initEClass(tableEClass, Table.class, "Table", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+      initEAttribute(getTable_ColumnDefinitions(), this.getAlignment(), "columnDefinitions", null, 1, -1, Table.class,
+         !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEReference(getTable_Header(), this.getTableRow(), null, "header", null, 1, 1, Table.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+         IS_ORDERED);
+      initEReference(getTable_Body(), this.getTableRow(), null, "body", null, 1, -1, Table.class, !IS_TRANSIENT,
+         !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+         IS_ORDERED);
+
+      initEClass(tableRowEClass, TableRow.class, "TableRow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+      initEReference(getTableRow_Cells(), this.getTableCell(), this.getTableCell_Row(), "cells", null, 1, -1,
+         TableRow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
+         IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+      initEClass(tableCellEClass, TableCell.class, "TableCell", !IS_ABSTRACT, !IS_INTERFACE,
+         IS_GENERATED_INSTANCE_CLASS);
+      initEReference(getTableCell_Row(), this.getTableRow(), this.getTableRow_Cells(), "row", null, 1, 1,
+         TableCell.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+         !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getTableCell_ColumnSpan(), ecorePackage.getEInt(), "columnSpan", "1", 0, 1, TableCell.class,
+         !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
       // Initialize enums and add enum literals
       initEEnum(emphasisTypeEEnum, EmphasisType.class, "EmphasisType");
       addEEnumLiteral(emphasisTypeEEnum, EmphasisType.ITALIC);
@@ -995,6 +1179,11 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       initEEnum(listTypeEEnum, ListType.class, "ListType");
       addEEnumLiteral(listTypeEEnum, ListType.UNORDERED);
       addEEnumLiteral(listTypeEEnum, ListType.ORDERED);
+
+      initEEnum(alignmentEEnum, Alignment.class, "Alignment");
+      addEEnumLiteral(alignmentEEnum, Alignment.LEFT);
+      addEEnumLiteral(alignmentEEnum, Alignment.CENTER);
+      addEEnumLiteral(alignmentEEnum, Alignment.RIGHT);
 
       // Create resource
       createResource(eNS_URI);

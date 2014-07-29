@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.sourcepit.docom.Alignment;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
 import org.sourcepit.docom.CodeLiteral;
@@ -28,6 +29,9 @@ import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
+import org.sourcepit.docom.Table;
+import org.sourcepit.docom.TableCell;
+import org.sourcepit.docom.TableRow;
 import org.sourcepit.docom.Text;
 
 /**
@@ -118,6 +122,12 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
             return createCodeLiteral();
          case DocOMPackage.NEW_LINE :
             return createNewLine();
+         case DocOMPackage.TABLE :
+            return createTable();
+         case DocOMPackage.TABLE_ROW :
+            return createTableRow();
+         case DocOMPackage.TABLE_CELL :
+            return createTableCell();
          default :
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
       }
@@ -138,6 +148,8 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
             return createEmphasisTypeFromString(eDataType, initialValue);
          case DocOMPackage.LIST_TYPE :
             return createListTypeFromString(eDataType, initialValue);
+         case DocOMPackage.ALIGNMENT :
+            return createAlignmentFromString(eDataType, initialValue);
          default :
             throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
       }
@@ -158,6 +170,8 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
             return convertEmphasisTypeToString(eDataType, instanceValue);
          case DocOMPackage.LIST_TYPE :
             return convertListTypeToString(eDataType, instanceValue);
+         case DocOMPackage.ALIGNMENT :
+            return convertAlignmentToString(eDataType, instanceValue);
          default :
             throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
       }
@@ -361,6 +375,42 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
     * 
     * @generated
     */
+   public Table createTable()
+   {
+      TableImpl table = new TableImpl();
+      return table;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public TableRow createTableRow()
+   {
+      TableRowImpl tableRow = new TableRowImpl();
+      return tableRow;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public TableCell createTableCell()
+   {
+      TableCellImpl tableCell = new TableCellImpl();
+      return tableCell;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
    public EmphasisType createEmphasisTypeFromString(EDataType eDataType, String initialValue)
    {
       EmphasisType result = EmphasisType.get(initialValue);
@@ -403,6 +453,32 @@ public class DocOMFactoryImpl extends EFactoryImpl implements DocOMFactory
     * @generated
     */
    public String convertListTypeToString(EDataType eDataType, Object instanceValue)
+   {
+      return instanceValue == null ? null : instanceValue.toString();
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public Alignment createAlignmentFromString(EDataType eDataType, String initialValue)
+   {
+      Alignment result = Alignment.get(initialValue);
+      if (result == null)
+         throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '"
+            + eDataType.getName() + "'");
+      return result;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    */
+   public String convertAlignmentToString(EDataType eDataType, Object instanceValue)
    {
       return instanceValue == null ? null : instanceValue.toString();
    }

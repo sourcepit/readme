@@ -22,7 +22,6 @@ package org.sourcepit.docom;
  */
 public interface Chapter extends Structurable, Structured
 {
-
    /**
     * Returns the value of the '<em><b>Header</b></em>' containment reference.
     * <!-- begin-user-doc -->
@@ -50,4 +49,5 @@ public interface Chapter extends Structurable, Structured
     * @generated
     */
    void setHeader(Header value);
+
 } // Chapter

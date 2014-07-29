@@ -23,7 +23,6 @@ package org.sourcepit.docom;
  */
 public interface Code extends Structurable, Listable
 {
-
    /**
     * Returns the value of the '<em><b>Text</b></em>' attribute.
     * <!-- begin-user-doc -->

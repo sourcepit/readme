@@ -34,6 +34,7 @@ public class ReferenceImpl extends LiteralGroupImpl implements Reference
     * @ordered
     */
    protected static final String ID_EDEFAULT = null;
+
    /**
     * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
     * <!-- begin-user-doc -->

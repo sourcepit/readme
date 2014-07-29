@@ -27,6 +27,9 @@ import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
 import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
+import org.sourcepit.docom.Table;
+import org.sourcepit.docom.TableCell;
+import org.sourcepit.docom.TableRow;
 import org.sourcepit.docom.Text;
 
 /**
@@ -329,6 +332,34 @@ public class DocOMSwitch<T> extends Switch<T>
                result = caseLiteral(newLine);
             if (result == null)
                result = caseListable(newLine);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.TABLE :
+         {
+            Table table = (Table) theEObject;
+            T result = caseTable(table);
+            if (result == null)
+               result = caseStructurable(table);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.TABLE_ROW :
+         {
+            TableRow tableRow = (TableRow) theEObject;
+            T result = caseTableRow(tableRow);
+            if (result == null)
+               result = defaultCase(theEObject);
+            return result;
+         }
+         case DocOMPackage.TABLE_CELL :
+         {
+            TableCell tableCell = (TableCell) theEObject;
+            T result = caseTableCell(tableCell);
+            if (result == null)
+               result = caseLiteralGroup(tableCell);
             if (result == null)
                result = defaultCase(theEObject);
             return result;
@@ -691,6 +722,57 @@ public class DocOMSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseNewLine(NewLine object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Table</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Table</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseTable(Table object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Table Row</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Table Row</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseTableRow(TableRow object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Table Cell</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * 
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Table Cell</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseTableCell(TableCell object)
    {
       return null;
    }

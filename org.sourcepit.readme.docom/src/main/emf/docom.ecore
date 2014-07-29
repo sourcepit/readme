@@ -67,4 +67,27 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NewLine" eSuperTypes="#//Structurable #//Literal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Table" eSuperTypes="#//Structurable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="columnDefinitions" unique="false"
+        lowerBound="1" upperBound="-1" eType="#//Alignment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="header" lowerBound="1"
+        eType="#//TableRow" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" upperBound="-1"
+        eType="#//TableRow" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Alignment">
+    <eLiterals name="LEFT"/>
+    <eLiterals name="CENTER" value="1"/>
+    <eLiterals name="RIGHT" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TableRow">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cells" lowerBound="1" upperBound="-1"
+        eType="#//TableCell" containment="true" eOpposite="#//TableCell/row"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TableCell" eSuperTypes="#//LiteralGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="row" lowerBound="1" eType="#//TableRow"
+        eOpposite="#//TableRow/cells"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="columnSpan" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
 </ecore:EPackage>

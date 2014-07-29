@@ -10,9 +10,11 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.pegdown.Extensions.FENCED_CODE_BLOCKS;
 import static org.pegdown.Extensions.STRIKETHROUGH;
+import static org.pegdown.Extensions.TABLES;
 
 import java.util.Stack;
 
+import org.eclipse.emf.common.util.EList;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.ast.AbbreviationNode;
 import org.pegdown.ast.AutoLinkNode;
@@ -46,6 +48,7 @@ import org.pegdown.ast.TableBodyNode;
 import org.pegdown.ast.TableCaptionNode;
 import org.pegdown.ast.TableCellNode;
 import org.pegdown.ast.TableColumnNode;
+import org.pegdown.ast.TableColumnNode.Alignment;
 import org.pegdown.ast.TableHeaderNode;
 import org.pegdown.ast.TableNode;
 import org.pegdown.ast.TableRowNode;
@@ -73,6 +76,9 @@ import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
 import org.sourcepit.docom.Structured;
+import org.sourcepit.docom.Table;
+import org.sourcepit.docom.TableCell;
+import org.sourcepit.docom.TableRow;
 import org.sourcepit.docom.Text;
 
 import com.google.common.base.Strings;
@@ -88,8 +94,9 @@ public class MarkdownToDocOMConverter
       int options = 0;
       // options = options | Extensions.AUTOLINKS;
       // options = options | Extensions.WIKILINKS;
+      options |= TABLES;
       // FENCED_CODE_BLOCKS is required for STRIKETHROUGH. See bug https://github.com/sirthias/pegdown/issues/131.
-      options = options | STRIKETHROUGH | FENCED_CODE_BLOCKS;
+      options |= STRIKETHROUGH | FENCED_CODE_BLOCKS;
 
       final RootNode md = new PegDownProcessor(options).parseMarkdown(markdown.toCharArray());
       final DocOMBuilder builder = new DocOMBuilder(DocOMFactory.eINSTANCE);
@@ -683,35 +690,7 @@ public class MarkdownToDocOMConverter
       }
 
       @Override
-      public void visit(TableBodyNode node)
-      {
-         throw new UnsupportedOperationException();
-
-      }
-
-      @Override
       public void visit(TableCaptionNode node)
-      {
-         throw new UnsupportedOperationException();
-
-      }
-
-      @Override
-      public void visit(TableCellNode node)
-      {
-         throw new UnsupportedOperationException();
-
-      }
-
-      @Override
-      public void visit(TableColumnNode node)
-      {
-         throw new UnsupportedOperationException();
-
-      }
-
-      @Override
-      public void visit(TableHeaderNode node)
       {
          throw new UnsupportedOperationException();
 
@@ -720,15 +699,102 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(TableNode node)
       {
-         throw new UnsupportedOperationException();
+         final Table table = factory.createTable();
 
+         final Structured parent = (Structured) parents.peek();
+         parent.getContent().add(table);
+
+         parents.add(table);
+
+         for (TableColumnNode columnNode : node.getColumns())
+         {
+            columnNode.accept(this);
+         }
+
+         visitChildren(node);
+
+
+         pop(parents, table);
       }
 
       @Override
+      public void visit(TableHeaderNode node)
+      {
+         visitChildren(node);
+      }
+
+      @Override
+      public void visit(TableColumnNode node)
+      {
+         checkState(node.getChildren().isEmpty());
+
+         final Alignment alignment = node.getAlignment();
+
+         final org.sourcepit.docom.Alignment align;
+         switch (alignment)
+         {
+            case None :
+            case Left :
+               align = org.sourcepit.docom.Alignment.LEFT;
+               break;
+            case Center :
+               align = org.sourcepit.docom.Alignment.CENTER;
+               break;
+            case Right :
+               align = org.sourcepit.docom.Alignment.RIGHT;
+               break;
+            default :
+               throw new IllegalStateException();
+         }
+
+         final Table table = (Table) parents.peek();
+         table.getColumnDefinitions().add(align);
+      }
+
+      @Override
+      public void visit(TableBodyNode node)
+      {
+         final Table table = (Table) parents.peek();
+
+         final EList<TableRow> body = table.getBody();
+         parents.add(body);
+         visitChildren(node);
+         pop(parents, body);
+      }
+
+      @Override
+      @SuppressWarnings({ "rawtypes", "unchecked" })
       public void visit(TableRowNode node)
       {
-         throw new UnsupportedOperationException();
+         final TableRow row = factory.createTableRow();
 
+         final Object parent = parents.peek();
+         if (parent instanceof java.util.List)
+         {
+            ((java.util.List) parent).add(row);
+         }
+         else
+         {
+            ((Table) parent).setHeader(row);
+         }
+
+         parents.add(row);
+         visitChildren(node);
+         pop(parents, row);
+      }
+
+      @Override
+      public void visit(TableCellNode node)
+      {
+         final TableCell cell = factory.createTableCell();
+         cell.setColumnSpan(node.getColSpan());
+
+         final TableRow parent = (TableRow) parents.peek();
+         parent.getCells().add(cell);
+
+         parents.add(cell);
+         visitChildren(node);
+         pop(parents, cell);
       }
 
       @Override

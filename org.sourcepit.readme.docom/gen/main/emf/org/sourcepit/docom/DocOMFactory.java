@@ -186,6 +186,36 @@ public interface DocOMFactory extends EFactory
    NewLine createNewLine();
 
    /**
+    * Returns a new object of class '<em>Table</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return a new object of class '<em>Table</em>'.
+    * @generated
+    */
+   Table createTable();
+
+   /**
+    * Returns a new object of class '<em>Table Row</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return a new object of class '<em>Table Row</em>'.
+    * @generated
+    */
+   TableRow createTableRow();
+
+   /**
+    * Returns a new object of class '<em>Table Cell</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return a new object of class '<em>Table Cell</em>'.
+    * @generated
+    */
+   TableCell createTableCell();
+
+   /**
     * Returns the package supported by this factory.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

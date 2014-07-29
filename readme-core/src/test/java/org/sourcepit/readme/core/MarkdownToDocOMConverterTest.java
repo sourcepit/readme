@@ -6,10 +6,14 @@
 
 package org.sourcepit.readme.core;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.sourcepit.docom.Alignment;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
 import org.sourcepit.docom.CodeLiteral;
@@ -27,6 +31,9 @@ import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
+import org.sourcepit.docom.Table;
+import org.sourcepit.docom.TableCell;
+import org.sourcepit.docom.TableRow;
 import org.sourcepit.docom.Text;
 
 public class MarkdownToDocOMConverterTest
@@ -73,14 +80,14 @@ public class MarkdownToDocOMConverterTest
 
       Text text = (Text) paragraph.getLiterals().get(0);
       assertEquals("Hello World", text.getText());
-      
+
       paragraph = (Paragraph) document.getContent().get(1);
       assertEquals(1, paragraph.getLiterals().size());
 
       text = (Text) paragraph.getLiterals().get(0);
       assertEquals("Whats going on?", text.getText());
    }
-   
+
    @Test
    public void testSpecialText()
    {
@@ -707,7 +714,7 @@ public class MarkdownToDocOMConverterTest
       Code code = (Code) document.getContent().get(0);
       assertEquals("code\n", code.getText());
    }
-   
+
    @Test
    public void testFencedCodeBlockEmpty() throws Exception
    {
@@ -723,7 +730,7 @@ public class MarkdownToDocOMConverterTest
       assertNull(code.getLanguage());
       assertEquals("", code.getText());
    }
-   
+
    @Test
    public void testFencedCodeBlock() throws Exception
    {
@@ -1114,7 +1121,7 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) emphasis.getLiterals().get(0);
       assertEquals("bold and italic", text.getText());
    }
-   
+
    @Test
    public void testStrikeThrough() throws Exception
    {
@@ -1175,5 +1182,71 @@ public class MarkdownToDocOMConverterTest
 
       text = (Text) paragraph.getLiterals().get(2);
       assertEquals("break.", text.getText());
+   }
+
+   @Test
+   public void testTable() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("First Header  | Second Header\n");
+      md.append(":------------ | ------------:\n");
+      md.append("Content 1     | Content 2    \n");
+      md.append("Content 3     | Content 4 \n");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Table table = (Table) document.getContent().get(0);
+      assertEquals(2, table.getColumnDefinitions().size());
+      assertEquals(Alignment.LEFT, table.getColumnDefinitions().get(0));
+      assertEquals(Alignment.RIGHT, table.getColumnDefinitions().get(1));
+
+      TableRow header = table.getHeader();
+      assertEquals(2, header.getCells().size());
+
+      TableCell cell = header.getCells().get(0);
+      assertEquals(1, cell.getColumnSpan());
+      assertEquals(1, cell.getLiterals().size());
+      Text text = (Text) cell.getLiterals().get(0);
+      assertEquals("First Header ", text.getText());
+
+      cell = header.getCells().get(1);
+      assertEquals(1, cell.getColumnSpan());
+      assertEquals(1, cell.getLiterals().size());
+      text = (Text) cell.getLiterals().get(0);
+      assertEquals("Second Header", text.getText());
+
+      assertEquals(2, table.getBody().size());
+
+      TableRow row = table.getBody().get(0);
+      assertEquals(2, row.getCells().size());
+      
+      cell = row.getCells().get(0);
+      assertEquals(1, cell.getColumnSpan());
+      assertEquals(1, cell.getLiterals().size());
+      text = (Text) cell.getLiterals().get(0);
+      assertEquals("Content 1 ", text.getText());
+      
+      cell = row.getCells().get(1);
+      assertEquals(1, cell.getColumnSpan());
+      assertEquals(1, cell.getLiterals().size());
+      text = (Text) cell.getLiterals().get(0);
+      assertEquals("Content 2", text.getText());
+      
+      row = table.getBody().get(1);
+      assertEquals(2, row.getCells().size());
+      
+      cell = row.getCells().get(0);
+      assertEquals(1, cell.getColumnSpan());
+      assertEquals(1, cell.getLiterals().size());
+      text = (Text) cell.getLiterals().get(0);
+      assertEquals("Content 3 ", text.getText());
+      
+      cell = row.getCells().get(1);
+      assertEquals(1, cell.getColumnSpan());
+      assertEquals(1, cell.getLiterals().size());
+      text = (Text) cell.getLiterals().get(0);
+      assertEquals("Content 4", text.getText());
    }
 }

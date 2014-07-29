@@ -966,6 +966,169 @@ public interface DocOMPackage extends EPackage
    int NEW_LINE_OPERATION_COUNT = STRUCTURABLE_OPERATION_COUNT + 0;
 
    /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.TableImpl <em>Table</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.TableImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getTable()
+    * @generated
+    */
+   int TABLE = 21;
+
+   /**
+    * The feature id for the '<em><b>Column Definitions</b></em>' attribute list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE__COLUMN_DEFINITIONS = STRUCTURABLE_FEATURE_COUNT + 0;
+
+   /**
+    * The feature id for the '<em><b>Header</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE__HEADER = STRUCTURABLE_FEATURE_COUNT + 1;
+
+   /**
+    * The feature id for the '<em><b>Body</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE__BODY = STRUCTURABLE_FEATURE_COUNT + 2;
+
+   /**
+    * The number of structural features of the '<em>Table</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE_FEATURE_COUNT = STRUCTURABLE_FEATURE_COUNT + 3;
+
+   /**
+    * The number of operations of the '<em>Table</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE_OPERATION_COUNT = STRUCTURABLE_OPERATION_COUNT + 0;
+
+   /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.TableRowImpl <em>Table Row</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.TableRowImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getTableRow()
+    * @generated
+    */
+   int TABLE_ROW = 22;
+
+   /**
+    * The feature id for the '<em><b>Cells</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE_ROW__CELLS = 0;
+
+   /**
+    * The number of structural features of the '<em>Table Row</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE_ROW_FEATURE_COUNT = 1;
+
+   /**
+    * The number of operations of the '<em>Table Row</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE_ROW_OPERATION_COUNT = 0;
+
+   /**
+    * The meta object id for the '{@link org.sourcepit.docom.impl.TableCellImpl <em>Table Cell</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.impl.TableCellImpl
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getTableCell()
+    * @generated
+    */
+   int TABLE_CELL = 23;
+
+   /**
+    * The feature id for the '<em><b>Literals</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE_CELL__LITERALS = LITERAL_GROUP__LITERALS;
+
+   /**
+    * The feature id for the '<em><b>Row</b></em>' container reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE_CELL__ROW = LITERAL_GROUP_FEATURE_COUNT + 0;
+
+   /**
+    * The feature id for the '<em><b>Column Span</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE_CELL__COLUMN_SPAN = LITERAL_GROUP_FEATURE_COUNT + 1;
+
+   /**
+    * The number of structural features of the '<em>Table Cell</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE_CELL_FEATURE_COUNT = LITERAL_GROUP_FEATURE_COUNT + 2;
+
+   /**
+    * The number of operations of the '<em>Table Cell</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @generated
+    * @ordered
+    */
+   int TABLE_CELL_OPERATION_COUNT = LITERAL_GROUP_OPERATION_COUNT + 0;
+
+   /**
     * The meta object id for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -974,7 +1137,7 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getEmphasisType()
     * @generated
     */
-   int EMPHASIS_TYPE = 21;
+   int EMPHASIS_TYPE = 24;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.ListType <em>List Type</em>}' enum.
@@ -985,7 +1148,18 @@ public interface DocOMPackage extends EPackage
     * @see org.sourcepit.docom.impl.DocOMPackageImpl#getListType()
     * @generated
     */
-   int LIST_TYPE = 22;
+   int LIST_TYPE = 25;
+
+   /**
+    * The meta object id for the '{@link org.sourcepit.docom.Alignment <em>Alignment</em>}' enum.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see org.sourcepit.docom.Alignment
+    * @see org.sourcepit.docom.impl.DocOMPackageImpl#getAlignment()
+    * @generated
+    */
+   int ALIGNMENT = 26;
 
 
    /**
@@ -1429,6 +1603,116 @@ public interface DocOMPackage extends EPackage
    EClass getNewLine();
 
    /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.Table <em>Table</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>Table</em>'.
+    * @see org.sourcepit.docom.Table
+    * @generated
+    */
+   EClass getTable();
+
+   /**
+    * Returns the meta object for the attribute list '{@link org.sourcepit.docom.Table#getColumnDefinitions
+    * <em>Column Definitions</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the attribute list '<em>Column Definitions</em>'.
+    * @see org.sourcepit.docom.Table#getColumnDefinitions()
+    * @see #getTable()
+    * @generated
+    */
+   EAttribute getTable_ColumnDefinitions();
+
+   /**
+    * Returns the meta object for the containment reference '{@link org.sourcepit.docom.Table#getHeader <em>Header</em>}
+    * '.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the containment reference '<em>Header</em>'.
+    * @see org.sourcepit.docom.Table#getHeader()
+    * @see #getTable()
+    * @generated
+    */
+   EReference getTable_Header();
+
+   /**
+    * Returns the meta object for the containment reference list '{@link org.sourcepit.docom.Table#getBody
+    * <em>Body</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the containment reference list '<em>Body</em>'.
+    * @see org.sourcepit.docom.Table#getBody()
+    * @see #getTable()
+    * @generated
+    */
+   EReference getTable_Body();
+
+   /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.TableRow <em>Table Row</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>Table Row</em>'.
+    * @see org.sourcepit.docom.TableRow
+    * @generated
+    */
+   EClass getTableRow();
+
+   /**
+    * Returns the meta object for the containment reference list '{@link org.sourcepit.docom.TableRow#getCells
+    * <em>Cells</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the containment reference list '<em>Cells</em>'.
+    * @see org.sourcepit.docom.TableRow#getCells()
+    * @see #getTableRow()
+    * @generated
+    */
+   EReference getTableRow_Cells();
+
+   /**
+    * Returns the meta object for class '{@link org.sourcepit.docom.TableCell <em>Table Cell</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for class '<em>Table Cell</em>'.
+    * @see org.sourcepit.docom.TableCell
+    * @generated
+    */
+   EClass getTableCell();
+
+   /**
+    * Returns the meta object for the container reference '{@link org.sourcepit.docom.TableCell#getRow <em>Row</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the container reference '<em>Row</em>'.
+    * @see org.sourcepit.docom.TableCell#getRow()
+    * @see #getTableCell()
+    * @generated
+    */
+   EReference getTableCell_Row();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.sourcepit.docom.TableCell#getColumnSpan
+    * <em>Column Span</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for the attribute '<em>Column Span</em>'.
+    * @see org.sourcepit.docom.TableCell#getColumnSpan()
+    * @see #getTableCell()
+    * @generated
+    */
+   EAttribute getTableCell_ColumnSpan();
+
+   /**
     * Returns the meta object for enum '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -1449,6 +1733,17 @@ public interface DocOMPackage extends EPackage
     * @generated
     */
    EEnum getListType();
+
+   /**
+    * Returns the meta object for enum '{@link org.sourcepit.docom.Alignment <em>Alignment</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @return the meta object for enum '<em>Alignment</em>'.
+    * @see org.sourcepit.docom.Alignment
+    * @generated
+    */
+   EEnum getAlignment();
 
    /**
     * Returns the factory that creates the instances of the model.
@@ -1863,6 +2158,93 @@ public interface DocOMPackage extends EPackage
       EClass NEW_LINE = eINSTANCE.getNewLine();
 
       /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.TableImpl <em>Table</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.TableImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getTable()
+       * @generated
+       */
+      EClass TABLE = eINSTANCE.getTable();
+
+      /**
+       * The meta object literal for the '<em><b>Column Definitions</b></em>' attribute list feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EAttribute TABLE__COLUMN_DEFINITIONS = eINSTANCE.getTable_ColumnDefinitions();
+
+      /**
+       * The meta object literal for the '<em><b>Header</b></em>' containment reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EReference TABLE__HEADER = eINSTANCE.getTable_Header();
+
+      /**
+       * The meta object literal for the '<em><b>Body</b></em>' containment reference list feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EReference TABLE__BODY = eINSTANCE.getTable_Body();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.TableRowImpl <em>Table Row</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.TableRowImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getTableRow()
+       * @generated
+       */
+      EClass TABLE_ROW = eINSTANCE.getTableRow();
+
+      /**
+       * The meta object literal for the '<em><b>Cells</b></em>' containment reference list feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EReference TABLE_ROW__CELLS = eINSTANCE.getTableRow_Cells();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.impl.TableCellImpl <em>Table Cell</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.impl.TableCellImpl
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getTableCell()
+       * @generated
+       */
+      EClass TABLE_CELL = eINSTANCE.getTableCell();
+
+      /**
+       * The meta object literal for the '<em><b>Row</b></em>' container reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EReference TABLE_CELL__ROW = eINSTANCE.getTableCell_Row();
+
+      /**
+       * The meta object literal for the '<em><b>Column Span</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @generated
+       */
+      EAttribute TABLE_CELL__COLUMN_SPAN = eINSTANCE.getTableCell_ColumnSpan();
+
+      /**
        * The meta object literal for the '{@link org.sourcepit.docom.EmphasisType <em>Emphasis Type</em>}' enum.
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->
@@ -1883,6 +2265,17 @@ public interface DocOMPackage extends EPackage
        * @generated
        */
       EEnum LIST_TYPE = eINSTANCE.getListType();
+
+      /**
+       * The meta object literal for the '{@link org.sourcepit.docom.Alignment <em>Alignment</em>}' enum.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * 
+       * @see org.sourcepit.docom.Alignment
+       * @see org.sourcepit.docom.impl.DocOMPackageImpl#getAlignment()
+       * @generated
+       */
+      EEnum ALIGNMENT = eINSTANCE.getAlignment();
 
    }
 

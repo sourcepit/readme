@@ -28,6 +28,9 @@ import org.sourcepit.docom.Quote;
 import org.sourcepit.docom.Reference;
 import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
+import org.sourcepit.docom.Table;
+import org.sourcepit.docom.TableCell;
+import org.sourcepit.docom.TableRow;
 import org.sourcepit.docom.Text;
 
 /**
@@ -222,6 +225,24 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
       public Adapter caseNewLine(NewLine object)
       {
          return createNewLineAdapter();
+      }
+
+      @Override
+      public Adapter caseTable(Table object)
+      {
+         return createTableAdapter();
+      }
+
+      @Override
+      public Adapter caseTableRow(TableRow object)
+      {
+         return createTableRowAdapter();
+      }
+
+      @Override
+      public Adapter caseTableCell(TableCell object)
+      {
+         return createTableCellAdapter();
       }
 
       @Override
@@ -580,6 +601,54 @@ public class DocOMAdapterFactory extends AdapterFactoryImpl
     * @generated
     */
    public Adapter createNewLineAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.sourcepit.docom.Table <em>Table</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * 
+    * @return the new adapter.
+    * @see org.sourcepit.docom.Table
+    * @generated
+    */
+   public Adapter createTableAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.sourcepit.docom.TableRow <em>Table Row</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * 
+    * @return the new adapter.
+    * @see org.sourcepit.docom.TableRow
+    * @generated
+    */
+   public Adapter createTableRowAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.sourcepit.docom.TableCell <em>Table Cell</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * 
+    * @return the new adapter.
+    * @see org.sourcepit.docom.TableCell
+    * @generated
+    */
+   public Adapter createTableCellAdapter()
    {
       return null;
    }

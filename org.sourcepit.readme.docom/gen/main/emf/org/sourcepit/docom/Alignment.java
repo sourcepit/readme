@@ -11,154 +11,127 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Emphasis Type</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Alignment</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * 
- * @see org.sourcepit.docom.DocOMPackage#getEmphasisType()
+ * @see org.sourcepit.docom.DocOMPackage#getAlignment()
  * @model
  * @generated
  */
-public enum EmphasisType implements Enumerator
+public enum Alignment implements Enumerator
 {
    /**
-    * The '<em><b>ITALIC</b></em>' literal object.
+    * The '<em><b>LEFT</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
-    * @see #ITALIC_VALUE
+    * @see #LEFT_VALUE
     * @generated
     * @ordered
     */
-   ITALIC(0, "ITALIC", "ITALIC"),
+   LEFT(0, "LEFT", "LEFT"),
 
    /**
-    * The '<em><b>BOLD</b></em>' literal object.
+    * The '<em><b>CENTER</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
-    * @see #BOLD_VALUE
+    * @see #CENTER_VALUE
     * @generated
     * @ordered
     */
-   BOLD(1, "BOLD", "BOLD"),
+   CENTER(1, "CENTER", "CENTER"),
 
    /**
-    * The '<em><b>CODE</b></em>' literal object.
+    * The '<em><b>RIGHT</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
-    * @see #CODE_VALUE
+    * @see #RIGHT_VALUE
     * @generated
     * @ordered
     */
-   CODE(2, "CODE", "CODE"),
+   RIGHT(2, "RIGHT", "RIGHT");
 
    /**
-    * The '<em><b>STRIKETHROUGH</b></em>' literal object.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * 
-    * @see #STRIKETHROUGH_VALUE
-    * @generated
-    * @ordered
-    */
-   STRIKETHROUGH(3, "STRIKETHROUGH", "STRIKETHROUGH");
-
-   /**
-    * The '<em><b>ITALIC</b></em>' literal value.
+    * The '<em><b>LEFT</b></em>' literal value.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of '<em><b>ITALIC</b></em>' literal object isn't clear, there really should be more of a
-    * description here...
-    * </p>
-    * <!-- end-user-doc -->
-    * 
-    * @see #ITALIC
-    * @model
-    * @generated
-    * @ordered
-    */
-   public static final int ITALIC_VALUE = 0;
-
-   /**
-    * The '<em><b>BOLD</b></em>' literal value.
-    * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of '<em><b>BOLD</b></em>' literal object isn't clear, there really should be more of a description
+    * If the meaning of '<em><b>LEFT</b></em>' literal object isn't clear, there really should be more of a description
     * here...
     * </p>
     * <!-- end-user-doc -->
     * 
-    * @see #BOLD
+    * @see #LEFT
     * @model
     * @generated
     * @ordered
     */
-   public static final int BOLD_VALUE = 1;
+   public static final int LEFT_VALUE = 0;
 
    /**
-    * The '<em><b>CODE</b></em>' literal value.
+    * The '<em><b>CENTER</b></em>' literal value.
     * <!-- begin-user-doc -->
     * <p>
-    * If the meaning of '<em><b>CODE</b></em>' literal object isn't clear, there really should be more of a description
-    * here...
-    * </p>
-    * <!-- end-user-doc -->
-    * 
-    * @see #CODE
-    * @model
-    * @generated
-    * @ordered
-    */
-   public static final int CODE_VALUE = 2;
-
-   /**
-    * The '<em><b>STRIKETHROUGH</b></em>' literal value.
-    * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of '<em><b>STRIKETHROUGH</b></em>' literal object isn't clear, there really should be more of a
+    * If the meaning of '<em><b>CENTER</b></em>' literal object isn't clear, there really should be more of a
     * description here...
     * </p>
     * <!-- end-user-doc -->
     * 
-    * @see #STRIKETHROUGH
+    * @see #CENTER
     * @model
     * @generated
     * @ordered
     */
-   public static final int STRIKETHROUGH_VALUE = 3;
+   public static final int CENTER_VALUE = 1;
 
    /**
-    * An array of all the '<em><b>Emphasis Type</b></em>' enumerators.
+    * The '<em><b>RIGHT</b></em>' literal value.
+    * <!-- begin-user-doc -->
+    * <p>
+    * If the meaning of '<em><b>RIGHT</b></em>' literal object isn't clear, there really should be more of a description
+    * here...
+    * </p>
+    * <!-- end-user-doc -->
+    * 
+    * @see #RIGHT
+    * @model
+    * @generated
+    * @ordered
+    */
+   public static final int RIGHT_VALUE = 2;
+
+   /**
+    * An array of all the '<em><b>Alignment</b></em>' enumerators.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
     * @generated
     */
-   private static final EmphasisType[] VALUES_ARRAY = new EmphasisType[] { ITALIC, BOLD, CODE, STRIKETHROUGH, };
+   private static final Alignment[] VALUES_ARRAY = new Alignment[] { LEFT, CENTER, RIGHT, };
 
    /**
-    * A public read-only list of all the '<em><b>Emphasis Type</b></em>' enumerators.
+    * A public read-only list of all the '<em><b>Alignment</b></em>' enumerators.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
     * @generated
     */
-   public static final List<EmphasisType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+   public static final List<Alignment> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
    /**
-    * Returns the '<em><b>Emphasis Type</b></em>' literal with the specified literal value.
+    * Returns the '<em><b>Alignment</b></em>' literal with the specified literal value.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
     * @generated
     */
-   public static EmphasisType get(String literal)
+   public static Alignment get(String literal)
    {
       for (int i = 0; i < VALUES_ARRAY.length; ++i)
       {
-         EmphasisType result = VALUES_ARRAY[i];
+         Alignment result = VALUES_ARRAY[i];
          if (result.toString().equals(literal))
          {
             return result;
@@ -168,17 +141,17 @@ public enum EmphasisType implements Enumerator
    }
 
    /**
-    * Returns the '<em><b>Emphasis Type</b></em>' literal with the specified name.
+    * Returns the '<em><b>Alignment</b></em>' literal with the specified name.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
     * @generated
     */
-   public static EmphasisType getByName(String name)
+   public static Alignment getByName(String name)
    {
       for (int i = 0; i < VALUES_ARRAY.length; ++i)
       {
-         EmphasisType result = VALUES_ARRAY[i];
+         Alignment result = VALUES_ARRAY[i];
          if (result.getName().equals(name))
          {
             return result;
@@ -188,24 +161,22 @@ public enum EmphasisType implements Enumerator
    }
 
    /**
-    * Returns the '<em><b>Emphasis Type</b></em>' literal with the specified integer value.
+    * Returns the '<em><b>Alignment</b></em>' literal with the specified integer value.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
     * @generated
     */
-   public static EmphasisType get(int value)
+   public static Alignment get(int value)
    {
       switch (value)
       {
-         case ITALIC_VALUE :
-            return ITALIC;
-         case BOLD_VALUE :
-            return BOLD;
-         case CODE_VALUE :
-            return CODE;
-         case STRIKETHROUGH_VALUE :
-            return STRIKETHROUGH;
+         case LEFT_VALUE :
+            return LEFT;
+         case CENTER_VALUE :
+            return CENTER;
+         case RIGHT_VALUE :
+            return RIGHT;
       }
       return null;
    }
@@ -241,7 +212,7 @@ public enum EmphasisType implements Enumerator
     * 
     * @generated
     */
-   private EmphasisType(int value, String name, String literal)
+   private Alignment(int value, String name, String literal)
    {
       this.value = value;
       this.name = name;
@@ -294,4 +265,4 @@ public enum EmphasisType implements Enumerator
       return literal;
    }
 
-} // EmphasisType
+} // Alignment

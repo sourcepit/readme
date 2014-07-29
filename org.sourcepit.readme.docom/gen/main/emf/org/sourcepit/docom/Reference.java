@@ -22,7 +22,6 @@ package org.sourcepit.docom;
  */
 public interface Reference extends LiteralGroup, Literal
 {
-
    /**
     * Returns the value of the '<em><b>Id</b></em>' attribute.
     * <!-- begin-user-doc -->
@@ -49,4 +48,5 @@ public interface Reference extends LiteralGroup, Literal
     * @generated
     */
    void setId(String value);
+
 } // Reference

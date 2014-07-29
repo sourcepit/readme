@@ -36,6 +36,7 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
     * @ordered
     */
    protected static final String TEXT_EDEFAULT = null;
+
    /**
     * The cached value of the '{@link #getText() <em>Text</em>}' attribute.
     * <!-- begin-user-doc -->
@@ -57,6 +58,7 @@ public class CodeImpl extends MinimalEObjectImpl.Container implements Code
     * @ordered
     */
    protected static final String LANGUAGE_EDEFAULT = null;
+
    /**
     * The cached value of the '{@link #getLanguage() <em>Language</em>}' attribute.
     * <!-- begin-user-doc -->
