@@ -56,6 +56,8 @@ import org.sourcepit.docom.Code;
 import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
+import org.sourcepit.docom.Emphasis;
+import org.sourcepit.docom.EmphasisType;
 import org.sourcepit.docom.Header;
 import org.sourcepit.docom.HorizontalLine;
 import org.sourcepit.docom.Link;
@@ -536,7 +538,33 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(StrongEmphSuperNode node)
       {
-         throw new UnsupportedOperationException();
+         Emphasis em = factory.createEmphasis();
+
+         final EmphasisType type;
+         if (node.isStrong())
+         {
+            type = EmphasisType.BOLD;
+         }
+         else
+         {
+            type = EmphasisType.ITALIC;
+         }
+
+         em.setType(type);
+
+         final Object parent = parents.peek();
+         if (parent instanceof LiteralGroup)
+         {
+            ((LiteralGroup) parent).getLiterals().add(em);
+         }
+         else
+         {
+            ((ListItem) parent).getContent().add(em);
+         }
+
+         parents.add(em);
+         visitChildren(node);
+         pop(parents, em);
 
       }
 

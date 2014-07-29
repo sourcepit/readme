@@ -6,7 +6,10 @@
 
 package org.sourcepit.readme.core;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +17,8 @@ import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
 import org.sourcepit.docom.Declaration;
 import org.sourcepit.docom.Document;
+import org.sourcepit.docom.Emphasis;
+import org.sourcepit.docom.EmphasisType;
 import org.sourcepit.docom.Header;
 import org.sourcepit.docom.HorizontalLine;
 import org.sourcepit.docom.Link;
@@ -786,7 +791,7 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) link.getLiterals().get(0);
       assertEquals("Über mich", text.getText());
    }
-   
+
    @Test
    public void testLinkLazyStyle() throws Exception
    {
@@ -971,7 +976,7 @@ public class MarkdownToDocOMConverterTest
       assertEquals("http://example.com/", declaration.getUrl());
       assertEquals("Optionaler Titel", declaration.getTitle());
    }
-   
+
    @Test
    public void testMail() throws Exception
    {
@@ -989,5 +994,72 @@ public class MarkdownToDocOMConverterTest
       assertEquals("mailto:bernd.vogt@sourcepit.org", link.getUrl());
       assertNull(link.getTitle());
       assertEquals(0, link.getLiterals().size());
+   }
+
+   @Test
+   public void testItalic() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("*italic*");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Emphasis emphasis = (Emphasis) paragraph.getLiterals().get(0);
+      assertEquals(EmphasisType.ITALIC, emphasis.getType());
+      assertEquals(1, emphasis.getLiterals().size());
+
+      Text text = (Text) emphasis.getLiterals().get(0);
+      assertEquals("italic", text.getText());
+   }
+   
+   @Test
+   public void testBold() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("**bold**");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Emphasis emphasis = (Emphasis) paragraph.getLiterals().get(0);
+      assertEquals(EmphasisType.BOLD, emphasis.getType());
+      assertEquals(1, emphasis.getLiterals().size());
+
+      Text text = (Text) emphasis.getLiterals().get(0);
+      assertEquals("bold", text.getText());
+   }
+   
+   @Test
+   public void testBoldAndItalic() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("***bold and italic***");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Emphasis emphasis = (Emphasis) paragraph.getLiterals().get(0);
+      assertEquals(EmphasisType.BOLD, emphasis.getType());
+      assertEquals(1, emphasis.getLiterals().size());
+      
+      emphasis = (Emphasis) emphasis.getLiterals().get(0);
+      assertEquals(EmphasisType.ITALIC, emphasis.getType());
+      assertEquals(1, emphasis.getLiterals().size());
+
+      Text text = (Text) emphasis.getLiterals().get(0);
+      assertEquals("bold and italic", text.getText());
    }
 }
