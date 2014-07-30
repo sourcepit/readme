@@ -62,6 +62,26 @@ public class MarkdownToDocOMConverterTest
    }
 
    @Test
+   public void testTextWithNewLines()
+   {
+      Document document = converter.toDocOM("Hello\nWorld\n\nWhats going on?\n");
+      assertNotNull(document);
+      assertEquals(2, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Text text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("Hello World", text.getText());
+      
+      paragraph = (Paragraph) document.getContent().get(1);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("Whats going on?", text.getText());
+   }
+   
+   @Test
    public void testSpecialText()
    {
       Document document = converter.toDocOM("!");
