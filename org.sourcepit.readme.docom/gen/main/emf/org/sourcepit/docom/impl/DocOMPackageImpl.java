@@ -990,6 +990,7 @@ public class DocOMPackageImpl extends EPackageImpl implements DocOMPackage
       addEEnumLiteral(emphasisTypeEEnum, EmphasisType.ITALIC);
       addEEnumLiteral(emphasisTypeEEnum, EmphasisType.BOLD);
       addEEnumLiteral(emphasisTypeEEnum, EmphasisType.CODE);
+      addEEnumLiteral(emphasisTypeEEnum, EmphasisType.STRIKETHROUGH);
 
       initEEnum(listTypeEEnum, ListType.class, "ListType");
       addEEnumLiteral(listTypeEEnum, ListType.UNORDERED);

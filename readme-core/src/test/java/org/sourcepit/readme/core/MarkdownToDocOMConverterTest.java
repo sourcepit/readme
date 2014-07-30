@@ -1094,6 +1094,27 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) emphasis.getLiterals().get(0);
       assertEquals("bold and italic", text.getText());
    }
+   
+   @Test
+   public void testStrikeThrough() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("~~Mistaken text.~~");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Emphasis emphasis = (Emphasis) paragraph.getLiterals().get(0);
+      assertEquals(EmphasisType.STRIKETHROUGH, emphasis.getType());
+      assertEquals(1, emphasis.getLiterals().size());
+
+      Text text = (Text) emphasis.getLiterals().get(0);
+      assertEquals("Mistaken text.", text.getText());
+   }
 
    @Test
    public void testCode() throws Exception

@@ -38,6 +38,9 @@
               <children xmi:type="notation:Node" xmi:id="_nhOR0BP3EeSa9ozsDARmyA" type="3010" element="_ngmmwBP3EeSa9ozsDARmyA">
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_nhOR0RP3EeSa9ozsDARmyA"/>
               </children>
+              <children xmi:type="notation:Node" xmi:id="_Rz_GMBgREeSyHMvEg-Hy3g" type="3010" element="_RxOGEBgREeSyHMvEg-Hy3g">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_Rz_GMRgREeSyHMvEg-Hy3g"/>
+              </children>
               <styles xmi:type="notation:SortingStyle" xmi:id="_H0mPQhMLEeSzxOPJgylMow"/>
               <styles xmi:type="notation:FilteringStyle" xmi:id="_H0mPQxMLEeSzxOPJgylMow"/>
             </children>
@@ -1109,6 +1112,17 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EEnum']/@subNodeMappings[name='EC%20EEnumLiteral']"/>
         </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_RxOGEBgREeSyHMvEg-Hy3g" name="STRIKETHROUGH" tooltipText="">
+          <target xmi:type="ecore:EEnumLiteral" href="docom.ecore#//EmphasisType/STRIKETHROUGH"/>
+          <semanticElements xmi:type="ecore:EEnumLiteral" href="docom.ecore#//EmphasisType/STRIKETHROUGH"/>
+          <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_RxOGERgREeSyHMvEg-Hy3g" labelAlignment="LEFT">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_RxOGEhgREeSyHMvEg-Hy3g"/>
+            <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EEnum']/@subNodeMappings[name='EC%20EEnumLiteral']/@style"/>
+            <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_RxOGExgREeSyHMvEg-Hy3g"/>
+            <color xmi:type="viewpoint:RGBValues" xmi:id="_RxOGFBgREeSyHMvEg-Hy3g"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EEnum']/@subNodeMappings[name='EC%20EEnumLiteral']"/>
+        </ownedElements>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_qg0WsBMLEeSzxOPJgylMow" name="List" tooltipText="" outgoingEdges="_y6cXUBS8EeSXubu93CWEbw _KSwMcBS7EeSXubu93CWEbw _9ZvUgBYsEeSZU6iOOEw_aw" width="12" height="10">
         <target xmi:type="ecore:EClass" href="docom.ecore#//List"/>
@@ -1677,7 +1691,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_juKUABclEeS3xqqSp_mWRQ" name="language : EString" tooltipText="&#xA;ERROR : The required feature 'eAttributeType' of 'org.eclipse.emf.ecore.impl.EAttributeImpl@3d55e192{platform:/resource/org.sourcepit.readme.docom/src/main/emf/docom.ecore#//Code/newAttribute}' must be set&#xA;ERROR : The typed element must have a type">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_juKUABclEeS3xqqSp_mWRQ" name="language : EString" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="docom.ecore#//Code/language"/>
           <semanticElements xmi:type="ecore:EAttribute" href="docom.ecore#//Code/language"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_nAtp4BclEeS3xqqSp_mWRQ" labelAlignment="LEFT">

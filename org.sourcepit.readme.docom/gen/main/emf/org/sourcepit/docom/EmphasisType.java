@@ -52,7 +52,16 @@ public enum EmphasisType implements Enumerator
     * @generated
     * @ordered
     */
-   CODE(2, "CODE", "CODE");
+   CODE(2, "CODE", "CODE"), /**
+    * The '<em><b>STRIKETHROUGH</b></em>' literal object.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * 
+    * @see #STRIKETHROUGH_VALUE
+    * @generated
+    * @ordered
+    */
+   STRIKETHROUGH(3, "STRIKETHROUGH", "STRIKETHROUGH");
 
    /**
     * The '<em><b>ITALIC</b></em>' literal value.
@@ -103,13 +112,29 @@ public enum EmphasisType implements Enumerator
    public static final int CODE_VALUE = 2;
 
    /**
+    * The '<em><b>STRIKETHROUGH</b></em>' literal value.
+    * <!-- begin-user-doc -->
+    * <p>
+    * If the meaning of '<em><b>STRIKETHROUGH</b></em>' literal object isn't clear, there really should be more of a
+    * description here...
+    * </p>
+    * <!-- end-user-doc -->
+    * 
+    * @see #STRIKETHROUGH
+    * @model
+    * @generated
+    * @ordered
+    */
+   public static final int STRIKETHROUGH_VALUE = 3;
+
+   /**
     * An array of all the '<em><b>Emphasis Type</b></em>' enumerators.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * 
     * @generated
     */
-   private static final EmphasisType[] VALUES_ARRAY = new EmphasisType[] { ITALIC, BOLD, CODE, };
+   private static final EmphasisType[] VALUES_ARRAY = new EmphasisType[] { ITALIC, BOLD, CODE, STRIKETHROUGH, };
 
    /**
     * A public read-only list of all the '<em><b>Emphasis Type</b></em>' enumerators.
@@ -177,6 +202,8 @@ public enum EmphasisType implements Enumerator
             return BOLD;
          case CODE_VALUE :
             return CODE;
+         case STRIKETHROUGH_VALUE :
+            return STRIKETHROUGH;
       }
       return null;
    }

@@ -8,6 +8,8 @@ package org.sourcepit.readme.core;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static org.pegdown.Extensions.FENCED_CODE_BLOCKS;
+import static org.pegdown.Extensions.STRIKETHROUGH;
 
 import java.util.Stack;
 
@@ -79,10 +81,25 @@ public class MarkdownToDocOMConverter
 {
    public Document toDocOM(String markdown)
    {
-      final RootNode md = new PegDownProcessor().parseMarkdown(markdown.toCharArray());
+      // Github style
+      // Extensions.HARDWRAPS; (?)
+      // WIKILINKS;STRIKETHROUGH;FENCED_CODE_BLOCKS
+
+      int options = 0;
+      // options = options | Extensions.AUTOLINKS;
+      // options = options | Extensions.WIKILINKS;
+      // FENCED_CODE_BLOCKS is required for STRIKETHROUGH. See bug https://github.com/sirthias/pegdown/issues/131.
+      options = options | STRIKETHROUGH | FENCED_CODE_BLOCKS;
+
+      final RootNode md = new PegDownProcessor(options).parseMarkdown(markdown.toCharArray());
       final DocOMBuilder builder = new DocOMBuilder(DocOMFactory.eINSTANCE);
       md.accept(builder);
       return builder.getDocument();
+   }
+
+   public boolean ext(int extension, int options)
+   {
+      return (options & extension) > 0;
    }
 
    private static class DocOMBuilder implements Visitor
@@ -207,12 +224,12 @@ public class MarkdownToDocOMConverter
          final String language = code.substring(0, idx);
 
          code = code.substring(idx + 1, code.length());
-         
+
          checkState(node.getChildren().isEmpty());
 
          final Code codeBlock = factory.createCode();
          codeBlock.setText(code);
-         
+
          if (!isNullOrEmpty(language))
          {
             codeBlock.setLanguage(language);
@@ -627,8 +644,7 @@ public class MarkdownToDocOMConverter
       @Override
       public void visit(StrikeNode node)
       {
-         throw new UnsupportedOperationException();
-
+         processEmphasis(node, EmphasisType.STRIKETHROUGH);
       }
 
       @Override
@@ -643,6 +659,11 @@ public class MarkdownToDocOMConverter
          {
             type = EmphasisType.ITALIC;
          }
+         processEmphasis(node, type);
+      }
+
+      private void processEmphasis(Node node, final EmphasisType type)
+      {
          final Emphasis em = factory.createEmphasis();
          em.setType(type);
 
