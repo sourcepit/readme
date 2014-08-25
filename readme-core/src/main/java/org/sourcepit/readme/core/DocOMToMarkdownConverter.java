@@ -9,26 +9,27 @@ package org.sourcepit.readme.core;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import org.eclipse.emf.ecore.EObject;
+import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
+import org.sourcepit.docom.Header;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
-import org.sourcepit.docom.Listable;
 import org.sourcepit.docom.LiteralGroup;
+import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
-import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
 import org.sourcepit.docom.util.DocOMSwitch;
-import org.sourcepit.readme.core.DocOMToMarkdownConverter.Renderer;
 
 public class DocOMToMarkdownConverter
 {
-   private final static class NewLineRenderer<T> implements Renderer<T>
+
+   private final static class NewLineRenderer<T extends EObject> implements Renderer<T>
    {
       private final Renderer<T> renderer;
 
@@ -46,6 +47,25 @@ public class DocOMToMarkdownConverter
       @Override
       public void ident(T obj, Object child, BufferedWriter w) throws IOException
       {
+         EObject eContainer = obj;
+
+         if (eContainer instanceof Structured || eContainer instanceof ListItem || eContainer instanceof List)
+         {
+            java.util.List<? extends EObject> children = getChildren(eContainer);
+            int idx = children.indexOf(child);
+            if (idx > 0)
+            {
+               w.newLine();
+
+               final EObject previous = children.get(idx - 1);
+
+               if (previous instanceof Paragraph || previous instanceof Header || previous instanceof NewLine)
+               {
+                  w.newLine();
+               }
+            }
+         }
+
          renderer.ident(obj, child, w);
       }
 
@@ -53,11 +73,6 @@ public class DocOMToMarkdownConverter
       public void finalize(T obj, BufferedWriter w) throws IOException
       {
          renderer.finalize(obj, w);
-         w.newLine();
-         if (obj instanceof Paragraph)
-         {
-            w.newLine();
-         }
       }
    }
 
@@ -188,6 +203,47 @@ public class DocOMToMarkdownConverter
       }
    }
 
+   public static class HeaderRenderer implements Renderer<Header>
+   {
+      @Override
+      public void render(Header obj, BufferedWriter w) throws IOException
+      {
+         for (int i = 0; i < getDepth(obj); i++)
+         {
+            w.append('#');
+         }
+         w.append(' ');
+      }
+
+      private int getDepth(Header obj)
+      {
+         int depth = 0;
+
+         EObject eContainer = obj.eContainer();
+         while (eContainer != null)
+         {
+            if (eContainer instanceof Chapter)
+            {
+               depth++;
+            }
+            eContainer = eContainer.eContainer();
+         }
+
+         return depth;
+      }
+
+      @Override
+      public void ident(Header obj, Object child, BufferedWriter w)
+      {
+      }
+
+      @Override
+      public void finalize(Header obj, BufferedWriter w) throws IOException
+      {
+      }
+
+   }
+
    public String toMarkdown(Document document)
    {
       StringWriter str = new StringWriter();
@@ -197,10 +253,19 @@ public class DocOMToMarkdownConverter
 
       try
       {
-         for (EObject eObject : getChildren(document))
+         java.util.List<? extends EObject> children = getChildren(document);
+
+         for (EObject eObject : children)
          {
             render(eObject, w);
          }
+
+         if (!children.isEmpty())
+         {
+            w.newLine();
+            w.newLine();
+         }
+         
          w.flush();
       }
       catch (IOException e)
@@ -224,31 +289,39 @@ public class DocOMToMarkdownConverter
       renderer.finalize(obj, w);
    }
 
-   private Collection<? extends EObject> getChildren(EObject obj)
+   private static java.util.List<? extends EObject> getChildren(EObject obj)
    {
-      return new DocOMSwitch<Collection<? extends EObject>>()
+      return new DocOMSwitch<java.util.List<? extends EObject>>()
       {
-         public Collection<? extends EObject> caseStructured(Structured object)
+         public java.util.List<? extends EObject> caseChapter(Chapter object)
+         {
+            java.util.List<EObject> children = new ArrayList<EObject>();
+            children.add(object.getHeader());
+            children.addAll(object.getContent());
+            return children;
+         }
+
+         public java.util.List<? extends EObject> caseStructured(Structured object)
          {
             return object.getContent();
          }
 
-         public Collection<? extends EObject> caseLiteralGroup(LiteralGroup object)
+         public java.util.List<? extends EObject> caseLiteralGroup(LiteralGroup object)
          {
             return object.getLiterals();
          }
 
-         public Collection<? extends EObject> caseList(List object)
+         public java.util.List<? extends EObject> caseList(List object)
          {
             return object.getItems();
          }
 
-         public Collection<? extends EObject> caseListItem(ListItem listItem)
+         public java.util.List<? extends EObject> caseListItem(ListItem listItem)
          {
             return listItem.getContent();
          }
 
-         public Collection<? extends EObject> defaultCase(EObject object)
+         public java.util.List<? extends EObject> defaultCase(EObject object)
          {
             return Collections.emptyList();
          }
@@ -285,16 +358,18 @@ public class DocOMToMarkdownConverter
             return (Renderer<T>) new EmphasisRenderer();
          }
 
+         public Renderer<T> caseChapter(Chapter object)
+         {
+            return (Renderer<T>) Renderer.NOOP;
+         };
+
+         public Renderer<T> caseHeader(Header object)
+         {
+            return (Renderer<T>) new HeaderRenderer();
+         }
+
       }.doSwitch(obj);
 
-      final EObject eContainer = obj.eContainer();
-      
-      if (obj instanceof Structurable && eContainer instanceof Structured || !(obj instanceof List)
-         && obj instanceof Listable && eContainer instanceof ListItem)
-      {
-         return new NewLineRenderer<T>(renderer);
-      }
-
-      return renderer;
+      return new NewLineRenderer<T>(renderer);
    }
 }

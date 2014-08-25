@@ -6,16 +6,18 @@
 
 package org.sourcepit.readme.core;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.EmphasisType;
+import org.sourcepit.docom.Header;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -156,11 +158,6 @@ public class DocOMToMarkdownConverterTest
       assertEquals(expected.toString(), markdown);
    }
 
-   private ListItem li(String text)
-   {
-      return li(text(text));
-   }
-
    @Test
    public void testUnorderedList() throws Exception
    {
@@ -176,6 +173,28 @@ public class DocOMToMarkdownConverterTest
       assertEquals(expected.toString(), markdown);
    }
 
+   @Test
+   public void testChapter() throws Exception
+   {
+      Chapter chapter = factory.createChapter();
+      Header header = factory.createHeader();
+      header.getLiterals().add(text("heading"));
+      chapter.setHeader(header);
+      chapter.getContent().add(p(text("content")));
+      
+      Document document = doc(chapter);
+      
+      String markdown = converter.toMarkdown(document);
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "# heading");
+      appendLine(expected);
+      appendLine(expected, "content");
+      appendLine(expected);
+
+      assertEquals(expected.toString(), markdown);
+   }
+   
    private List ul(ListItem... lis)
    {
       List list = factory.createList();
@@ -190,6 +209,11 @@ public class DocOMToMarkdownConverterTest
       list.setType(ListType.ORDERED);
       Collections.addAll(list.getItems(), lis);
       return list;
+   }
+
+   private ListItem li(String text)
+   {
+      return li(text(text));
    }
 
    private ListItem li(Listable... listable)
