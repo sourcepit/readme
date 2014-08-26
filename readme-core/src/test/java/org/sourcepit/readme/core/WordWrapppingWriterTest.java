@@ -14,7 +14,7 @@ import java.io.Writer;
 
 import org.junit.Test;
 
-public class WordWrapWriterTest
+public class WordWrapppingWriterTest
 {
 
    @Test
@@ -22,7 +22,7 @@ public class WordWrapWriterTest
    {
       StringWriter out = new StringWriter();
       
-      Writer w = new WordWrapWriter(out, 4);
+      Writer w = new WordWrapppingWriter(out, 4);
       
       w.write("hal");
       
@@ -52,7 +52,7 @@ public class WordWrapWriterTest
    {
       StringWriter out = new StringWriter();
       
-      Writer w = new WordWrapWriter(out, 8);
+      Writer w = new WordWrapppingWriter(out, 8);
       
       w.write("hal");
       

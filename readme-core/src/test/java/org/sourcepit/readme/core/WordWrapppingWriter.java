@@ -9,7 +9,7 @@ package org.sourcepit.readme.core;
 import java.io.IOException;
 import java.io.Writer;
 
-public class WordWrapWriter extends Writer
+public class WordWrapppingWriter extends Writer
 {
    private final Writer out;
 
@@ -19,7 +19,7 @@ public class WordWrapWriter extends Writer
 
    private final char[] nl = new char[] { '\n' };
 
-   protected WordWrapWriter(Writer out, int lineLength)
+   protected WordWrapppingWriter(Writer out, int lineLength)
    {
       super(out);
 

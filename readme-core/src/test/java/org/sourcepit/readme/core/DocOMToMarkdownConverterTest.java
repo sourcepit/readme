@@ -6,7 +6,7 @@
 
 package org.sourcepit.readme.core;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
 
@@ -231,7 +231,7 @@ public class DocOMToMarkdownConverterTest
 
    private static void appendLine(StringBuilder sb)
    {
-      sb.append(System.lineSeparator());
+      sb.append('\n');
    }
 
    private Document doc(Structurable structurable)

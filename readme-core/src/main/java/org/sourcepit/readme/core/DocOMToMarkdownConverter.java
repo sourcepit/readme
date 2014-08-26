@@ -6,11 +6,12 @@
 
 package org.sourcepit.readme.core;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EObject;
 import org.sourcepit.docom.Chapter;
@@ -39,40 +40,21 @@ public class DocOMToMarkdownConverter
       }
 
       @Override
-      public void render(T obj, BufferedWriter w) throws IOException
+      public void render(T obj, Writer w) throws IOException
       {
          renderer.render(obj, w);
       }
 
       @Override
-      public void ident(T obj, Object child, BufferedWriter w) throws IOException
+      public void finalize(T obj, Writer w) throws IOException
       {
-         EObject eContainer = obj;
-
-         if (eContainer instanceof Structured || eContainer instanceof ListItem || eContainer instanceof List)
-         {
-            java.util.List<? extends EObject> children = getChildren(eContainer);
-            int idx = children.indexOf(child);
-            if (idx > 0)
-            {
-               w.newLine();
-
-               final EObject previous = children.get(idx - 1);
-
-               if (previous instanceof Paragraph || previous instanceof Header || previous instanceof NewLine)
-               {
-                  w.newLine();
-               }
-            }
-         }
-
-         renderer.ident(obj, child, w);
+         renderer.finalize(obj, w);
       }
 
       @Override
-      public void finalize(T obj, BufferedWriter w) throws IOException
+      public void preNewLine(T obj, Writer w) throws IOException
       {
-         renderer.finalize(obj, w);
+         renderer.preNewLine(obj, w);
       }
    }
 
@@ -81,32 +63,33 @@ public class DocOMToMarkdownConverter
       Renderer<? super Object> NOOP = new Renderer<Object>()
       {
          @Override
-         public void render(Object obj, BufferedWriter w) throws IOException
+         public void render(Object obj, Writer w) throws IOException
          {
          }
 
          @Override
-         public void ident(Object obj, Object child, BufferedWriter w) throws IOException
+         public void finalize(Object obj, Writer w) throws IOException
          {
          }
 
          @Override
-         public void finalize(Object obj, BufferedWriter w) throws IOException
+         public void preNewLine(Object obj, Writer w) throws IOException
          {
          }
       };
 
-      void render(T obj, BufferedWriter w) throws IOException;
+      void render(T obj, Writer w) throws IOException;
 
-      void ident(T obj, Object child, BufferedWriter w) throws IOException;
+      void preNewLine(T obj, Writer w) throws IOException;
 
-      void finalize(T obj, BufferedWriter w) throws IOException;
+      void finalize(T obj, Writer w) throws IOException;
    }
+
 
    public static class ListItemRenderer implements Renderer<ListItem>
    {
       @Override
-      public void render(ListItem obj, BufferedWriter w) throws IOException
+      public void render(ListItem obj, Writer w) throws IOException
       {
          final String prefix = getPrefix(obj, (List) obj.eContainer());
          w.append(prefix);
@@ -130,39 +113,36 @@ public class DocOMToMarkdownConverter
       }
 
       @Override
-      public void ident(ListItem obj, Object child, BufferedWriter w) throws IOException
+      public void finalize(ListItem obj, Writer w) throws IOException
       {
-         if (obj.getContent().indexOf(child) > 0)
-         {
-            final String prefix = getPrefix(obj, (List) obj.eContainer());
-            for (int i = 0; i < prefix.length(); i++)
-            {
-               w.append(' ');
-            }
-         }
       }
 
       @Override
-      public void finalize(ListItem obj, BufferedWriter w) throws IOException
+      public void preNewLine(ListItem obj, Writer w) throws IOException
       {
+         final String prefix = getPrefix(obj, (List) obj.eContainer());
+         for (int i = 0; i < prefix.length(); i++)
+         {
+            w.append(' ');
+         }
       }
    }
 
    public static class TextRenderer implements Renderer<Text>
    {
       @Override
-      public void render(Text obj, BufferedWriter w) throws IOException
+      public void render(Text obj, Writer w) throws IOException
       {
          w.write(obj.getText());
       }
 
       @Override
-      public void finalize(Text obj, BufferedWriter w) throws IOException
+      public void finalize(Text obj, Writer w) throws IOException
       {
       }
 
       @Override
-      public void ident(Text obj, Object child, BufferedWriter w)
+      public void preNewLine(Text obj, Writer w) throws IOException
       {
       }
    }
@@ -170,7 +150,7 @@ public class DocOMToMarkdownConverter
    public static class EmphasisRenderer implements Renderer<Emphasis>
    {
       @Override
-      public void render(Emphasis obj, BufferedWriter w) throws IOException
+      public void render(Emphasis obj, Writer w) throws IOException
       {
          switch (obj.getType())
          {
@@ -192,13 +172,13 @@ public class DocOMToMarkdownConverter
       }
 
       @Override
-      public void finalize(Emphasis obj, BufferedWriter w) throws IOException
+      public void finalize(Emphasis obj, Writer w) throws IOException
       {
          render(obj, w);
       }
 
       @Override
-      public void ident(Emphasis obj, Object child, BufferedWriter w)
+      public void preNewLine(Emphasis obj, Writer w) throws IOException
       {
       }
    }
@@ -206,7 +186,7 @@ public class DocOMToMarkdownConverter
    public static class HeaderRenderer implements Renderer<Header>
    {
       @Override
-      public void render(Header obj, BufferedWriter w) throws IOException
+      public void render(Header obj, Writer w) throws IOException
       {
          for (int i = 0; i < getDepth(obj); i++)
          {
@@ -233,12 +213,12 @@ public class DocOMToMarkdownConverter
       }
 
       @Override
-      public void ident(Header obj, Object child, BufferedWriter w)
+      public void finalize(Header obj, Writer w) throws IOException
       {
       }
 
       @Override
-      public void finalize(Header obj, BufferedWriter w) throws IOException
+      public void preNewLine(Header obj, Writer w) throws IOException
       {
       }
 
@@ -248,24 +228,37 @@ public class DocOMToMarkdownConverter
    {
       StringWriter str = new StringWriter();
 
-      BufferedWriter w = new BufferedWriter(str);
+      final Stack<Renderer<EObject>> renderers = new Stack<Renderer<EObject>>();
+      final Stack<EObject> objs = new Stack<EObject>();
 
+      final Writer w = new MaxLineLengthWriter(str, 8)
+      {
+         @Override
+         protected void nl() throws IOException
+         {
+            super.nl();
+
+            for (int i = 0; i < renderers.size(); i++)
+            {
+               renderers.get(i).preNewLine(objs.get(i), target);
+            }
+         }
+      };
 
       try
       {
          java.util.List<? extends EObject> children = getChildren(document);
-
          for (EObject eObject : children)
          {
-            render(eObject, w);
+            render(renderers, objs, eObject, w);
          }
 
          if (!children.isEmpty())
          {
-            w.newLine();
-            w.newLine();
+            w.append('\n');
+            w.append('\n');
          }
-         
+
          w.flush();
       }
       catch (IOException e)
@@ -277,16 +270,46 @@ public class DocOMToMarkdownConverter
       return str.toString();
    }
 
-   private void render(EObject obj, BufferedWriter w) throws IOException
+   private void render(Stack<Renderer<EObject>> renderers, Stack<EObject> objs, EObject obj, Writer w)
+      throws IOException
    {
       final Renderer<EObject> renderer = getRenderer(obj);
+
+      renderers.push(renderer);
+      objs.push(obj);
+
       renderer.render(obj, w);
       for (EObject child : getChildren(obj))
       {
-         renderer.ident(obj, child, w);
-         render(child, w);
+         preChild(obj, child, w);
+         render(renderers, objs, child, w);
       }
       renderer.finalize(obj, w);
+
+      objs.pop();
+      renderers.pop();
+   }
+
+   private void preChild(EObject obj, EObject child, Writer w) throws IOException
+   {
+      EObject eContainer = obj;
+
+      if (eContainer instanceof Structured || eContainer instanceof ListItem || eContainer instanceof List)
+      {
+         java.util.List<? extends EObject> children = getChildren(eContainer);
+         int idx = children.indexOf(child);
+         if (idx > 0)
+         {
+            w.append('\n');
+
+            final EObject previous = children.get(idx - 1);
+
+            if (previous instanceof Paragraph || previous instanceof Header || previous instanceof NewLine)
+            {
+               w.append('\n');
+            }
+         }
+      }      
    }
 
    private static java.util.List<? extends EObject> getChildren(EObject obj)
