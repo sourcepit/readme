@@ -6,26 +6,54 @@
 
 package org.sourcepit.readme.core;
 
+import static org.sourcepit.readme.core.CharacterArrayTokenizer.tokenize;
+
 import java.io.IOException;
 import java.io.Writer;
 
+import org.sourcepit.readme.core.CharacterArrayTokenizer.TokenHandler;
+
 public class WordWrapppingWriter extends Writer
 {
+   private final EOLNormalizer normalizer;
+
+   private final char[] eol;
+   private final int maxLength;
+
+   private final char[] buffer;
+
+   private int nextChar = 0;
+
    private final Writer out;
 
-   private final char[] lineBuffer;
+   public WordWrapppingWriter(Writer out, int maxLength, EOL eol)
+   {
+      this(out, 512, maxLength, eol);
+   }
 
-   private int nextIdx = 0;
-
-   private final char[] nl = new char[] { '\n' };
-
-   protected WordWrapppingWriter(Writer out, int lineLength)
+   public WordWrapppingWriter(Writer out, int bufferSize, int maxLength, EOL eol)
    {
       super(out);
 
+      buffer = new char[bufferSize];
       this.out = out;
 
-      lineBuffer = new char[lineLength - nl.length];
+      normalizer = new EOLNormalizer(new AbstractAppendable()
+      {
+         @Override
+         public Appendable append(char c) throws IOException
+         {
+            if (nextChar == buffer.length)
+            {
+               flush(nextChar);
+            }
+            buffer[nextChar++] = c;
+            return this;
+         }
+      }, EOL.LF);
+
+      this.eol = eol.asChars();
+      this.maxLength = maxLength - this.eol.length;
    }
 
    @Override
@@ -33,100 +61,16 @@ public class WordWrapppingWriter extends Writer
    {
       for (int i = off; i < len; i++)
       {
-         write(cbuf[i]);
-      }
-   }
-
-   @Override
-   public void write(int c) throws IOException
-   {
-      if (nextIdx == lineBuffer.length) // buffer is full
-      {
-         flushLineBuffer(c);
-      }
-      lineBuffer[nextIdx++] = (char) c;
-   }
-
-   private int off = 0;
-
-   private static int lastWhitespace(char[] chars, int off, int len)
-   {
-      for (int i = len - 1; i >= off; i--)
-      {
-         char c = chars[i];
-         if (Character.isWhitespace(c))
-         {
-            return i;
-         }
-      }
-      return -1;
-   }
-
-   private static int firstNonWhitespace(char[] chars, int off, int len)
-   {
-      for (int i = off; i < len; i++)
-      {
-         char c = chars[i];
-         if (!Character.isWhitespace(c))
-         {
-            return i;
-         }
-      }
-      return -1;
-   }
-
-   private void flushLineBuffer(int nextChar) throws IOException
-   {
-      if (off == nextIdx)
-      {
-         // flush() was called with full buffer
-         out.write(nl);
-         off = 0;
-         nextIdx = 0;
-      }
-      else
-      {
-         int startIdx = off == 0 ? firstNonWhitespace(lineBuffer, off, nextIdx) : off;
-         if (startIdx < 0)
-         {
-            startIdx = off;
-         }
-
-         int stopIdx = Character.isWhitespace(nextChar) ? nextIdx : lastWhitespace(lineBuffer, off, nextIdx);
-         if (stopIdx < 0 || stopIdx < startIdx)
-         {
-            stopIdx = nextIdx;
-         }
-
-         out.write(lineBuffer, startIdx, stopIdx - startIdx);
-         out.write(nl);
-
-         if (nextIdx > stopIdx + 1)
-         {
-            System.arraycopy(lineBuffer, stopIdx + 1, lineBuffer, 0, nextIdx - stopIdx - 1);
-            off = 0;
-            nextIdx = nextIdx - stopIdx - 1;
-         }
-         else
-         {
-            off = 0;
-            nextIdx = 0;
-         }
+         normalizer.append(cbuf[i]);
       }
    }
 
    @Override
    public void flush() throws IOException
    {
-      if (off < nextIdx)
+      if (nextChar > 0)
       {
-         int startIdx = off == 0 ? firstNonWhitespace(lineBuffer, off, nextIdx) : off;
-         if (startIdx < 0)
-         {
-            startIdx = off;
-         }
-         out.write(lineBuffer, startIdx, nextIdx - startIdx);
-         off = nextIdx;
+         flush(nextChar);
       }
       out.flush();
    }
@@ -138,4 +82,70 @@ public class WordWrapppingWriter extends Writer
       out.close();
    }
 
+   private int lineLength = 0;
+
+   private String ws = "";
+
+   private void flush(int bufferLength) throws IOException
+   {
+      tokenize(buffer, bufferLength, new TokenHandler<IOException>()
+      {
+         @Override
+         public void literal(char[] chars, int off, int len) throws IOException
+         {
+            final int requiredSpace = ws.length() + len;
+
+            if (lineLength == 0)
+            {
+               out.write(ws);
+               out.write(chars, off, len);
+               lineLength = requiredSpace;
+            }
+            else if (lineLength + requiredSpace <= maxLength)
+            {
+               out.write(ws);
+               out.write(chars, off, len);
+               lineLength += requiredSpace;
+            }
+            else
+            {
+               if (ws.length() == 0)
+               {
+                  out.write(chars, off, len);
+                  lineLength += requiredSpace;
+               }
+               else
+               {
+                  out.write(eol);
+                  out.write(chars, off, len);
+                  lineLength = len;
+               }
+            }
+
+            ws = "";
+         }
+
+         @Override
+         public void whitespace(char[] chars, int off, int len) throws IOException
+         {
+            ws = String.valueOf(chars, off, len);
+         }
+
+         @Override
+         public void lf(char[] chars, int idx) throws IOException
+         {
+            lineLength = 0;
+            ws = "";
+            out.write(eol);
+         }
+
+         @Override
+         public void cr(char[] chars, int idx)
+         {
+            throw new IllegalStateException();
+         }
+      });
+
+      nextChar = 0;
+   }
 }
