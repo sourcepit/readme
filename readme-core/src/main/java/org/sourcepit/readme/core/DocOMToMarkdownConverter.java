@@ -224,24 +224,28 @@ public class DocOMToMarkdownConverter
 
    }
 
-   public String toMarkdown(Document document)
+   public String toMarkdown(Document document, EOL eol)
    {
-      StringWriter str = new StringWriter();
+      final StringWriter str = new StringWriter();
 
       final Stack<Renderer<EObject>> renderers = new Stack<Renderer<EObject>>();
       final Stack<EObject> objs = new Stack<EObject>();
 
-      final Writer w = new MaxLineLengthWriter(str, 8)
+      final Writer w = new WordWrapppingWriter(str, 80, eol)
       {
          @Override
-         protected void nl() throws IOException
+         protected String writeEOL() throws IOException
          {
-            super.nl();
+            super.writeEOL();
 
+            StringWriter nlPrefix = new StringWriter();
             for (int i = 0; i < renderers.size(); i++)
             {
-               renderers.get(i).preNewLine(objs.get(i), target);
+               renderers.get(i).preNewLine(objs.get(i), nlPrefix);
             }
+            nlPrefix.close();
+            
+            return nlPrefix.toString();
          }
       };
 
@@ -255,8 +259,8 @@ public class DocOMToMarkdownConverter
 
          if (!children.isEmpty())
          {
-            w.append('\n');
-            w.append('\n');
+            w.write(eol.asChars());
+            w.write(eol.asChars());
          }
 
          w.flush();
@@ -279,12 +283,16 @@ public class DocOMToMarkdownConverter
       objs.push(obj);
 
       renderer.render(obj, w);
+      w.flush();
       for (EObject child : getChildren(obj))
       {
          preChild(obj, child, w);
+         w.flush();
          render(renderers, objs, child, w);
+         w.flush();
       }
       renderer.finalize(obj, w);
+      w.flush();
 
       objs.pop();
       renderers.pop();

@@ -48,7 +48,7 @@ public class DocOMToMarkdownConverterTest
 
       Document document = doc(paragraph);
 
-      String markdown = converter.toMarkdown(document);
+      String markdown = converter.toMarkdown(document, EOL.system());
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "Hallo Welt!");
@@ -62,7 +62,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(p(bold(text("Hallo Welt!"))));
 
-      String markdown = converter.toMarkdown(document);
+      String markdown = converter.toMarkdown(document, EOL.system());
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "**Hallo Welt!**");
@@ -76,7 +76,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(p(italic(text("Hallo Welt!"))));
 
-      String markdown = converter.toMarkdown(document);
+      String markdown = converter.toMarkdown(document, EOL.system());
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "*Hallo Welt!*");
@@ -90,7 +90,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(p(code(text("Hallo Welt!"))));
 
-      String markdown = converter.toMarkdown(document);
+      String markdown = converter.toMarkdown(document, EOL.system());
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "`Hallo Welt!`");
@@ -104,7 +104,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(p(strikethrough(text("Hallo Welt!"))));
 
-      String markdown = converter.toMarkdown(document);
+      String markdown = converter.toMarkdown(document, EOL.system());
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "~~Hallo Welt!~~");
@@ -118,7 +118,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(p(bold(italic(text("Hallo Welt!")))));
 
-      String markdown = converter.toMarkdown(document);
+      String markdown = converter.toMarkdown(document, EOL.system());
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "***Hallo Welt!***");
@@ -132,7 +132,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(ol(li(text("Hallo")), li(text("Welt"))));
 
-      String markdown = converter.toMarkdown(document);
+      String markdown = converter.toMarkdown(document, EOL.system());
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "1.   Hallo");
@@ -145,13 +145,14 @@ public class DocOMToMarkdownConverterTest
    @Test
    public void testNestedOrderedList() throws Exception
    {
-      Document document = doc(ol(li(text("Hallo"), ol(li("Blub"))), li("Welt")));
+      Document document = doc(ol(li(text("Hallo"), ol(li("Blub\nFoo"))), li("Welt")));
 
-      String markdown = converter.toMarkdown(document);
+      String markdown = converter.toMarkdown(document, EOL.system());
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "1.   Hallo");
       appendLine(expected, "     1.   Blub");
+      appendLine(expected, "          Foo");
       appendLine(expected, "2.   Welt");
       appendLine(expected);
 
@@ -163,7 +164,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(ul(li(text("Hallo")), li(text("Welt"))));
 
-      String markdown = converter.toMarkdown(document);
+      String markdown = converter.toMarkdown(document, EOL.system());
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "*   Hallo");
@@ -181,10 +182,10 @@ public class DocOMToMarkdownConverterTest
       header.getLiterals().add(text("heading"));
       chapter.setHeader(header);
       chapter.getContent().add(p(text("content")));
-      
+
       Document document = doc(chapter);
-      
-      String markdown = converter.toMarkdown(document);
+
+      String markdown = converter.toMarkdown(document, EOL.system());
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "# heading");
@@ -194,7 +195,7 @@ public class DocOMToMarkdownConverterTest
 
       assertEquals(expected.toString(), markdown);
    }
-   
+
    private List ul(ListItem... lis)
    {
       List list = factory.createList();
@@ -231,7 +232,7 @@ public class DocOMToMarkdownConverterTest
 
    private static void appendLine(StringBuilder sb)
    {
-      sb.append('\n');
+      sb.append(EOL.system().asChars());
    }
 
    private Document doc(Structurable structurable)

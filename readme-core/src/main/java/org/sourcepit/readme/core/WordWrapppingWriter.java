@@ -86,6 +86,8 @@ public class WordWrapppingWriter extends Writer
 
    private String ws = "";
 
+   private String nlPrefix;
+
    private void flush(int bufferLength) throws IOException
    {
       tokenize(buffer, bufferLength, new TokenHandler<IOException>()
@@ -93,32 +95,46 @@ public class WordWrapppingWriter extends Writer
          @Override
          public void literal(char[] chars, int off, int len) throws IOException
          {
-            final int requiredSpace = ws.length() + len;
-
             if (lineLength == 0)
             {
-               out.write(ws);
+               if (nlPrefix != null)
+               {
+                  out.write(nlPrefix);
+                  lineLength += nlPrefix.length();
+                  nlPrefix = null;
+               }
+               
                out.write(chars, off, len);
-               lineLength = requiredSpace;
+               lineLength += len;
             }
-            else if (lineLength + requiredSpace <= maxLength)
+            else if (lineLength + ws.length() + len <= maxLength)
             {
                out.write(ws);
+               lineLength += ws.length();
                out.write(chars, off, len);
-               lineLength += requiredSpace;
+               lineLength += len;
             }
             else
             {
                if (ws.length() == 0)
                {
                   out.write(chars, off, len);
-                  lineLength += requiredSpace;
+                  lineLength += len;
                }
                else
                {
-                  out.write(eol);
+                  nlPrefix = writeEOL();
+                  lineLength = 0;
+
+                  if (nlPrefix != null)
+                  {
+                     out.write(nlPrefix);
+                     lineLength += nlPrefix.length();
+                     nlPrefix = null;
+                  }
+
                   out.write(chars, off, len);
-                  lineLength = len;
+                  lineLength += len;
                }
             }
 
@@ -134,9 +150,9 @@ public class WordWrapppingWriter extends Writer
          @Override
          public void lf(char[] chars, int idx) throws IOException
          {
+            nlPrefix = writeEOL();
             lineLength = 0;
             ws = "";
-            out.write(eol);
          }
 
          @Override
@@ -147,5 +163,11 @@ public class WordWrapppingWriter extends Writer
       });
 
       nextChar = 0;
+   }
+
+   protected String writeEOL() throws IOException
+   {
+      out.write(eol);
+      return null;
    }
 }
