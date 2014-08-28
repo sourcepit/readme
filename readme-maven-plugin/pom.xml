@@ -15,12 +15,22 @@
 			<artifactId>readme-core</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.sourcepit</groupId>
+			<artifactId>org.sourcepit.readme.docom</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.sourcepit.common</groupId>
 			<artifactId>org.sourcepit.common.utils</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.sourcepit.common.maven</groupId>
 			<artifactId>common-maven-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy</artifactId>
+			<version>2.3.6</version>
 		</dependency>
 
 		<dependency>
@@ -50,6 +60,19 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/groovy</directory>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+			<testResource>
+				<directory>src/test/groovy</directory>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-plugin-plugin</artifactId>

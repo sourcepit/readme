@@ -13,6 +13,11 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 
+/**
+ * Mojo1 java doc.
+ * 
+ * @author imm0136
+ */
 @Mojo(name = "goalName", requiresProject = true, defaultPhase = PROCESS_CLASSES, aggregator = true)
 public class Mojo1 extends AbstractMojo
 {

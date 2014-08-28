@@ -11,6 +11,10 @@ import static org.sourcepit.common.maven.core.MavenProjectUtils.getOutputDir;
 import static org.sourcepit.common.utils.io.IO.buffIn;
 import static org.sourcepit.common.utils.io.IO.fileIn;
 import static org.sourcepit.common.utils.io.IO.read;
+import groovy.lang.Binding;
+import groovy.util.GroovyScriptEngine;
+import groovy.util.ResourceException;
+import groovy.util.ScriptException;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -39,6 +43,9 @@ import org.codehaus.plexus.util.ReaderFactory;
 import org.sourcepit.common.maven.core.MavenProjectUtils;
 import org.sourcepit.common.utils.io.IO;
 import org.sourcepit.common.utils.io.Read;
+import org.sourcepit.docom.DocOMFactory;
+import org.sourcepit.docom.Document;
+import org.sourcepit.readme.core.DocOMToMarkdownConverter;
 
 @Mojo(name = "generate", requiresProject = true, defaultPhase = PROCESS_CLASSES, aggregator = true)
 public class ReadmeMojo extends AbstractMojo
@@ -59,53 +66,27 @@ public class ReadmeMojo extends AbstractMojo
 
    public void execute() throws MojoExecutionException, MojoFailureException
    {
-      final MavenSession session = buildContext.getSession();
+      Binding binding = new Binding();
+      binding.setVariable("mavenSession", buildContext.getSession());
+      binding.setVariable("modelFactory", DocOMFactory.eINSTANCE);
 
-      final List<MavenProject> projects = session.getProjects();
-
-      final boolean isMultiProjectBuild = projects.size() > 1;
-
-      for (MavenProject project : projects)
-      {
-         if (isPluginProject(project))
-         {
-            PluginDescriptor pluginDescriptor;
-            try
-            {
-               pluginDescriptor = readPluginDescriptor(project);
-            }
-            catch (IOException e)
-            {
-               throw new MojoExecutionException("Faild to read plugin descriptor for project " + project.getName(), e);
-            }
-            System.out.println(pluginDescriptor);
-         }
-      }
-
-      PluginDescriptor pluginDescriptor = null;
-   }
-
-   private static boolean isPluginProject(MavenProject project)
-   {
-      return "maven-plugin".equals(project.getPackaging());
-   }
-
-   private static PluginDescriptor readPluginDescriptor(MavenProject project) throws IOException
-   {
-      final File pluginFile = new File(getOutputDir(project), "META-INF/maven/plugin.xml");
-      Reader reader = null;
+      GroovyScriptEngine gse = new GroovyScriptEngine(new ClasspathResourceConnector(getClass().getClassLoader()));
       try
       {
-         reader = ReaderFactory.newXmlReader(new BufferedInputStream(new FileInputStream(pluginFile)));
-         return new PluginDescriptorBuilder().build(reader, pluginFile.getAbsolutePath());
+         Document document = (Document) gse.run("CreateReadme.groovy", binding);
+
+         DocOMToMarkdownConverter c = new DocOMToMarkdownConverter();
+         System.out.println(c.toMarkdown(document));
       }
-      catch (PlexusConfigurationException e)
+      catch (ResourceException e)
       {
-         throw new IOException(e);
+         // TODO Auto-generated catch block
+         e.printStackTrace();
       }
-      finally
+      catch (ScriptException e)
       {
-         IOUtils.closeQuietly(reader);
+         // TODO Auto-generated catch block
+         e.printStackTrace();
       }
    }
 }
