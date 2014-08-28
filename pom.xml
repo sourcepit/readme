@@ -42,6 +42,16 @@
 				<version>0.13.0</version>
 			</dependency>
 			<dependency>
+				<groupId>org.sourcepit.common.maven</groupId>
+				<artifactId>common-maven-core</artifactId>
+				<version>0.20.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.sourcepit.common</groupId>
+				<artifactId>common-testing</artifactId>
+				<version>0.11.0</version>
+			</dependency>
+			<dependency>
 				<groupId>org.pegdown</groupId>
 				<artifactId>pegdown</artifactId>
 				<version>1.4.2</version>
@@ -57,6 +67,24 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<compilerId>jdt</compilerId>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.eclipse.tycho</groupId>
+							<artifactId>tycho-compiler-jdt</artifactId>
+							<version>0.20.0</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.sourcepit.tools</groupId>
+					<artifactId>deploy-maven-plugin</artifactId>
+					<version>0.1.0</version>
+				</plugin>
 				<plugin>
 					<groupId>org.sourcepit.osgifier</groupId>
 					<artifactId>osgifier-maven-plugin</artifactId>
@@ -85,6 +113,19 @@
 										<ignore />
 									</action>
 								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.4,)</versionRange>
+										<goals>
+											<goal>unpack</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -92,4 +133,40 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>its</id>
+			<properties>
+				<it.repo.active>true</it.repo.active>
+				<it.repo.url>file://${user.dir}/target/it-repository</it.repo.url>
+			</properties>
+			<modules>
+				<module>readme-maven-its</module>
+			</modules>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sourcepit.tools</groupId>
+						<artifactId>deploy-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>gather-artifacts</id>
+								<!-- As far we use our own install mojo that assures that each artifact
+									will be deployed with its base version, we can call the deploy goal before
+									the phase install, otherwise not! -->
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+								<configuration>
+									<altDeploymentRepository>it-repo::default::${it.repo.url}</altDeploymentRepository>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

@@ -14,6 +14,14 @@
 			<groupId>org.sourcepit</groupId>
 			<artifactId>readme-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.sourcepit.common</groupId>
+			<artifactId>org.sourcepit.common.utils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.sourcepit.common.maven</groupId>
+			<artifactId>common-maven-core</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>

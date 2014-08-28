@@ -66,7 +66,7 @@ public class DocOMToMarkdownConverter
 
    public static interface Renderer<T>
    {
-      Renderer<? super Object> NOOP = new Renderer<Object>()
+      Renderer<Object> NOOP = new Renderer<Object>()
       {
          @Override
          public void render(Object obj, Writer w) throws IOException
