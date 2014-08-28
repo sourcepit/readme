@@ -48,7 +48,7 @@ public class DocOMToMarkdownConverterTest
 
       Document document = doc(paragraph);
 
-      String markdown = converter.toMarkdown(document, EOL.system());
+      String markdown = converter.toMarkdown(document);
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "Hallo Welt!");
@@ -62,7 +62,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(p(bold(text("Hallo Welt!"))));
 
-      String markdown = converter.toMarkdown(document, EOL.system());
+      String markdown = converter.toMarkdown(document);
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "**Hallo Welt!**");
@@ -76,7 +76,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(p(italic(text("Hallo Welt!"))));
 
-      String markdown = converter.toMarkdown(document, EOL.system());
+      String markdown = converter.toMarkdown(document);
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "*Hallo Welt!*");
@@ -90,7 +90,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(p(code(text("Hallo Welt!"))));
 
-      String markdown = converter.toMarkdown(document, EOL.system());
+      String markdown = converter.toMarkdown(document);
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "`Hallo Welt!`");
@@ -104,7 +104,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(p(strikethrough(text("Hallo Welt!"))));
 
-      String markdown = converter.toMarkdown(document, EOL.system());
+      String markdown = converter.toMarkdown(document);
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "~~Hallo Welt!~~");
@@ -118,7 +118,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(p(bold(italic(text("Hallo Welt!")))));
 
-      String markdown = converter.toMarkdown(document, EOL.system());
+      String markdown = converter.toMarkdown(document);
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "***Hallo Welt!***");
@@ -132,7 +132,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(ol(li(text("Hallo")), li(text("Welt"))));
 
-      String markdown = converter.toMarkdown(document, EOL.system());
+      String markdown = converter.toMarkdown(document);
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "1.   Hallo");
@@ -147,7 +147,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(ol(li(text("Hallo"), ol(li("Blub\nFoo"))), li("Welt")));
 
-      String markdown = converter.toMarkdown(document, EOL.system());
+      String markdown = converter.toMarkdown(document);
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "1.   Hallo");
@@ -164,7 +164,7 @@ public class DocOMToMarkdownConverterTest
    {
       Document document = doc(ul(li(text("Hallo")), li(text("Welt"))));
 
-      String markdown = converter.toMarkdown(document, EOL.system());
+      String markdown = converter.toMarkdown(document);
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "*   Hallo");
@@ -185,12 +185,37 @@ public class DocOMToMarkdownConverterTest
 
       Document document = doc(chapter);
 
-      String markdown = converter.toMarkdown(document, EOL.system());
+      String markdown = converter.toMarkdown(document);
 
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "# heading");
       appendLine(expected);
       appendLine(expected, "content");
+      appendLine(expected);
+
+      assertEquals(expected.toString(), markdown);
+   }
+
+   @Test
+   public void testChapterHeaderNotWrapped() throws Exception
+   {
+      Chapter chapter = factory.createChapter();
+      Header header = factory.createHeader();
+      header.getLiterals().add(text("heading"));
+      chapter.setHeader(header);
+      chapter.getContent().add(p(text("Hallo, wie geht es dir?")));
+
+      Document document = doc(chapter);
+
+      String markdown = converter.toMarkdown(document, 9, EOL.system());
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "# heading"); // don't break headings even if line is to long
+      appendLine(expected);
+      appendLine(expected, "Hallo,");
+      appendLine(expected, "wie");
+      appendLine(expected, "geht es");
+      appendLine(expected, "dir?");
       appendLine(expected);
 
       assertEquals(expected.toString(), markdown);

@@ -103,7 +103,6 @@ public class WordWrapppingWriter extends Writer
                   lineLength += nlPrefix.length();
                   nlPrefix = null;
                }
-               
                out.write(chars, off, len);
                lineLength += len;
             }
@@ -123,16 +122,22 @@ public class WordWrapppingWriter extends Writer
                }
                else
                {
-                  nlPrefix = writeEOL();
-                  lineLength = 0;
-
-                  if (nlPrefix != null)
+                  if (writeEOL(true))
                   {
-                     out.write(nlPrefix);
-                     lineLength += nlPrefix.length();
-                     nlPrefix = null;
+                     nlPrefix = indent(true);
+                     lineLength = 0;
+                     if (nlPrefix != null)
+                     {
+                        out.write(nlPrefix);
+                        lineLength += nlPrefix.length();
+                        nlPrefix = null;
+                     }
                   }
-
+                  else
+                  {
+                     out.write(ws);
+                     lineLength += ws.length();
+                  }
                   out.write(chars, off, len);
                   lineLength += len;
                }
@@ -150,9 +155,18 @@ public class WordWrapppingWriter extends Writer
          @Override
          public void lf(char[] chars, int idx) throws IOException
          {
-            nlPrefix = writeEOL();
-            lineLength = 0;
-            ws = "";
+            if (writeEOL(false))
+            {
+               nlPrefix = indent(false);
+               lineLength = 0;
+               ws = "";
+            }
+            else if ("".equals(ws))
+            {
+               nlPrefix = null;
+               ws = " ";
+            }
+            
          }
 
          @Override
@@ -164,10 +178,15 @@ public class WordWrapppingWriter extends Writer
 
       nextChar = 0;
    }
+   
+   protected String indent(boolean forced) throws IOException
+   {
+      return null;
+   }
 
-   protected String writeEOL() throws IOException
+   protected boolean writeEOL(boolean forced) throws IOException
    {
       out.write(eol);
-      return null;
+      return true;
    }
 }

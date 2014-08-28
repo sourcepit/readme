@@ -56,6 +56,12 @@ public class DocOMToMarkdownConverter
       {
          renderer.preNewLine(obj, w);
       }
+
+      @Override
+      public boolean isAllowLinesBreaks()
+      {
+         return renderer.isAllowLinesBreaks();
+      }
    }
 
    public static interface Renderer<T>
@@ -76,6 +82,12 @@ public class DocOMToMarkdownConverter
          public void preNewLine(Object obj, Writer w) throws IOException
          {
          }
+
+         @Override
+         public boolean isAllowLinesBreaks()
+         {
+            return true;
+         }
       };
 
       void render(T obj, Writer w) throws IOException;
@@ -83,6 +95,8 @@ public class DocOMToMarkdownConverter
       void preNewLine(T obj, Writer w) throws IOException;
 
       void finalize(T obj, Writer w) throws IOException;
+
+      boolean isAllowLinesBreaks();
    }
 
 
@@ -126,6 +140,12 @@ public class DocOMToMarkdownConverter
             w.append(' ');
          }
       }
+
+      @Override
+      public boolean isAllowLinesBreaks()
+      {
+         return true;
+      }
    }
 
    public static class TextRenderer implements Renderer<Text>
@@ -144,6 +164,12 @@ public class DocOMToMarkdownConverter
       @Override
       public void preNewLine(Text obj, Writer w) throws IOException
       {
+      }
+
+      @Override
+      public boolean isAllowLinesBreaks()
+      {
+         return true;
       }
    }
 
@@ -180,6 +206,12 @@ public class DocOMToMarkdownConverter
       @Override
       public void preNewLine(Emphasis obj, Writer w) throws IOException
       {
+      }
+
+      @Override
+      public boolean isAllowLinesBreaks()
+      {
+         return true;
       }
    }
 
@@ -222,30 +254,56 @@ public class DocOMToMarkdownConverter
       {
       }
 
+      @Override
+      public boolean isAllowLinesBreaks()
+      {
+         return false;
+      }
+
+   }
+
+   public String toMarkdown(Document document)
+   {
+      return toMarkdown(document, 80, EOL.system());
    }
 
    public String toMarkdown(Document document, EOL eol)
+   {
+      return toMarkdown(document, 80, eol);
+   }
+
+   public String toMarkdown(Document document, int lineLength, EOL eol)
    {
       final StringWriter str = new StringWriter();
 
       final Stack<Renderer<EObject>> renderers = new Stack<Renderer<EObject>>();
       final Stack<EObject> objs = new Stack<EObject>();
 
-      final Writer w = new WordWrapppingWriter(str, 80, eol)
+      final Writer w = new WordWrapppingWriter(str, lineLength, eol)
       {
          @Override
-         protected String writeEOL() throws IOException
+         protected String indent(boolean forced) throws IOException
          {
-            super.writeEOL();
-
-            StringWriter nlPrefix = new StringWriter();
+            final StringWriter nlPrefix = new StringWriter();
             for (int i = 0; i < renderers.size(); i++)
             {
                renderers.get(i).preNewLine(objs.get(i), nlPrefix);
             }
             nlPrefix.close();
-            
             return nlPrefix.toString();
+         }
+
+         @Override
+         protected boolean writeEOL(boolean forced) throws IOException
+         {
+            for (Renderer<?> renderer : renderers)
+            {
+               if (!renderer.isAllowLinesBreaks())
+               {
+                  return false;
+               }
+            }
+            return super.writeEOL(forced);
          }
       };
 
@@ -317,7 +375,7 @@ public class DocOMToMarkdownConverter
                w.append('\n');
             }
          }
-      }      
+      }
    }
 
    private static java.util.List<? extends EObject> getChildren(EObject obj)
