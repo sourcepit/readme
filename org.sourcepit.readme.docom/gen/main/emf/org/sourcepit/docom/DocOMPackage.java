@@ -953,7 +953,7 @@ public interface DocOMPackage extends EPackage
     * @generated
     * @ordered
     */
-   int NEW_LINE_FEATURE_COUNT = STRUCTURABLE_FEATURE_COUNT + 0;
+   int NEW_LINE_FEATURE_COUNT = LITERAL_FEATURE_COUNT + 0;
 
    /**
     * The number of operations of the '<em>New Line</em>' class.
@@ -963,7 +963,7 @@ public interface DocOMPackage extends EPackage
     * @generated
     * @ordered
     */
-   int NEW_LINE_OPERATION_COUNT = STRUCTURABLE_OPERATION_COUNT + 0;
+   int NEW_LINE_OPERATION_COUNT = LITERAL_OPERATION_COUNT + 0;
 
    /**
     * The meta object id for the '{@link org.sourcepit.docom.impl.TableImpl <em>Table</em>}' class.

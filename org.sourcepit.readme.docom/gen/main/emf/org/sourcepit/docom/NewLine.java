@@ -14,6 +14,6 @@ package org.sourcepit.docom;
  * @model
  * @generated
  */
-public interface NewLine extends Structurable, Literal
+public interface NewLine extends Literal
 {
 } // NewLine

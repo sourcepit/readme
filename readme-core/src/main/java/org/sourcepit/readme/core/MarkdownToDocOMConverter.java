@@ -598,14 +598,7 @@ public class MarkdownToDocOMConverter
          checkState(node.getChildren().isEmpty());
          final NewLine nl = factory.createNewLine();
          final Object parent = parents.peek();
-         if (parent instanceof LiteralGroup)
-         {
-            ((LiteralGroup) parent).getLiterals().add(nl);
-         }
-         else
-         {
-            ((Structured) parent).getContent().add(nl);
-         }
+         ((LiteralGroup) parent).getLiterals().add(nl);
       }
 
       @Override

@@ -327,8 +327,6 @@ public class DocOMSwitch<T> extends Switch<T>
             NewLine newLine = (NewLine) theEObject;
             T result = caseNewLine(newLine);
             if (result == null)
-               result = caseStructurable(newLine);
-            if (result == null)
                result = caseLiteral(newLine);
             if (result == null)
                result = caseListable(newLine);
