@@ -15,6 +15,7 @@ import java.util.Stack;
 
 import org.eclipse.emf.ecore.EObject;
 import org.sourcepit.docom.Chapter;
+import org.sourcepit.docom.CodeLiteral;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.Header;
@@ -29,40 +30,6 @@ import org.sourcepit.docom.util.DocOMSwitch;
 
 public class DocOMToMarkdownConverter
 {
-
-   private final static class NewLineRenderer<T extends EObject> implements Renderer<T>
-   {
-      private final Renderer<T> renderer;
-
-      private NewLineRenderer(Renderer<T> renderer)
-      {
-         this.renderer = renderer;
-      }
-
-      @Override
-      public void render(T obj, Writer w) throws IOException
-      {
-         renderer.render(obj, w);
-      }
-
-      @Override
-      public void finalize(T obj, Writer w) throws IOException
-      {
-         renderer.finalize(obj, w);
-      }
-
-      @Override
-      public void preNewLine(T obj, Writer w) throws IOException
-      {
-         renderer.preNewLine(obj, w);
-      }
-
-      @Override
-      public boolean isAllowLinesBreaks()
-      {
-         return renderer.isAllowLinesBreaks();
-      }
-   }
 
    public static interface Renderer<T>
    {
@@ -258,6 +225,69 @@ public class DocOMToMarkdownConverter
       public boolean isAllowLinesBreaks()
       {
          return false;
+      }
+
+   }
+
+   public static class NewLineRenderer implements Renderer<NewLine>
+   {
+
+      @Override
+      public void render(NewLine obj, Writer w) throws IOException
+      {
+         if (w instanceof WordWrapppingWriter)
+         {
+            ((WordWrapppingWriter)w).getOut().write("  ");
+         }
+         else
+         {
+            w.write("  ");
+         }
+         w.append("\n");
+      }
+
+      @Override
+      public void finalize(NewLine obj, Writer w) throws IOException
+      {
+      }
+
+      @Override
+      public void preNewLine(NewLine obj, Writer w) throws IOException
+      {
+      }
+
+      @Override
+      public boolean isAllowLinesBreaks()
+      {
+         return true;
+      }
+   }
+
+   public static class CodeLiteralRenderer implements Renderer<CodeLiteral>
+   {
+
+      @Override
+      public void render(CodeLiteral obj, Writer w) throws IOException
+      {
+         w.write('`');
+         w.write(obj.getText());
+      }
+
+      @Override
+      public void preNewLine(CodeLiteral obj, Writer w) throws IOException
+      {
+      }
+
+      @Override
+      public void finalize(CodeLiteral obj, Writer w) throws IOException
+      {
+         w.write('`');
+      }
+
+      @Override
+      public boolean isAllowLinesBreaks()
+      {
+         return true;
       }
 
    }
@@ -472,8 +502,18 @@ public class DocOMToMarkdownConverter
             return (Renderer<T>) new HeaderRenderer();
          }
 
+         public Renderer<T> caseNewLine(NewLine object)
+         {
+            return (Renderer<T>) new NewLineRenderer();
+         }
+
+         public Renderer<T> caseCodeLiteral(CodeLiteral object)
+         {
+            return (Renderer<T>) new CodeLiteralRenderer();
+         };
+
       }.doSwitch(obj);
 
-      return new NewLineRenderer<T>(renderer);
+      return renderer;
    }
 }

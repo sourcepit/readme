@@ -293,6 +293,49 @@ public class DocOMToMarkdownConverterTest
 
       assertEquals(expected.toString(), markdown);
    }
+   
+   @Test
+   public void testCodeLiteral() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+      doc.startDocument();
+      doc.startParagraph();
+      doc.codeLiteral("test");
+      doc.endParagraph();
+      
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document, 9, EOL.system());
+      
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "`test`");
+      appendLine(expected);
+
+      assertEquals(expected.toString(), markdown);
+   }
+   
+   @Test
+   public void testNewLine() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+      doc.startDocument();
+      doc.startParagraph();
+      doc.text("foo");
+      doc.newLine();
+      doc.text("bar");
+      doc.endParagraph();
+      
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document, 900, EOL.system());
+      
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "foo  ");
+      appendLine(expected, "bar");
+      appendLine(expected, "");
+
+      assertEquals(expected.toString(), markdown);
+   }
 
    private List ul(ListItem... lis)
    {

@@ -30,6 +30,11 @@ public class WordWrapppingWriter extends Writer
    {
       this(out, 512, maxLength, eol);
    }
+   
+   public Writer getOut()
+   {
+      return out;
+   }
 
    public WordWrapppingWriter(Writer out, int bufferSize, int maxLength, EOL eol)
    {
