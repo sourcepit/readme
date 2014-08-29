@@ -1,28 +1,31 @@
 import static org.sourcepit.readme.maven.DocOMUtils.*;
 import static org.sourcepit.readme.maven.MavenUtils.*;
 
+import java.lang.annotation.Documented;
+
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.project.MavenProject;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.DocOMFactory
 import org.sourcepit.docom.Document
 import org.sourcepit.docom.Paragraph;
+import org.sourcepit.readme.core.DocumentBuilder;
 
-static addOverview(Document doc, MavenProject project)
+void addOverview(DocumentBuilder doc, MavenProject project)
 {
-   def chapter = addChapter(doc, project.name)
+   doc.startChapter(project.name)
    def desc = project.description;
    if (desc)
    {
-      def p = addParagraph(chapter);
-      addText(p, project.description)
+      doc.paragraph(desc);
    }
+   doc.endChapter();
 }
 
-static addGoals(Document doc, MavenSession session)
+void addGoals(DocumentBuilder doc, MavenSession session)
 {
-   def chapter = addChapter(doc, "Goals")
-   def list = addList(chapter)
+   doc.startChapter("Goals")
+   doc.startUnorderedList()
 
    session.getProjects().each
    { project ->
@@ -32,21 +35,22 @@ static addGoals(Document doc, MavenSession session)
          decr.mojos.each
          { mojo ->
 
-            def li = addListItem(list)
-
-            def p = addParagraph(li)
-            addText(p, mojo.goal)
-
-            p = addParagraph(li)
-            addText(p, mojo.description)
+            doc.startListItem()
+            doc.paragraph(mojo.goal)
+            doc.paragraph(mojo.description)
+            doc.endListItem()
          }
       }
    }
+
+   doc.endList()
+   doc.endChapter()
 }
 
 def session = (MavenSession) mavenSession
+def DocumentBuilder doc = documentBuilder
 
-def doc = createDocument()
+doc.startDocument()
 addOverview(doc, session.getCurrentProject())
 addGoals(doc, session);
-return doc;
+return doc.endDocument()

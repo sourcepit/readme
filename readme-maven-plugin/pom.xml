@@ -26,6 +26,10 @@
 			<groupId>org.sourcepit.common.maven</groupId>
 			<artifactId>common-maven-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>

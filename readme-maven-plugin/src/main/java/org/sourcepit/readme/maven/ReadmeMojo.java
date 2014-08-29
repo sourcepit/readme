@@ -46,6 +46,7 @@ import org.sourcepit.common.utils.io.Read;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
 import org.sourcepit.readme.core.DocOMToMarkdownConverter;
+import org.sourcepit.readme.core.DocumentBuilder;
 
 @Mojo(name = "generate", requiresProject = true, defaultPhase = PROCESS_CLASSES, aggregator = true)
 public class ReadmeMojo extends AbstractMojo
@@ -68,7 +69,7 @@ public class ReadmeMojo extends AbstractMojo
    {
       Binding binding = new Binding();
       binding.setVariable("mavenSession", buildContext.getSession());
-      binding.setVariable("modelFactory", DocOMFactory.eINSTANCE);
+      binding.setVariable("documentBuilder", new DocumentBuilder());
 
       GroovyScriptEngine gse = new GroovyScriptEngine(new ClasspathResourceConnector(getClass().getClassLoader()));
       try
