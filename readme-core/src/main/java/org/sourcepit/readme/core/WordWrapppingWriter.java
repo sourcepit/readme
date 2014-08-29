@@ -157,9 +157,17 @@ public class WordWrapppingWriter extends Writer
          {
             if (writeEOL(false))
             {
-               nlPrefix = indent(false);
                lineLength = 0;
                ws = "";
+               
+               nlPrefix = indent(false);
+               
+               if (nlPrefix != null)
+               {
+                  out.write(nlPrefix);
+                  lineLength += nlPrefix.length();
+                  nlPrefix = null;
+               }
             }
             else if ("".equals(ws))
             {

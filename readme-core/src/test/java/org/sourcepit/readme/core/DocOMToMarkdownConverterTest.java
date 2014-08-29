@@ -6,7 +6,7 @@
 
 package org.sourcepit.readme.core;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Collections;
 
@@ -175,6 +175,50 @@ public class DocOMToMarkdownConverterTest
    }
 
    @Test
+   public void testListWithParagraphs() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+
+      doc.startDocument();
+      doc.startUnorderedList();
+
+      doc.startListItem();
+      doc.paragraph("p1");
+      doc.paragraph("p2");
+      doc.paragraph("p3");
+      doc.endListItem();
+
+      doc.startListItem();
+      doc.paragraph("p4");
+      doc.paragraph("p5");
+      doc.paragraph("p6");
+      doc.endListItem();
+
+      doc.endList();
+
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document);
+
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "*   p1");
+      appendLine(expected, "    ");
+      appendLine(expected, "    p2");
+      appendLine(expected, "    ");
+      appendLine(expected, "    p3");
+      appendLine(expected);
+      appendLine(expected, "*   p4");
+      appendLine(expected, "    ");
+      appendLine(expected, "    p5");
+      appendLine(expected, "    ");
+      appendLine(expected, "    p6");
+      appendLine(expected);
+
+      assertEquals(expected.toString(), markdown);
+   }
+
+   @Test
    public void testChapter() throws Exception
    {
       Chapter chapter = factory.createChapter();
@@ -216,6 +260,35 @@ public class DocOMToMarkdownConverterTest
       appendLine(expected, "wie");
       appendLine(expected, "geht es");
       appendLine(expected, "dir?");
+      appendLine(expected);
+
+      assertEquals(expected.toString(), markdown);
+   }
+
+   @Test
+   public void testChaptersWithParagraphs() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+      doc.startDocument();
+      doc.startChapter("chapter 1");
+      doc.paragraph("foo");
+      doc.endChapter();
+      doc.startChapter("chapter 2");
+      doc.paragraph("bar");
+      doc.endChapter();
+
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document, 9, EOL.system());
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "# chapter 1");
+      appendLine(expected, "");
+      appendLine(expected, "foo");
+      appendLine(expected, "");
+      appendLine(expected, "# chapter 2");
+      appendLine(expected, "");
+      appendLine(expected, "bar");
       appendLine(expected);
 
       assertEquals(expected.toString(), markdown);

@@ -312,6 +312,8 @@ public class DocOMToMarkdownConverter
          java.util.List<? extends EObject> children = getChildren(document);
          for (EObject eObject : children)
          {
+            preChild(document, eObject, w);
+            w.flush();
             render(renderers, objs, eObject, w);
          }
 
@@ -368,11 +370,24 @@ public class DocOMToMarkdownConverter
          {
             w.append('\n');
 
-            final EObject previous = children.get(idx - 1);
+            EObject previous = children.get(idx - 1);
 
             if (previous instanceof Paragraph || previous instanceof Header || previous instanceof NewLine)
             {
                w.append('\n');
+               return;
+            }
+
+            java.util.List<? extends EObject> c = getChildren(previous);
+            while (c != null && !c.isEmpty())
+            {
+               previous = c.get(c.size() - 1);
+               if (previous instanceof Paragraph || previous instanceof Header || previous instanceof NewLine)
+               {
+                  w.append('\n');
+                  return;
+               }
+               c = getChildren(previous);
             }
          }
       }
