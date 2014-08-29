@@ -15,6 +15,7 @@ import java.util.Stack;
 
 import org.eclipse.emf.ecore.EObject;
 import org.sourcepit.docom.Chapter;
+import org.sourcepit.docom.Code;
 import org.sourcepit.docom.CodeLiteral;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
@@ -27,6 +28,8 @@ import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
 import org.sourcepit.docom.util.DocOMSwitch;
+
+import com.google.common.base.Strings;
 
 public class DocOMToMarkdownConverter
 {
@@ -51,7 +54,7 @@ public class DocOMToMarkdownConverter
          }
 
          @Override
-         public boolean isAllowLinesBreaks()
+         public boolean isAllowLinesBreaks(boolean forced)
          {
             return true;
          }
@@ -63,7 +66,7 @@ public class DocOMToMarkdownConverter
 
       void finalize(T obj, Writer w) throws IOException;
 
-      boolean isAllowLinesBreaks();
+      boolean isAllowLinesBreaks(boolean forced);
    }
 
 
@@ -109,7 +112,7 @@ public class DocOMToMarkdownConverter
       }
 
       @Override
-      public boolean isAllowLinesBreaks()
+      public boolean isAllowLinesBreaks(boolean forced)
       {
          return true;
       }
@@ -134,7 +137,7 @@ public class DocOMToMarkdownConverter
       }
 
       @Override
-      public boolean isAllowLinesBreaks()
+      public boolean isAllowLinesBreaks(boolean forced)
       {
          return true;
       }
@@ -152,9 +155,6 @@ public class DocOMToMarkdownConverter
                break;
             case ITALIC :
                w.append("*");
-               break;
-            case CODE :
-               w.append("`");
                break;
             case STRIKETHROUGH :
                w.append("~~");
@@ -176,7 +176,7 @@ public class DocOMToMarkdownConverter
       }
 
       @Override
-      public boolean isAllowLinesBreaks()
+      public boolean isAllowLinesBreaks(boolean forced)
       {
          return true;
       }
@@ -222,7 +222,7 @@ public class DocOMToMarkdownConverter
       }
 
       @Override
-      public boolean isAllowLinesBreaks()
+      public boolean isAllowLinesBreaks(boolean forced)
       {
          return false;
       }
@@ -237,7 +237,7 @@ public class DocOMToMarkdownConverter
       {
          if (w instanceof WordWrapppingWriter)
          {
-            ((WordWrapppingWriter)w).getOut().write("  ");
+            ((WordWrapppingWriter) w).getOut().write("  ");
          }
          else
          {
@@ -257,7 +257,7 @@ public class DocOMToMarkdownConverter
       }
 
       @Override
-      public boolean isAllowLinesBreaks()
+      public boolean isAllowLinesBreaks(boolean forced)
       {
          return true;
       }
@@ -285,9 +285,45 @@ public class DocOMToMarkdownConverter
       }
 
       @Override
-      public boolean isAllowLinesBreaks()
+      public boolean isAllowLinesBreaks(boolean forced)
       {
          return true;
+      }
+   }
+
+   public static class CodeRenderer implements Renderer<Code>
+   {
+      @Override
+      public void render(Code obj, Writer w) throws IOException
+      {
+         w.write("```");
+         final String lang = obj.getLanguage();
+         if (!Strings.isNullOrEmpty(lang))
+         {
+            w.write(lang);
+         }
+         w.write('\n');
+
+         w.flush();
+         w.write(obj.getText());
+      }
+
+      @Override
+      public void preNewLine(Code obj, Writer w) throws IOException
+      {
+      }
+
+      @Override
+      public void finalize(Code obj, Writer w) throws IOException
+      {
+         w.flush();
+         w.write("\n```");
+      }
+
+      @Override
+      public boolean isAllowLinesBreaks(boolean forced)
+      {
+         return !forced; // allow original line breaks
       }
 
    }
@@ -328,7 +364,7 @@ public class DocOMToMarkdownConverter
          {
             for (Renderer<?> renderer : renderers)
             {
-               if (!renderer.isAllowLinesBreaks())
+               if (!renderer.isAllowLinesBreaks(forced))
                {
                   return false;
                }
@@ -402,7 +438,8 @@ public class DocOMToMarkdownConverter
 
             EObject previous = children.get(idx - 1);
 
-            if (previous instanceof Paragraph || previous instanceof Header || previous instanceof NewLine)
+            if (previous instanceof Paragraph || previous instanceof Header || previous instanceof NewLine
+               || previous instanceof Code)
             {
                w.append('\n');
                return;
@@ -412,7 +449,8 @@ public class DocOMToMarkdownConverter
             while (c != null && !c.isEmpty())
             {
                previous = c.get(c.size() - 1);
-               if (previous instanceof Paragraph || previous instanceof Header || previous instanceof NewLine)
+               if (previous instanceof Paragraph || previous instanceof Header || previous instanceof NewLine
+                  || previous instanceof Code)
                {
                   w.append('\n');
                   return;
@@ -510,7 +548,12 @@ public class DocOMToMarkdownConverter
          public Renderer<T> caseCodeLiteral(CodeLiteral object)
          {
             return (Renderer<T>) new CodeLiteralRenderer();
-         };
+         }
+
+         public DocOMToMarkdownConverter.Renderer<T> caseCode(Code object)
+         {
+            return (Renderer<T>) new CodeRenderer();
+         }
 
       }.doSwitch(obj);
 

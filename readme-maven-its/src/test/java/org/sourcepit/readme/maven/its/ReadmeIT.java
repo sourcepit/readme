@@ -26,7 +26,7 @@ public class ReadmeIT extends ExternalMavenTest
    @Override
    protected boolean isDebug()
    {
-      return false;
+      return true;
    }
 
    @Test

@@ -44,17 +44,6 @@ public enum EmphasisType implements Enumerator
    BOLD(1, "BOLD", "BOLD"),
 
    /**
-    * The '<em><b>CODE</b></em>' literal object.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * 
-    * @see #CODE_VALUE
-    * @generated
-    * @ordered
-    */
-   CODE(2, "CODE", "CODE"),
-
-   /**
     * The '<em><b>STRIKETHROUGH</b></em>' literal object.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -98,22 +87,6 @@ public enum EmphasisType implements Enumerator
    public static final int BOLD_VALUE = 1;
 
    /**
-    * The '<em><b>CODE</b></em>' literal value.
-    * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of '<em><b>CODE</b></em>' literal object isn't clear, there really should be more of a description
-    * here...
-    * </p>
-    * <!-- end-user-doc -->
-    * 
-    * @see #CODE
-    * @model
-    * @generated
-    * @ordered
-    */
-   public static final int CODE_VALUE = 2;
-
-   /**
     * The '<em><b>STRIKETHROUGH</b></em>' literal value.
     * <!-- begin-user-doc -->
     * <p>
@@ -136,7 +109,7 @@ public enum EmphasisType implements Enumerator
     * 
     * @generated
     */
-   private static final EmphasisType[] VALUES_ARRAY = new EmphasisType[] { ITALIC, BOLD, CODE, STRIKETHROUGH, };
+   private static final EmphasisType[] VALUES_ARRAY = new EmphasisType[] { ITALIC, BOLD, STRIKETHROUGH, };
 
    /**
     * A public read-only list of all the '<em><b>Emphasis Type</b></em>' enumerators.
@@ -202,8 +175,6 @@ public enum EmphasisType implements Enumerator
             return ITALIC;
          case BOLD_VALUE :
             return BOLD;
-         case CODE_VALUE :
-            return CODE;
          case STRIKETHROUGH_VALUE :
             return STRIKETHROUGH;
       }

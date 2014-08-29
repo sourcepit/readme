@@ -13,6 +13,7 @@ import java.util.Stack;
 
 import org.eclipse.emf.ecore.EObject;
 import org.sourcepit.docom.Chapter;
+import org.sourcepit.docom.Code;
 import org.sourcepit.docom.CodeLiteral;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
@@ -105,13 +106,13 @@ public class DocumentBuilder
       return this;
    }
 
-   public DocumentBuilder startParagraph()
+   public Paragraph startParagraph()
    {
       final EObject parent = stack.peek();
       checkState(parent instanceof Structured || parent instanceof ListItem);
       final Paragraph paragraph = eFactory.createParagraph();
       stack.push(paragraph);
-      return this;
+      return paragraph;
    }
 
    public DocumentBuilder endParagraph()
@@ -208,5 +209,25 @@ public class DocumentBuilder
       }
 
       return this;
+   }
+   
+   public Code code(String code)
+   {
+      final Code c = eFactory.createCode();
+      c.setText(code);
+
+      final EObject parent = stack.peek();
+      checkState(parent instanceof Structured || parent instanceof ListItem);
+
+      if (parent instanceof Structured)
+      {
+         ((Structured) parent).getContent().add(c);
+      }
+      else if (parent instanceof ListItem)
+      {
+         ((ListItem) parent).getContent().add(c);
+      }
+
+      return c;
    }
 }

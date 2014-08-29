@@ -8,7 +8,6 @@
   <eClassifiers xsi:type="ecore:EEnum" name="EmphasisType">
     <eLiterals name="ITALIC"/>
     <eLiterals name="BOLD" value="1" literal="BOLD"/>
-    <eLiterals name="CODE" value="2"/>
     <eLiterals name="STRIKETHROUGH" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="List" eSuperTypes="#//Structurable #//Listable">

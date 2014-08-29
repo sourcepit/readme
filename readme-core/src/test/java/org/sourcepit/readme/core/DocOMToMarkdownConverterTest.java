@@ -86,20 +86,6 @@ public class DocOMToMarkdownConverterTest
    }
 
    @Test
-   public void testCode()
-   {
-      Document document = doc(p(code(text("Hallo Welt!"))));
-
-      String markdown = converter.toMarkdown(document);
-
-      StringBuilder expected = new StringBuilder();
-      appendLine(expected, "`Hallo Welt!`");
-      appendLine(expected);
-
-      assertEquals(expected.toString(), markdown);
-   }
-
-   @Test
    public void testStrikethrough()
    {
       Document document = doc(p(strikethrough(text("Hallo Welt!"))));
@@ -336,6 +322,31 @@ public class DocOMToMarkdownConverterTest
 
       assertEquals(expected.toString(), markdown);
    }
+   
+   @Test
+   public void testCode() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+      doc.startDocument();
+      doc.code("foo");
+      doc.code("bar");
+      
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document, 900, EOL.system());
+      
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "```");
+      appendLine(expected, "foo");
+      appendLine(expected, "```");
+      appendLine(expected, "");
+      appendLine(expected, "```");
+      appendLine(expected, "bar");
+      appendLine(expected, "```");
+      appendLine(expected, "");
+
+      assertEquals(expected.toString(), markdown);
+   }
 
    private List ul(ListItem... lis)
    {
@@ -402,14 +413,6 @@ public class DocOMToMarkdownConverterTest
    {
       Emphasis em = factory.createEmphasis();
       em.setType(EmphasisType.ITALIC);
-      em.getLiterals().add(literal);
-      return em;
-   }
-
-   private Emphasis code(Literal literal)
-   {
-      Emphasis em = factory.createEmphasis();
-      em.setType(EmphasisType.CODE);
       em.getLiterals().add(literal);
       return em;
    }
