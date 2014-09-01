@@ -73,7 +73,7 @@ void addPlugins(DocumentBuilder doc, HTMLToDocOM html, MavenSession session)
       else
       {
          plugins.each
-         {plugin ->
+         { plugin ->
             doc.startChapter("Maven Plugins")
             doc.startChapter(plugin.name)
             addPluginGAV(doc, plugin)
@@ -87,26 +87,26 @@ void addPlugins(DocumentBuilder doc, HTMLToDocOM html, MavenSession session)
 
 void addPluginGAV(DocumentBuilder doc, PluginDescriptor plugin)
 {
-   def gav = "<plugin>"
-   gav <<= "\n    <groupId>" + plugin.groupId + "<groupId>"
-   gav <<= "\n    <artifactId>" + plugin.artifactId + "<artifactId>"
-   gav <<= "\n    <version>" + plugin.version + "<version>"
-   gav <<= "\n</plugin>"
+   def gav = """<plugin>
+    <groupId>${plugin.groupId}<groupId>
+    <artifactId>${plugin.artifactId}<artifactId>
+    <version>${plugin.version}<version>
+</plugin>"""
 
-   def code = doc.code(gav.toString())
+   def code = doc.code(gav)
    code.language = "xml"
 }
 
 void addProjectGAV(DocumentBuilder doc, MavenProject project)
 {
-   def gav = "<dependency>"
-   gav <<= "\n    <groupId>" + project.groupId + "<groupId>"
-   gav <<= "\n    <artifactId>" + project.artifactId + "<artifactId>"
-   gav <<= "\n    <version>" + project.version + "<version>"
-   gav <<= "\n    <type>" + project.artifact.type + "<type>"
-   gav <<= "\n</dependency>"
+   def gav = """<dependency>
+    <groupId>${project.groupId}<groupId>
+    <artifactId>${project.artifactId}<artifactId>
+    <version>${project.version}<version>
+    <type>${project.artifact.type}<type>
+</dependency>"""
 
-   def code = doc.code(gav.toString())
+   def code = doc.code(gav)
    code.language = "xml"
 }
 
@@ -146,14 +146,10 @@ void addGoal(DocumentBuilder doc, HTMLToDocOM html, MojoDescriptor mojo)
    def phase = mojo.phase ;
    if (phase)
    {
-      usage <<= "\n    <phase>"
-      usage <<= phase
-      usage <<= "</phase> (default)"
+      usage <<= "\n    <phase>${phase}</phase> (default)"
    }
 
-   usage <<= "\n    <goals>\n        <goal>"
-   usage <<= mojo.goal
-   usage <<= "<goal>\n    <goal>"
+   usage <<= "\n    <goals>\n        <goal>${mojo.goal}<goal>\n    <goal>"
 
    usage <<= "\n    <configuration>"
    mojo.parameters.each
