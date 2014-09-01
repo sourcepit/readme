@@ -875,6 +875,28 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) link.getLiterals().get(0);
       assertEquals("Über mich", text.getText());
    }
+   
+   @Test
+   public void testLinkWithLinebreak() throws Exception
+   {
+      StringBuilder md = new StringBuilder();
+      md.append("[Über\nmich](/about/)");
+
+      Document document = converter.toDocOM(md.toString());
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Link link = (Link) paragraph.getLiterals().get(0);
+      assertEquals("/about/", link.getUrl());
+      assertNull(link.getTitle());
+      assertEquals(1, link.getLiterals().size());
+
+      Text text = (Text) link.getLiterals().get(0);
+      assertEquals("Über mich", text.getText());
+   }
 
    @Test
    public void testLinkLazyStyle() throws Exception

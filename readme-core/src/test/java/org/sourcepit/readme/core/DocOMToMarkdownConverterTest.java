@@ -376,6 +376,70 @@ public class DocOMToMarkdownConverterTest
 
       assertEquals(expected.toString(), markdown);
    }
+   
+   @Test
+   public void testLink() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+      doc.startDocument();
+      doc.startParagraph();
+      doc.link("Hallo", "http://foo.bar");
+      doc.endParagraph();
+
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document, 900, EOL.system());
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "[Hallo](http://foo.bar)");
+      appendLine(expected, "");
+
+      assertEquals(expected.toString(), markdown);
+   }
+   
+   @Test
+   public void testLinkWithTitle() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+      doc.startDocument();
+      doc.startParagraph();
+      doc.link("Hallo", "http://foo.bar", "Murks");
+      doc.endParagraph();
+
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document, 900, EOL.system());
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "[Hallo](http://foo.bar 'Murks')");
+      appendLine(expected, "");
+
+      assertEquals(expected.toString(), markdown);
+   }
+   
+   @Test
+   public void testLinkWithEmphasisis() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+      doc.startDocument();
+      doc.startParagraph();
+      doc.startLink("http://foo.bar", "Murks");
+      doc.startEmphasis(EmphasisType.BOLD);
+      doc.text("Hallo");
+      doc.endEmphasis();
+      doc.endLink();
+      doc.endParagraph();
+
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document, 900, EOL.system());
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "[**Hallo**](http://foo.bar 'Murks')");
+      appendLine(expected, "");
+
+      assertEquals(expected.toString(), markdown);
+   }
 
    private List ul(ListItem... lis)
    {

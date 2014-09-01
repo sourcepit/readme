@@ -17,6 +17,9 @@ import org.sourcepit.docom.Code;
 import org.sourcepit.docom.CodeLiteral;
 import org.sourcepit.docom.DocOMFactory;
 import org.sourcepit.docom.Document;
+import org.sourcepit.docom.Emphasis;
+import org.sourcepit.docom.EmphasisType;
+import org.sourcepit.docom.Link;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
@@ -61,11 +64,11 @@ public class DocumentBuilder
       return this;
    }
 
-   public DocumentBuilder endChapter()
+   public Chapter endChapter()
    {
       final Chapter chapter = (Chapter) stack.pop();
       ((Structured) stack.peek()).getContent().add(chapter);
-      return this;
+      return chapter;
    }
 
    public DocumentBuilder startUnorderedList()
@@ -181,6 +184,56 @@ public class DocumentBuilder
       return this;
    }
 
+   public Link link(String text, String url)
+   {
+      return link(text, url, null);
+   }
+
+   public Link startLink(String url)
+   {
+      return startLink(url, null);
+   }
+
+   public Link startLink(String url, String title)
+   {
+      final EObject parent = stack.peek();
+      checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
+
+      final Link link = eFactory.createLink();
+      link.setUrl(url);
+      link.setTitle(title);
+
+      stack.push(link);
+
+      return link;
+   }
+
+   public Link endLink()
+   {
+      Link link = (Link) stack.pop();
+
+      final EObject parent = stack.peek();
+      checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
+      
+      if (parent instanceof LiteralGroup)
+      {
+         ((LiteralGroup) parent).getLiterals().add(link);
+      }
+      else if (parent instanceof ListItem)
+      {
+         ((ListItem) parent).getContent().add(link);
+      }
+      
+      return link;
+   }
+
+   public Link link(String text, String url, String title)
+   {
+      startLink(url, title);
+      text(text);
+      return endLink();
+   }
+
    public DocumentBuilder codeLiteral(String code)
    {
       final CodeLiteral c = eFactory.createCodeLiteral();
@@ -210,7 +263,7 @@ public class DocumentBuilder
 
       return this;
    }
-   
+
    public Code code(String code)
    {
       final Code c = eFactory.createCode();
@@ -229,5 +282,37 @@ public class DocumentBuilder
       }
 
       return c;
+   }
+
+   public Emphasis startEmphasis(EmphasisType type)
+   {
+      final EObject parent = stack.peek();
+      checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
+
+      Emphasis em = eFactory.createEmphasis();
+      em.setType(type);
+      
+      stack.push(em);
+      
+      return em;
+   }
+   
+   public Emphasis endEmphasis()
+   {
+      Emphasis em = (Emphasis) stack.pop();
+      
+      final EObject parent = stack.peek();
+      checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
+
+      if (parent instanceof LiteralGroup)
+      {
+         ((LiteralGroup) parent).getLiterals().add(em);
+      }
+      else if (parent instanceof ListItem)
+      {
+         ((ListItem) parent).getContent().add(em);
+      }
+
+      return em;
    }
 }

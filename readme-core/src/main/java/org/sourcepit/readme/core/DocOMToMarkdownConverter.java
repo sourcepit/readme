@@ -6,6 +6,8 @@
 
 package org.sourcepit.readme.core;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -20,6 +22,7 @@ import org.sourcepit.docom.CodeLiteral;
 import org.sourcepit.docom.Document;
 import org.sourcepit.docom.Emphasis;
 import org.sourcepit.docom.Header;
+import org.sourcepit.docom.Link;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.LiteralGroup;
@@ -325,17 +328,59 @@ public class DocOMToMarkdownConverter
       {
          return !forced; // allow original line breaks
       }
+   }
+
+   public class LinkRenderer implements Renderer<Link>
+   {
+
+      @Override
+      public void render(Link obj, Writer w) throws IOException
+      {
+         // "[Über mich](/about/ 'Der Linktitel')"
+
+         w.write('[');
+
+      }
+
+      @Override
+      public void preNewLine(Link obj, Writer w) throws IOException
+      {
+      }
+
+      @Override
+      public void finalize(Link obj, Writer w) throws IOException
+      {
+         w.write(']');
+         w.write('(');
+         w.write(obj.getUrl());
+
+         if (!isNullOrEmpty(obj.getTitle()))
+         {
+            w.write(' ');
+            w.write('\'');
+            w.write(obj.getTitle());
+            w.write('\'');
+         }
+
+         w.write(')');
+      }
+
+      @Override
+      public boolean isAllowLinesBreaks(boolean forced)
+      {
+         return !forced;
+      }
 
    }
 
    public String toMarkdown(Document document)
    {
-      return toMarkdown(document, 80, EOL.system());
+      return toMarkdown(document, 120, EOL.system());
    }
 
    public String toMarkdown(Document document, EOL eol)
    {
-      return toMarkdown(document, 80, eol);
+      return toMarkdown(document, 120, eol);
    }
 
    public String toMarkdown(Document document, int lineLength, EOL eol)
@@ -358,7 +403,7 @@ public class DocOMToMarkdownConverter
             nlPrefix.close();
             return nlPrefix.toString();
          }
-         
+
          @Override
          protected boolean isEnabled()
          {
@@ -506,6 +551,11 @@ public class DocOMToMarkdownConverter
             return listItem.getContent();
          }
 
+         public java.util.List<? extends EObject> caseLink(Link link)
+         {
+            return link.getLiterals();
+         }
+
          public java.util.List<? extends EObject> defaultCase(EObject object)
          {
             return Collections.emptyList();
@@ -566,6 +616,11 @@ public class DocOMToMarkdownConverter
          public DocOMToMarkdownConverter.Renderer<T> caseCode(Code object)
          {
             return (Renderer<T>) new CodeRenderer();
+         }
+
+         public Renderer<T> caseLink(org.sourcepit.docom.Link object)
+         {
+            return (Renderer<T>) new LinkRenderer();
          }
 
       }.doSwitch(obj);
