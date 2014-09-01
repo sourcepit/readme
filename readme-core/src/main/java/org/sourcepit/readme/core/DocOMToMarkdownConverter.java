@@ -358,6 +358,19 @@ public class DocOMToMarkdownConverter
             nlPrefix.close();
             return nlPrefix.toString();
          }
+         
+         @Override
+         protected boolean isEnabled()
+         {
+            for (Renderer<?> renderer : renderers)
+            {
+               if (!renderer.isAllowLinesBreaks(true))
+               {
+                  return false;
+               }
+            }
+            return super.isEnabled();
+         }
 
          @Override
          protected boolean writeEOL(boolean forced) throws IOException

@@ -279,7 +279,7 @@ public class DocOMToMarkdownConverterTest
 
       assertEquals(expected.toString(), markdown);
    }
-   
+
    @Test
    public void testCodeLiteral() throws Exception
    {
@@ -288,18 +288,18 @@ public class DocOMToMarkdownConverterTest
       doc.startParagraph();
       doc.codeLiteral("test");
       doc.endParagraph();
-      
+
       Document document = doc.endDocument();
 
       String markdown = converter.toMarkdown(document, 9, EOL.system());
-      
+
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "`test`");
       appendLine(expected);
 
       assertEquals(expected.toString(), markdown);
    }
-   
+
    @Test
    public void testNewLine() throws Exception
    {
@@ -310,11 +310,11 @@ public class DocOMToMarkdownConverterTest
       doc.newLine();
       doc.text("bar");
       doc.endParagraph();
-      
+
       Document document = doc.endDocument();
 
       String markdown = converter.toMarkdown(document, 900, EOL.system());
-      
+
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "foo  ");
       appendLine(expected, "bar");
@@ -322,27 +322,56 @@ public class DocOMToMarkdownConverterTest
 
       assertEquals(expected.toString(), markdown);
    }
-   
+
    @Test
    public void testCode() throws Exception
    {
       DocumentBuilder doc = new DocumentBuilder();
       doc.startDocument();
-      doc.code("foo");
-      doc.code("bar");
-      
+      doc.code("    foo");
+      doc.code("    bar");
+
       Document document = doc.endDocument();
 
       String markdown = converter.toMarkdown(document, 900, EOL.system());
-      
+
       StringBuilder expected = new StringBuilder();
       appendLine(expected, "```");
-      appendLine(expected, "foo");
+      appendLine(expected, "    foo");
       appendLine(expected, "```");
       appendLine(expected, "");
       appendLine(expected, "```");
-      appendLine(expected, "bar");
+      appendLine(expected, "    bar");
       appendLine(expected, "```");
+      appendLine(expected, "");
+
+      assertEquals(expected.toString(), markdown);
+   }
+   
+   @Test
+   public void testCodeInList() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+      doc.startDocument();
+      doc.startUnorderedList();
+      doc.startListItem();
+      doc.code("    foo");
+      doc.code("    bar");
+      doc.endListItem();
+      doc.endList();
+
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document, 900, EOL.system());
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "*   ```");
+      appendLine(expected, "        foo");
+      appendLine(expected, "    ```");
+      appendLine(expected, "    ");
+      appendLine(expected, "    ```");
+      appendLine(expected, "        bar");
+      appendLine(expected, "    ```");
       appendLine(expected, "");
 
       assertEquals(expected.toString(), markdown);

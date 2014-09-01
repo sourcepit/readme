@@ -30,7 +30,7 @@ public class WordWrapppingWriter extends Writer
    {
       this(out, 512, maxLength, eol);
    }
-   
+
    public Writer getOut()
    {
       return out;
@@ -100,6 +100,17 @@ public class WordWrapppingWriter extends Writer
          @Override
          public void literal(char[] chars, int off, int len) throws IOException
          {
+            if (!isEnabled())
+            {
+               out.write(ws);
+               lineLength += ws.length();
+               ws = "";
+
+               out.write(chars, off, len);
+               lineLength += len;
+               return;
+            }
+
             if (lineLength == 0)
             {
                if (nlPrefix != null)
@@ -160,13 +171,34 @@ public class WordWrapppingWriter extends Writer
          @Override
          public void lf(char[] chars, int idx) throws IOException
          {
+            if (!isEnabled())
+            {
+               out.write(ws);
+               out.write(eol);
+               
+               nlPrefix = indent(false);
+
+               lineLength = 0;
+               
+               if (nlPrefix != null)
+               {
+                  out.write(nlPrefix);
+                  lineLength += nlPrefix.length();
+                  nlPrefix = null;
+               }
+
+               ws = "";
+               return;
+
+            }
+
             if (writeEOL(false))
             {
                lineLength = 0;
                ws = "";
-               
+
                nlPrefix = indent(false);
-               
+
                if (nlPrefix != null)
                {
                   out.write(nlPrefix);
@@ -179,7 +211,7 @@ public class WordWrapppingWriter extends Writer
                nlPrefix = null;
                ws = " ";
             }
-            
+
          }
 
          @Override
@@ -191,7 +223,12 @@ public class WordWrapppingWriter extends Writer
 
       nextChar = 0;
    }
-   
+
+   protected boolean isEnabled()
+   {
+      return true;
+   }
+
    protected String indent(boolean forced) throws IOException
    {
       return null;
