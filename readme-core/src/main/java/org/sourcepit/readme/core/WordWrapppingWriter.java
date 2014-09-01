@@ -165,7 +165,7 @@ public class WordWrapppingWriter extends Writer
          @Override
          public void whitespace(char[] chars, int off, int len) throws IOException
          {
-            ws = String.valueOf(chars, off, len);
+            ws += String.valueOf(chars, off, len);
          }
 
          @Override
@@ -175,11 +175,11 @@ public class WordWrapppingWriter extends Writer
             {
                out.write(ws);
                out.write(eol);
-               
+
                nlPrefix = indent(false);
 
                lineLength = 0;
-               
+
                if (nlPrefix != null)
                {
                   out.write(nlPrefix);
