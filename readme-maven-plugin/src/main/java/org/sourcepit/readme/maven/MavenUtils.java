@@ -28,6 +28,11 @@ public final class MavenUtils
    {
       super();
    }
+   
+   public static boolean isPomProject(MavenProject project)
+   {
+      return "pom".equals(project.getPackaging());
+   }
 
    public static boolean isMavenPlugin(MavenProject project)
    {
