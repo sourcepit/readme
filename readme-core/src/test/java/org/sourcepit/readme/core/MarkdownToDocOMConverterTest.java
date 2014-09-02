@@ -735,9 +735,9 @@ public class MarkdownToDocOMConverterTest
    public void testFencedCodeBlock() throws Exception
    {
       StringBuilder md = new StringBuilder();
-      md.append("```java\n");
-      md.append("code");
-      md.append("```\n");
+      md.append("```java\r\n");
+      md.append("code\r\n");
+      md.append("```\r\n");
 
       Document document = converter.toDocOM(md.toString());
       assertNotNull(document);
@@ -766,11 +766,11 @@ public class MarkdownToDocOMConverterTest
       assertEquals(2, document.getContent().size());
 
       Code code = (Code) document.getContent().get(0);
-      assertNull(code.getLanguage());
+      assertEquals("java", code.getLanguage());
       assertEquals("foo", code.getText());
       
       code = (Code) document.getContent().get(1);
-      assertNull(code.getLanguage());
+      assertEquals("java", code.getLanguage());
       assertEquals("foo\nbar", code.getText());
    }
    

@@ -814,6 +814,12 @@ public class MarkdownToDocOMConverter
          final Code code = factory.createCode();
          code.setText(String.valueOf(text, 0, length));
 
+         final String lang = node.getType();
+         if (!Strings.isNullOrEmpty(lang))
+         {
+            code.setLanguage(lang);
+         }
+
          final Object parent = parents.peek();
          if (parent instanceof Structured)
          {
