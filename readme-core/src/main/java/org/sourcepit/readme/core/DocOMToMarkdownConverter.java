@@ -368,7 +368,7 @@ public class DocOMToMarkdownConverter
       @Override
       public boolean isAllowLinesBreaks(boolean forced)
       {
-         return !forced;
+         return true;
       }
 
    }
