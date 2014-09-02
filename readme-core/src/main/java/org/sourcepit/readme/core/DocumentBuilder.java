@@ -9,8 +9,10 @@ package org.sourcepit.readme.core;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.Code;
@@ -23,9 +25,12 @@ import org.sourcepit.docom.Link;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
 import org.sourcepit.docom.ListType;
+import org.sourcepit.docom.Listable;
+import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
+import org.sourcepit.docom.Structurable;
 import org.sourcepit.docom.Structured;
 import org.sourcepit.docom.Text;
 
@@ -164,7 +169,7 @@ public class DocumentBuilder
       return this;
    }
 
-   public DocumentBuilder text(String text)
+   public Text text(String text)
    {
       final EObject parent = stack.peek();
       checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
@@ -181,7 +186,50 @@ public class DocumentBuilder
          ((ListItem) parent).getContent().add(t);
       }
 
-      return this;
+      return t;
+   }
+
+   public void mk(String markdown)
+   {
+      final Document document = new MarkdownToDocOMConverter().toDocOM(markdown);
+
+      final java.util.List<Structurable> content = new ArrayList<Structurable>(document.getContent());
+
+      if (content.size() == 1 && content.get(0) instanceof Paragraph)
+      {
+         final Paragraph p = (Paragraph) content.get(0);
+
+         final EList<Literal> literals = p.getLiterals();
+
+         final EObject parent = stack.peek();
+         checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
+
+         if (parent instanceof LiteralGroup)
+         {
+            ((LiteralGroup) parent).getLiterals().addAll(literals);
+         }
+         else if (parent instanceof ListItem)
+         {
+            ((ListItem) parent).getContent().addAll(literals);
+         }
+      }
+      else
+      {
+         final EObject parent = stack.peek();
+         checkState(parent instanceof Structured || parent instanceof ListItem);
+
+         for (Structurable structurable : content)
+         {
+            if (parent instanceof Structured)
+            {
+               ((Structured) parent).getContent().add(structurable);
+            }
+            else if (parent instanceof ListItem)
+            {
+               ((ListItem) parent).getContent().add((Listable) structurable);
+            }
+         }
+      }
    }
 
    public Link link(String text, String url)
@@ -214,7 +262,7 @@ public class DocumentBuilder
 
       final EObject parent = stack.peek();
       checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
-      
+
       if (parent instanceof LiteralGroup)
       {
          ((LiteralGroup) parent).getLiterals().add(link);
@@ -223,7 +271,7 @@ public class DocumentBuilder
       {
          ((ListItem) parent).getContent().add(link);
       }
-      
+
       return link;
    }
 
@@ -291,16 +339,16 @@ public class DocumentBuilder
 
       Emphasis em = eFactory.createEmphasis();
       em.setType(type);
-      
+
       stack.push(em);
-      
+
       return em;
    }
-   
+
    public Emphasis endEmphasis()
    {
       Emphasis em = (Emphasis) stack.pop();
-      
+
       final EObject parent = stack.peek();
       checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
 

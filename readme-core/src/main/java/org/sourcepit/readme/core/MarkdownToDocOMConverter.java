@@ -795,8 +795,24 @@ public class MarkdownToDocOMConverter
       {
          checkState(node.getChildren().isEmpty());
 
+         final char[] text = node.getText().toCharArray();
+
+         int length = text.length;
+         for (int i = text.length - 1; i >= 0; i--)
+         {
+            char c = text[i];
+            if (c == '\n' || c == '\r')
+            {
+               length--;
+            }
+            else
+            {
+               break;
+            }
+         }
+
          final Code code = factory.createCode();
-         code.setText(node.getText());
+         code.setText(String.valueOf(text, 0, length));
 
          final Object parent = parents.peek();
          if (parent instanceof Structured)

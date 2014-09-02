@@ -712,7 +712,7 @@ public class MarkdownToDocOMConverterTest
       assertEquals(1, document.getContent().size());
 
       Code code = (Code) document.getContent().get(0);
-      assertEquals("code\n", code.getText());
+      assertEquals("code", code.getText());
    }
 
    @Test
@@ -757,6 +757,7 @@ public class MarkdownToDocOMConverterTest
       md.append("```\n");
       md.append("\n");
       md.append("```java\n");
+      md.append("foo\n");
       md.append("bar\n");
       md.append("```\n");
 
@@ -766,11 +767,11 @@ public class MarkdownToDocOMConverterTest
 
       Code code = (Code) document.getContent().get(0);
       assertNull(code.getLanguage());
-      assertEquals("foo\n", code.getText());
+      assertEquals("foo", code.getText());
       
       code = (Code) document.getContent().get(1);
       assertNull(code.getLanguage());
-      assertEquals("bar\n", code.getText());
+      assertEquals("foo\nbar", code.getText());
    }
    
    @Test
@@ -785,7 +786,7 @@ public class MarkdownToDocOMConverterTest
       assertEquals(1, document.getContent().size());
 
       Code code = (Code) document.getContent().get(0);
-      assertEquals("code\n{}\n", code.getText());
+      assertEquals("code\n{}", code.getText());
    }
 
    @Test
@@ -813,7 +814,7 @@ public class MarkdownToDocOMConverterTest
       assertEquals("Snipped below:", text.getText());
 
       Code code = (Code) listItem.getContent().get(1);
-      assertEquals("code\n{}\n", code.getText());
+      assertEquals("code\n{}", code.getText());
    }
 
    @Test
