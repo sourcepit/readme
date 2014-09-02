@@ -7,7 +7,6 @@
 package org.sourcepit.readme.maven;
 
 import static org.apache.maven.plugins.annotations.LifecyclePhase.PROCESS_CLASSES;
-import groovy.lang.Binding;
 import groovy.util.GroovyScriptEngine;
 import groovy.util.ResourceException;
 import groovy.util.ScriptException;
@@ -24,8 +23,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.sourcepit.docom.Document;
 import org.sourcepit.readme.core.DocOMToMarkdownConverter;
-import org.sourcepit.readme.core.DocumentBuilder;
-import org.sourcepit.readme.core.HTMLToDocOM;
 
 @Mojo(name = "generate", requiresProject = true, defaultPhase = PROCESS_CLASSES, aggregator = true)
 public class ReadmeMojo extends AbstractMojo
@@ -46,16 +43,15 @@ public class ReadmeMojo extends AbstractMojo
 
    public void execute() throws MojoExecutionException, MojoFailureException
    {
-      Binding binding = new Binding();
-      binding.setVariable("mavenSession", buildContext.getSession());
-      binding.setVariable("documentBuilder", new DocumentBuilder());
-      binding.setVariable("htmlToDocOM", new HTMLToDocOM());
-      
-
       GroovyScriptEngine gse = new GroovyScriptEngine(new ClasspathResourceConnector(getClass().getClassLoader()));
       try
       {
-         Document document = (Document) gse.run("CreateReadme.groovy", binding);
+         @SuppressWarnings("unchecked")
+         Class<DocumentCreator> clazz = gse.loadScriptByName("CreateReadme.groovy");
+         
+         DocumentCreator documentCreator = clazz.newInstance();
+         
+         Document document = documentCreator.createDocument(buildContext.getSession(), true);
 
          DocOMToMarkdownConverter c = new DocOMToMarkdownConverter();
          System.out.println(c.toMarkdown(document));
@@ -66,6 +62,16 @@ public class ReadmeMojo extends AbstractMojo
          e.printStackTrace();
       }
       catch (ScriptException e)
+      {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      catch (InstantiationException e)
+      {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      catch (IllegalAccessException e)
       {
          // TODO Auto-generated catch block
          e.printStackTrace();

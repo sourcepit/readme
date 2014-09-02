@@ -13,8 +13,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.plugin.descriptor.PluginDescriptorBuilder;
 import org.apache.maven.project.MavenProject;
@@ -28,7 +30,7 @@ public final class MavenUtils
    {
       super();
    }
-   
+
    public static boolean isPomProject(MavenProject project)
    {
       return "pom".equals(project.getPackaging());
@@ -37,6 +39,60 @@ public final class MavenUtils
    public static boolean isMavenPlugin(MavenProject project)
    {
       return "maven-plugin".equals(project.getPackaging());
+   }
+
+   public static MavenProject getBuildParent(MavenSession session)
+   {
+      for (MavenProject project : session.getProjects())
+      {
+         if (findParentInBuild(session, project) == null && isBuildParent(session, project))
+         {
+            return project;
+         }
+      }
+      throw new IllegalStateException();
+   }
+
+   private static boolean isBuildParent(MavenSession session, MavenProject project)
+   {
+      for (MavenProject mavenProject : session.getProjects())
+      {
+         if (project.equals(mavenProject) || isSubProjectOf(project, mavenProject))
+         {
+            continue;
+         }
+         return false;
+      }
+      return session.getProjects().contains(project);
+   }
+
+   private static boolean isSubProjectOf(MavenProject parent, MavenProject project)
+   {
+      final List<MavenProject> modules = parent.getCollectedProjects();
+      if (modules.contains(project))
+      {
+         return true;
+      }
+
+      for (MavenProject module : modules)
+      {
+         if (isSubProjectOf(module, project))
+         {
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   public static MavenProject findParentInBuild(MavenSession session, MavenProject project)
+   {
+      MavenProject parent = project.getParent();
+      if (parent != null && session.getProjects().contains(parent))
+      {
+         return parent;
+      }
+      return null;
    }
 
    public static PluginDescriptor readPluginDescriptor(MavenProject project) throws IOException

@@ -3,9 +3,10 @@ import groovy.transform.EqualsAndHashCode;
 
 import java.lang.annotation.Documented;
 
+import javax.print.attribute.standard.MediaSize.ISO;
 import javax.swing.text.StyledEditorKit.BoldAction;
 
-import org.apache.maven.execution.MavenSession;
+import org.apache.maven.execution.MavenSession;import org.sourcepit.readme.maven.DocumentCreator;
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.MavenProject;
@@ -19,57 +20,89 @@ import org.sourcepit.docom.Paragraph;
 import org.sourcepit.readme.core.DocumentBuilder;
 import org.sourcepit.readme.core.HTMLToDocOM;
 
-void addOverview(DocumentBuilder doc, MavenSession session)
+class CreateReadme implements DocumentCreator
 {
-   def project = session.currentProject;
+   private static final HTMLToDocOM HTML = new HTMLToDocOM()
 
-   doc.startChapter(project.name)
-   def desc = project.description;
-   if (desc)
+   @Override
+   public Document createDocument(MavenSession session, boolean aggregate)
    {
-      doc.paragraph(desc);
-   }
-}
+      def doc = new DocumentBuilder()
+      doc.startDocument()
 
-
-void addPlugins(DocumentBuilder doc, HTMLToDocOM html, MavenSession session)
-{
-   def projects = session.projects
-
-   def plugins = new LinkedHashMap<MavenProject, PluginDescriptor>()
-   projects.each
-   { project ->
-      if (isMavenPlugin( project))
+      if (session.projects == 1 || !aggregate)
       {
-         plugins[project] = readPluginDescriptor(project)
+         def project = session.currentProject
+         addProject(doc, project, false)
+         addLicenses(doc, project)
+         doc.endChapter();
+      }
+      else
+      {
+         def buildParent = getBuildParent(session)
+         addProject(doc, buildParent, false)
+
+         def projects = session.projects
+         projects.each
+         { project ->
+            if (!isPomProject(project))
+            {
+               addProject(doc, project, true)
+            }
+         }
+
+         addLicenses(doc, session)
+         doc.endChapter();
+      }
+
+      return doc.endDocument()
+   }
+
+   void addProject(DocumentBuilder doc, MavenProject project, boolean closeChapter)
+   {
+      if (isMavenPlugin(project))
+      {
+         addPlugin(doc, project, readPluginDescriptor(project), closeChapter)
+      }
+      else if (isPomProject(project))
+      {
+         addParent(doc, project, closeChapter)
+      }
+      else
+      {
+         addLibrary(doc, project, closeChapter)
       }
    }
 
-   doc.startChapter("Maven Plugins")
-
-   plugins.each
-   { project, plugin ->
-      doc.startChapter(plugin.name)
-      addPluginBody(doc, html, project, plugin);
-      doc.endChapter()
-   }
-
-   doc.endChapter()
-}
-
-void addPluginBody(DocumentBuilder doc, HTMLToDocOM html, MavenProject project, PluginDescriptor plugin)
-{
-   def desc = plugin.description;
-   if (desc)
+   void addParent(DocumentBuilder doc, MavenProject project, boolean closeChapter)
    {
-      if (!project.parent || !desc.equals(project.parent.description))
+      doc.startChapter(project.name)
+      def desc = project.description;
+      if (desc)
       {
          doc.paragraph(desc);
       }
+
+      if (closeChapter)
+      {
+         doc.endChapter()
+      }
    }
 
-   doc.startChapter("Usage")
-   doc.code("""\
+   void addPlugin(DocumentBuilder doc, MavenProject project, PluginDescriptor plugin, boolean closeChapter)
+   {
+      doc.startChapter(project.name)
+      def desc = plugin.description;
+      if (desc)
+      {
+         if (!project.parent || !desc.equals(project.parent.description))
+         {
+            doc.paragraph(desc);
+         }
+      }
+
+      doc.startChapter("Usage")
+      doc.code("""\
 <project>
     <build>
         <!-- Define the plugin version in your POM or parent POM. -->
@@ -93,60 +126,41 @@ void addPluginBody(DocumentBuilder doc, HTMLToDocOM html, MavenProject project, 
         </plugins>
     </build>
 </project>""").language = "xml"
-   doc.endChapter()
-
-   doc.startChapter("Goals")
-   addGoals(doc, html, plugin)
-   doc.endChapter()
-}
-
-void addLibraries(DocumentBuilder doc, MavenSession session)
-{
-   List<MavenProject> projects = session.projects
-
-   def libs = new ArrayList<MavenProject>()
-   projects.each
-   { project ->
-      if (!isMavenPlugin( project) && !isPomProject( project))
-      {
-         libs << project
-      }
-   }
-
-   doc.startChapter("Libraries")
-
-   libs.each
-   { lib ->
-      doc.startChapter(lib.name)
-      addLibraryBody(doc, lib)
       doc.endChapter()
-   }
 
-   doc.endChapter()
-}
+      doc.startChapter("Goals")
+      addGoals(doc, plugin)
+      doc.endChapter()
 
-void addLibraryBody(DocumentBuilder doc, MavenProject project)
-{
-   def desc = project.description;
-   if (desc)
-   {
-      if (!project.parent || !desc.equals(project.parent.description))
+      if (closeChapter)
       {
-         doc.paragraph(desc);
+         doc.endChapter()
       }
    }
-   def appendType =
+
+   void addLibrary(DocumentBuilder doc, MavenProject project, boolean closeChapter)
    {
-      -> if (!"jar".equals(project.artifact.type))
+      doc.startChapter(project.name)
+      def desc = project.description;
+      if (desc)
       {
-         """
+         if (!project.parent || !desc.equals(project.parent.description))
+         {
+            doc.paragraph(desc);
+         }
+      }
+      def appendType =
+      {
+         -> if (!"jar".equals(project.artifact.type))
+         {
+            """
                     <type>${project.artifact.type}</type>"""
-      } else
-      {
-         ""
+         } else
+         {
+            ""
+         }
       }
-   }
-   doc.code("""\
+      doc.code("""\
 <project>
     <!-- Define the dependency version in your POM or parent POM. -->
     <dependencyManagement>
@@ -166,129 +180,150 @@ void addLibraryBody(DocumentBuilder doc, MavenProject project)
         </dependency>
     </dependencies>
 </project>""").language = "xml"
-}
 
-void addGoals(DocumentBuilder doc, HTMLToDocOM html, PluginDescriptor plugin)
-{
-   doc.startUnorderedList()
-   plugin.mojos.each
-   { mojo ->
-      addGoal(doc, html, mojo)
+      if (closeChapter)
+      {
+         doc.endChapter()
+      }
    }
-   doc.endList()
-}
 
-void addGoal(DocumentBuilder doc, HTMLToDocOM html, MojoDescriptor mojo)
-{
-   doc.startListItem()
-   doc.startParagraph()
-   doc.startEmphasis(EmphasisType.BOLD)
-   doc.text(mojo.goal)
-   doc.endEmphasis()
-   doc.endParagraph()
-
-   def descr = mojo.description
-   if (descr)
+   void addGoals(DocumentBuilder doc, PluginDescriptor plugin)
    {
-      def p = doc.startParagraph()
-      def result = html.convert(descr, Literal.class, LiteralGroup.class);
-      if (result instanceof Literal)
-      {
-         p.literals.add(result);
+      doc.startUnorderedList()
+      plugin.mojos.each
+      { mojo ->
+         addGoal(doc, mojo)
       }
-      else
-      {
-         p.literals.addAll(((LiteralGroup)result).literals);
-      }
+      doc.endList()
+   }
+
+   void addGoal(DocumentBuilder doc, MojoDescriptor mojo)
+   {
+      doc.startListItem()
+      doc.startParagraph()
+      doc.startEmphasis(EmphasisType.BOLD)
+      doc.text(mojo.goal)
+      doc.endEmphasis()
       doc.endParagraph()
-   }
 
-   def usage = "<execution>"
+      def descr = mojo.description
+      if (descr)
+      {
+         def p = doc.startParagraph()
+         def result = HTML.convert(descr, Literal.class, LiteralGroup.class);
+         if (result instanceof Literal)
+         {
+            p.literals.add(result);
+         }
+         else
+         {
+            p.literals.addAll(((LiteralGroup)result).literals);
+         }
+         doc.endParagraph()
+      }
 
-   def phase = mojo.phase ;
-   if (phase)
-   {
-      usage <<= """
+      def usage = "<execution>"
+
+      def phase = mojo.phase ;
+      if (phase)
+      {
+         usage <<= """
     <!-- Bind the goal to a specific Maven phase, default is "${phase}". -->
     <phase />"""
-   } else
-   {
-      usage <<= """
+      } else
+      {
+         usage <<= """
     <!-- Bind the goal to a specific Maven phase. -->
     <phase />"""
-   }
+      }
 
-   usage <<= """
+      usage <<= """
     <goals>
         <goal>${mojo.goal}<goal>
     </goals>"""
 
-   usage <<= "\n    <configuration>"
+      usage <<= "\n    <configuration>"
 
-   mojo.parameters.each
-   { param ->
-      usage <<= "\n        <!-- "
+      mojo.parameters.each
+      { param ->
+         usage <<= "\n        <!-- "
 
-      if (param.description)
-      {
-         usage <<= "\n            "
-         usage <<= html.toMarkdown(param.description)
-         usage <<= "\n            "
+         if (param.description)
+         {
+            usage <<= "\n            "
+            usage <<= HTML.toMarkdown(param.description)
+            usage <<= "\n            "
+         }
+
+         if (param.expression)
+         {
+            usage <<= "\n            Expression: " + param.expression
+         }
+
+         if (param.type)
+         {
+            usage <<= "\n            Type: " + param.type
+         }
+
+         if (param.defaultValue)
+         {
+            usage <<= "\n            Default Value: " + param.defaultValue
+         }
+
+         usage <<= "\n            Required: " + param.required
+
+         if (param.deprecated)
+         {
+            usage <<= "\n            Deprecated: " + param.deprecated
+         }
+
+         if (param.since)
+         {
+            usage <<= "\n            Since: " + param.since
+         }
+
+         usage <<= "\n            -->"
+         usage <<= "\n        <" + param.name +  " />"
       }
+      usage <<= "\n    </configuration>"
+      usage <<= "\n</execution>"
 
-      if (param.expression)
-      {
-         usage <<= "\n            Expression: " + param.expression
-      }
+      def code = doc.code(usage.toString())
+      code.language = "xml"
 
-      if (param.type)
-      {
-         usage <<= "\n            Type: " + param.type
-      }
-
-      if (param.defaultValue)
-      {
-         usage <<= "\n            Default Value: " + param.defaultValue
-      }
-
-      usage <<= "\n            Required: " + param.required
-
-      if (param.deprecated)
-      {
-         usage <<= "\n            Deprecated: " + param.deprecated
-      }
-
-      if (param.since)
-      {
-         usage <<= "\n            Since: " + param.since
-      }
-
-      usage <<= "\n            -->"
-      usage <<= "\n        <" + param.name +  " />"
+      doc.endListItem()
    }
-   usage <<= "\n    </configuration>"
-   usage <<= "\n</execution>"
 
-   def code = doc.code(usage.toString())
-   code.language = "xml"
+   @EqualsAndHashCode(includeFields=true)
+   class Lic
+   {
+      String name, url;
+   }
 
-   doc.endListItem()
-}
+   void addLicenses(DocumentBuilder doc, MavenSession session)
+   {
+      def projects = session.getProjects();
 
-@EqualsAndHashCode(includeFields=true)
-class Lic
-{
-   String name, url;
-}
+      def lics = new HashSet<Lic>();
 
-void addLicenses(DocumentBuilder doc, MavenSession session)
-{
-   def projects = session.getProjects();
+      projects.each
+      { project ->
+         project.licenses.each
+         { license ->
+            def lic = new Lic()
+            lic.name = license.name
+            lic.url = license.url
 
-   def lics = new HashSet<Lic>();
+            lics << lic;
+         }
+      }
 
-   projects.each
-   { project ->
+      addLicenses(doc, lics);
+   }
+
+   void addLicenses(DocumentBuilder doc, MavenProject project)
+   {
+      def lics = new HashSet<Lic>();
       project.licenses.each
       { license ->
          def lic = new Lic()
@@ -297,82 +332,51 @@ void addLicenses(DocumentBuilder doc, MavenSession session)
 
          lics << lic;
       }
+      addLicenses(doc, lics);
    }
 
-   if (lics.size() == 0)
+   void addLicenses(DocumentBuilder doc, Set<Lic> lics)
    {
-      return
-   }
-
-   if (lics.size() == 1)
-   {
-      doc.startChapter("License")
-      doc.startParagraph()
-   }
-   else
-   {
-      doc.startChapter("Licenses")
-      doc.startUnorderedList()
-   }
-
-   lics.each
-   { lic ->
-      if (lics.size() > 1)
+      if (lics.size() == 0)
       {
-         doc.startListItem()
+         return
       }
 
-      doc.link(lic.name, lic.url)
-
-      if (lics.size() > 1)
+      if (lics.size() == 1)
       {
-         doc.endListItem()
+         doc.startChapter("License")
+         doc.startParagraph()
       }
-   }
+      else
+      {
+         doc.startChapter("Licenses")
+         doc.startUnorderedList()
+      }
 
-   if (lics.size() == 1)
-   {
-      doc.endParagraph()
-   }
-   else
-   {
-      doc.endList()
-   }
+      lics.each
+      { lic ->
+         if (lics.size() > 1)
+         {
+            doc.startListItem()
+         }
 
-   doc.endChapter()
+         doc.link(lic.name, lic.url)
+
+         if (lics.size() > 1)
+         {
+            doc.endListItem()
+         }
+      }
+
+      if (lics.size() == 1)
+      {
+         doc.endParagraph()
+      }
+      else
+      {
+         doc.endList()
+      }
+
+      doc.endChapter()
+   }
 }
-
-def session = (MavenSession) mavenSession
-def DocumentBuilder doc = documentBuilder
-def HTMLToDocOM html = htmlToDocOM
-
-doc.startDocument()
-
-if (session.projects == 1)
-{
-   def project = session.currentProject
-
-   if (isMavenPlugin(project))
-   {
-      def plugin = readPluginDescriptor(project)
-      doc.startChapter(plugin.name)
-      addPluginBody(doc, html, project, plugin)
-   }
-   else
-   {
-      doc.startChapter(project.name)
-      addLibraryBody(doc, project);
-   }
-
-   addLicenses(doc, session)
-   doc.endChapter();
-}
-else
-{
-   addOverview(doc, session)
-   addPlugins(doc, html, session)
-   addLibraries(doc, session);
-   addLicenses(doc, session)
-   doc.endChapter();
-}
-return doc.endDocument()
