@@ -13,7 +13,7 @@
 	<version>1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<description>${project.artifactId} description.</description>
+	<description>\${project.artifactId} description.</description>
 
 	<organization>
 		<name>SourcePit.org</name>

@@ -92,7 +92,7 @@ class CreateReadme implements DocumentCreator
    void addPlugin(DocumentBuilder doc, MavenProject project, PluginDescriptor plugin, boolean closeChapter)
    {
       doc.startChapter(project.name)
-      def desc = plugin.description;
+      def desc = project.description;
       if (desc)
       {
          if (!project.parent || !desc.equals(project.parent.description))
@@ -101,25 +101,32 @@ class CreateReadme implements DocumentCreator
          }
       }
 
-      doc.startChapter("Usage")
+      doc.startChapter("Direct Invocation")
+
+      doc.mk("""\
+To directly invoke a goal of this plugin, use the follwoing commands. For the list of possible goals, see the list of goals below.
+
+```
+mvn ${plugin.groupId}:${plugin.artifactId}:${plugin.version}:<goal> [<propertie(s)>]
+
+mvn ${plugin.goalPrefix}:<goal> [<propertie(s)>]
+```
+
+The second command shows the invocation via this plugins prefix: `$plugin.goalPrefix`. For more details see [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html).
+
+""")
+
+      doc.endChapter()
+      doc.startChapter("Invocation via Maven Build")
       doc.code("""\
 <project>
     <build>
-        <!-- Define the plugin version in your POM or parent POM. -->
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>${plugin.groupId}</groupId>
-                    <artifactId>${plugin.artifactId}</artifactId>
-                    <version>${plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <!-- Use the plugin goals in your POM or parent POM. -->
+        <!-- Use the plugin in your POM or parent POM. -->
         <plugins>
             <plugin>
                 <groupId>${plugin.groupId}</groupId>
                 <artifactId>${plugin.artifactId}</artifactId>
+                <version>${plugin.version}</version>
                 <!-- Add an execution element for each goal you want to execute. -->
                 <executions />
             </plugin>
@@ -162,21 +169,12 @@ class CreateReadme implements DocumentCreator
       }
       doc.code("""\
 <project>
-    <!-- Define the dependency version in your POM or parent POM. -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>${project.artifactId}</artifactId>
-                <version>${project.version}</version>${appendType}
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <!-- Use the dependency in your POM or parent POM. -->
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>${project.artifactId}</artifactId>
+            <version>${project.version}</version>${appendType}
         </dependency>
     </dependencies>
 </project>""").language = "xml"

@@ -9,6 +9,8 @@
 	<artifactId>test-mojo-1</artifactId>
 
 	<packaging>maven-plugin</packaging>
+	
+	<description>\${project.artifactId} description.</description>
 
 	<dependencies>
 		<dependency>
