@@ -101,6 +101,37 @@ class CreateReadme implements DocumentCreator
          }
       }
 
+      doc.startChapter("Plugin Management")
+
+      doc.startParagraph()
+      doc.mk("Best practice is to define the version of the plugin that you want to use in either your `pom.xml` or a parent `pom.xml`")
+      doc.endParagraph()
+      doc.code("""\
+<project>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>${plugin.groupId}</groupId>
+                    <artifactId>${plugin.artifactId}</artifactId>
+                    <version>${plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>""").language = "xml"
+      doc.mk("""This plugin also provides goals that can be invoked via command line. For convenience you can use the shorter plugin prefix `$plugin.goalPrefix` in your commands by adding this plugins group id to the list of plugin groups in your 'settings.xml'.
+
+```
+<settings>
+    <pluginGroups>
+        <pluginGroup>${plugin.groupId}</pluginGroup>
+    </pluginGroups>
+</settings>
+```
+
+See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html)""")
+      doc.endChapter()
       doc.startChapter("Direct Invocation")
 
       doc.mk("""\
