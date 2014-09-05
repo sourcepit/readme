@@ -7,6 +7,7 @@ import javax.print.attribute.standard.MediaSize.ISO;
 import javax.swing.text.StyledEditorKit.BoldAction;
 
 import org.apache.maven.execution.MavenSession;import org.sourcepit.readme.maven.DocumentCreator;
+import org.sourcepit.readme.maven.GoalInvocation;
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.MavenProject;
@@ -103,10 +104,16 @@ class CreateReadme implements DocumentCreator
 
       doc.startChapter("Plugin Management")
 
-      doc.startParagraph()
-      doc.mk("Best practice is to define the version of the plugin that you want to use in either your `pom.xml` or a parent `pom.xml`")
-      doc.endParagraph()
-      doc.code("""\
+      def goalInvokation = getGoalInvocation(plugin)
+      def requiresProject = isRequiresProject(plugin)
+      
+
+      if (requiresProject || goalInvokation == GoalInvocation.BUILD_ONLY || goalInvokation == GoalInvocation.DIRECT_AND_BUILD )
+      {
+         doc.startParagraph()
+         doc.mk("Best practice is to define the version of the plugin that you want to use in either your `pom.xml` or a parent `pom.xml`")
+         doc.endParagraph()
+         doc.code("""\
 <project>
     <build>
         <pluginManagement>
@@ -120,7 +127,11 @@ class CreateReadme implements DocumentCreator
         </pluginManagement>
     </build>
 </project>""").language = "xml"
-      doc.mk("""This plugin also provides goals that can be invoked via command line. For convenience you can use the shorter plugin prefix `$plugin.goalPrefix` in your commands by adding this plugins group id to the list of plugin groups in your 'settings.xml'.
+      }
+
+      if (goalInvokation == GoalInvocation.DIRECT_ONLY || goalInvokation == GoalInvocation.DIRECT_AND_BUILD )
+      {
+         doc.mk("""This plugin also provides goals that can be invoked via command line. For convenience you can use the shorter plugin prefix `$plugin.goalPrefix` in your commands by adding this plugins group id to the list of plugin groups in your 'settings.xml'.
 
 ```
 <settings>
@@ -131,7 +142,10 @@ class CreateReadme implements DocumentCreator
 ```
 
 See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html)""")
+      }
+
       doc.endChapter()
+
       doc.startChapter("Direct Invocation")
 
       doc.mk("""\
