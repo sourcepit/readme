@@ -18,7 +18,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  * 
  * @author imm0136
  */
-@Mojo(name = "goalName", requiresProject = true, defaultPhase = PROCESS_CLASSES, aggregator = true)
+@Mojo(name = "goalName", requiresProject = true, defaultPhase = PROCESS_CLASSES)
 public class Mojo1 extends AbstractMojo
 {
    @Override

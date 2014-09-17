@@ -17,37 +17,37 @@ public class MavenUtilsTest
    @Test
    public void test()
    {
-      assertEquals(GoalInvocation.DIRECT_AND_BUILD, getGoalInvocation(false, false, false, false));
-      
-      assertEquals(GoalInvocation.BUILD_ONLY, getGoalInvocation(false, false, false, true));
-      
-      assertEquals(GoalInvocation.DIRECT_AND_BUILD, getGoalInvocation(false, false, true, false));
-      
-      assertEquals(GoalInvocation.BUILD_ONLY, getGoalInvocation(false, false, true, true));
-      
-      assertEquals(GoalInvocation.DIRECT_ONLY, getGoalInvocation(false, true, false, false));
-      
-      assertEquals(GoalInvocation.DIRECT_AND_BUILD, getGoalInvocation(false, true, false, true));
-      
-      assertEquals(GoalInvocation.DIRECT_ONLY, getGoalInvocation(false, true, true, false));
-      
-      assertEquals(GoalInvocation.DIRECT_AND_BUILD, getGoalInvocation(false, true, true, true));
-      
-      assertEquals(GoalInvocation.DIRECT_ONLY, getGoalInvocation(true, false, false, false));
-      
-      assertEquals(GoalInvocation.DIRECT_AND_BUILD, getGoalInvocation(true, false, false, true));
-      
-      assertEquals(GoalInvocation.DIRECT_ONLY, getGoalInvocation(true, false, true, false));
-      
-      assertEquals(GoalInvocation.DIRECT_AND_BUILD, getGoalInvocation(true, false, true, true));
-      
-      assertEquals(GoalInvocation.DIRECT_ONLY, getGoalInvocation(true, true, false, false));
-      
-      assertEquals(GoalInvocation.DIRECT_AND_BUILD, getGoalInvocation(true, true, false, true));
-      
-      assertEquals(GoalInvocation.DIRECT_ONLY, getGoalInvocation(true, true, true, false));
-      
-      assertEquals(GoalInvocation.DIRECT_AND_BUILD, getGoalInvocation(true, true, true, true));
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(false, false, false, false));
+
+      assertEquals(GoalInvocation.BUILD, getGoalInvocation(false, false, false, true));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(false, false, true, false));
+
+      assertEquals(GoalInvocation.BUILD, getGoalInvocation(false, false, true, true));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(false, true, false, false));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(false, true, false, true));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(false, true, true, false));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(false, true, true, true));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(true, false, false, false));
+
+      assertEquals(GoalInvocation.BUILD, getGoalInvocation(true, false, false, true));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(true, false, true, false));
+
+      assertEquals(GoalInvocation.BUILD, getGoalInvocation(true, false, true, true));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(true, true, false, false));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(true, true, false, true));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(true, true, true, false));
+
+      assertEquals(GoalInvocation.CLI, getGoalInvocation(true, true, true, true));
    }
 
 }

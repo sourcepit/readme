@@ -7,5 +7,5 @@
 package org.sourcepit.readme.maven;
 public enum GoalInvocation
 {
-   DIRECT_ONLY, BUILD_ONLY, DIRECT_AND_BUILD
+   CLI, BUILD
 }

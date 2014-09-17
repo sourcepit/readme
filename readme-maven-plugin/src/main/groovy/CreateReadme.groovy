@@ -6,7 +6,8 @@ import java.lang.annotation.Documented;
 import javax.print.attribute.standard.MediaSize.ISO;
 import javax.swing.text.StyledEditorKit.BoldAction;
 
-import org.apache.maven.execution.MavenSession;import org.sourcepit.readme.maven.DocumentCreator;
+import org.apache.maven.execution.MavenSession;
+import org.sourcepit.readme.maven.DocumentCreator;
 import org.sourcepit.readme.maven.GoalInvocation;
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
@@ -103,15 +104,15 @@ class CreateReadme implements DocumentCreator
       }
 
       doc.startChapter("Plugin Management")
-
-      def goalInvokation = getGoalInvocation(plugin)
+      def hasCommandLineGoals = hasCommandLineGoals(plugin)
+      def hasBuildLifecycleGoals = hasBuildLifecycleGoals(plugin)
       def requiresProject = isRequiresProject(plugin)
-      
 
-      if (requiresProject || goalInvokation == GoalInvocation.BUILD_ONLY || goalInvokation == GoalInvocation.DIRECT_AND_BUILD )
+
+      if (requiresProject || hasBuildLifecycleGoals)
       {
          doc.startParagraph()
-         doc.mk("Best practice is to define the version of the plugin that you want to use in either your `pom.xml` or a parent `pom.xml`")
+         doc.mk("It is a good practice to define plugin versions in the plugin management section of your or a parents `pom.xml`:")
          doc.endParagraph()
          doc.code("""\
 <project>
@@ -129,11 +130,11 @@ class CreateReadme implements DocumentCreator
 </project>""").language = "xml"
       }
 
-      if (goalInvokation == GoalInvocation.DIRECT_ONLY || goalInvokation == GoalInvocation.DIRECT_AND_BUILD )
+      if (hasCommandLineGoals)
       {
-         doc.mk("""This plugin also provides goals that can be invoked via command line. For convenience you can use the shorter plugin prefix `$plugin.goalPrefix` in your commands by adding this plugins group id to the list of plugin groups in your 'settings.xml'.
+         doc.mk("""This plugin also provides goals that can be invoked from command line. For convenience you can use the shorter plugin prefix `$plugin.goalPrefix` for that instead of the full-blown plugin coordinates. To enable the prefix add this plugins group id to the list of plugin groups in your 'settings.xml':
 
-```
+```xml
 <settings>
     <pluginGroups>
         <pluginGroup>${plugin.groupId}</pluginGroup>
@@ -141,46 +142,20 @@ class CreateReadme implements DocumentCreator
 </settings>
 ```
 
-See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html)""")
+See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html).""")
       }
 
       doc.endChapter()
 
-      doc.startChapter("Direct Invocation")
-
+      doc.startChapter("Plugin Goals and Usage")
+      //      Goals available for this plugin:
+      //      Brief examples on how to use the dependency goals.
       doc.mk("""\
-To directly invoke a goal of this plugin, use the follwoing commands. For the list of possible goals, see the list of goals below.
+The *goals* available for this plugin with brief examples on how to use it.
 
-```
-mvn ${plugin.groupId}:${plugin.artifactId}:${plugin.version}:<goal> [<propertie(s)>]
-
-mvn ${plugin.goalPrefix}:<goal> [<propertie(s)>]
-```
-
-The second command shows the invocation via this plugins prefix: `$plugin.goalPrefix`. For more details see [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html).
-
+A plugin *goal* represents a specific task that could be executed during the build lifecycle and/or from command line. See also [A Build Phase is Made Up of Plugin Goals](http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#A_Build_Phase_is_Made_Up_of_Plugin_Goals).
 """)
 
-      doc.endChapter()
-      doc.startChapter("Invocation via Maven Build")
-      doc.code("""\
-<project>
-    <build>
-        <!-- Use the plugin in your POM or parent POM. -->
-        <plugins>
-            <plugin>
-                <groupId>${plugin.groupId}</groupId>
-                <artifactId>${plugin.artifactId}</artifactId>
-                <version>${plugin.version}</version>
-                <!-- Add an execution element for each goal you want to execute. -->
-                <executions />
-            </plugin>
-        </plugins>
-    </build>
-</project>""").language = "xml"
-      doc.endChapter()
-
-      doc.startChapter("Goals")
       addGoals(doc, plugin)
       doc.endChapter()
 
@@ -240,16 +215,16 @@ The second command shows the invocation via this plugins prefix: `$plugin.goalPr
       doc.endList()
    }
 
-   void addGoal(DocumentBuilder doc, MojoDescriptor mojo)
+   void addGoal(DocumentBuilder doc, MojoDescriptor goal)
    {
       doc.startListItem()
       doc.startParagraph()
       doc.startEmphasis(EmphasisType.BOLD)
-      doc.text(mojo.goal)
+      doc.text(goal.goal)
       doc.endEmphasis()
       doc.endParagraph()
 
-      def descr = mojo.description
+      def descr = goal.description
       if (descr)
       {
          def p = doc.startParagraph()
@@ -265,74 +240,135 @@ The second command shows the invocation via this plugins prefix: `$plugin.goalPr
          doc.endParagraph()
       }
 
-      def usage = "<execution>"
+      def requiresProject = goal.projectRequired
 
-      def phase = mojo.phase ;
-      if (phase)
+      def invocation = getGoalInvocation(goal)
+      def describeDirectInvocation = invocation == GoalInvocation.CLI
+      def describePluginInvocation = invocation == GoalInvocation.BUILD
+
+      def plugin = goal.pluginDescriptor
+
+      if (describePluginInvocation)
       {
+         def usage = "<execution>"
+
+         def phase = goal.phase ;
+         if (phase)
+         {
+            usage <<= """
+          <!-- Optionally, you can bind this goal to a specific Maven phase, default is "${phase}". -->
+          <!--phase>${phase}</phase-->"""
+         } else
+         {
+            usage <<= """
+          <!-- Bind his goal to a specific Maven phase. -->
+          <phase />"""
+         }
+
          usage <<= """
-    <!-- Bind the goal to a specific Maven phase, default is "${phase}". -->
-    <phase />"""
-      } else
-      {
-         usage <<= """
-    <!-- Bind the goal to a specific Maven phase. -->
-    <phase />"""
+          <goals>
+            <goal>${goal.goal}<goal>
+          </goals>"""
+
+         if (goal.parameters && !goal.parameters.empty)
+         {
+            usage <<= "\n          <configuration>"
+
+            goal.parameters.each
+            { param ->
+               usage <<= "\n            <!-- "
+
+               if (param.description)
+               {
+                  usage <<= "\n              "
+                  usage <<= HTML.toMarkdown(param.description)
+                  usage <<= "\n              "
+               }
+
+               if (param.expression)
+               {
+                  usage <<= "\n              Property: " + param.expression
+               }
+
+               if (param.type)
+               {
+                  usage <<= "\n              Type: " + param.type
+               }
+
+               if (param.defaultValue)
+               {
+                  usage <<= "\n              Default Value: " + param.defaultValue
+               }
+
+               usage <<= "\n              Required: " + param.required
+
+               if (param.deprecated)
+               {
+                  usage <<= "\n              Deprecated: " + param.deprecated
+               }
+
+               if (param.since)
+               {
+                  usage <<= "\n              Since: " + param.since
+               }
+
+               usage <<= "\n              -->"
+               usage <<= "\n            <" + param.name +  " />"
+            }
+            usage <<= "\n          </configuration>"
+         }
+         usage <<= "\n        </execution>"
+
+         doc.paragraph("To invoke this goal during the build lifecycle of your project, add the snipped below to your `pom.xml` and adjust it to your needs:")
+         doc.code("""\
+<project>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>${plugin.groupId}</groupId>
+        <artifactId>${plugin.artifactId}</artifactId>
+        ${usage}
+      </plugin>
+    </plugins>
+  </build>
+</project>""").language = "xml"
       }
 
-      usage <<= """
-    <goals>
-        <goal>${mojo.goal}<goal>
-    </goals>"""
-
-      usage <<= "\n    <configuration>"
-
-      mojo.parameters.each
-      { param ->
-         usage <<= "\n        <!-- "
-
-         if (param.description)
+      if (describeDirectInvocation)
+      {
+         if (requiresProject)
          {
-            usage <<= "\n            "
-            usage <<= HTML.toMarkdown(param.description)
-            usage <<= "\n            "
+            doc.paragraph("To invoke this goal from command line, `cd` into your project folder an execute the following command:")
+         }
+         else
+         {
+            doc.paragraph("To invoke this goal from command line, execute the following command:")
          }
 
-         if (param.expression)
+         def phase = goal.phase ;
+         if (phase)
          {
-            usage <<= "\n            Expression: " + param.expression
+            phase = phase + " "
+         }
+         else
+         {
+            phase = ""
          }
 
-         if (param.type)
-         {
-            usage <<= "\n            Type: " + param.type
-         }
 
-         if (param.defaultValue)
-         {
-            usage <<= "\n            Default Value: " + param.defaultValue
-         }
+         doc.mk("""\
+```
+mvn ${phase}${plugin.groupId}:${plugin.artifactId}[:${plugin.version}]:${goal.goal} [<propertie(s)>]
+```
 
-         usage <<= "\n            Required: " + param.required
+If you enabled the usage of this plugins plugin prefix, you can also use the shorter version:
 
-         if (param.deprecated)
-         {
-            usage <<= "\n            Deprecated: " + param.deprecated
-         }
+```
+mvn ${phase}${plugin.goalPrefix}:${goal.goal} [<propertie(s)>]
+```
 
-         if (param.since)
-         {
-            usage <<= "\n            Since: " + param.since
-         }
-
-         usage <<= "\n            -->"
-         usage <<= "\n        <" + param.name +  " />"
+""")
       }
-      usage <<= "\n    </configuration>"
-      usage <<= "\n</execution>"
-
-      def code = doc.code(usage.toString())
-      code.language = "xml"
 
       doc.endListItem()
    }

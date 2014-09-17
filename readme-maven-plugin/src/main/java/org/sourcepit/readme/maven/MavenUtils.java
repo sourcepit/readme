@@ -8,9 +8,6 @@ package org.sourcepit.readme.maven;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.sourcepit.common.maven.core.MavenProjectUtils.getOutputDir;
-import static org.sourcepit.readme.maven.GoalInvocation.BUILD_ONLY;
-import static org.sourcepit.readme.maven.GoalInvocation.DIRECT_AND_BUILD;
-import static org.sourcepit.readme.maven.GoalInvocation.DIRECT_ONLY;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -29,8 +26,6 @@ import org.apache.maven.plugin.descriptor.PluginDescriptorBuilder;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.configuration.PlexusConfigurationException;
 import org.codehaus.plexus.util.ReaderFactory;
-
-import com.google.common.base.Strings;
 
 public final class MavenUtils
 {
@@ -148,57 +143,37 @@ public final class MavenUtils
       return false;
    }
 
-   public static GoalInvocation getGoalInvocation(PluginDescriptor plugin)
+   public static boolean hasCommandLineGoals(PluginDescriptor plugin)
    {
-      GoalInvocation goalInvocation = null;
       for (MojoDescriptor goal : plugin.getMojos())
       {
-         final GoalInvocation tmp = getGoalInvocation(goal);
-
-         switch (tmp)
+         final GoalInvocation invokation = getGoalInvocation(goal);
+         if (invokation == GoalInvocation.CLI)
          {
-            case BUILD_ONLY :
-               if (goalInvocation == null)
-               {
-                  goalInvocation = BUILD_ONLY;
-               }
-               else if (goalInvocation == DIRECT_ONLY)
-               {
-                  goalInvocation = DIRECT_AND_BUILD;
-               }
-               break;
-            case DIRECT_ONLY :
-               if (goalInvocation == null)
-               {
-                  goalInvocation = DIRECT_ONLY;
-               }
-               else if (goalInvocation == BUILD_ONLY)
-               {
-                  goalInvocation = DIRECT_AND_BUILD;
-               }
-               break;
-            case DIRECT_AND_BUILD :
-               goalInvocation = DIRECT_AND_BUILD;
-               break;
-            default :
-               throw new IllegalStateException();
-         }
-
-         if (goalInvocation == DIRECT_AND_BUILD)
-         {
-            break;
+            return true;
          }
       }
-
-      return goalInvocation == null ? DIRECT_AND_BUILD : goalInvocation;
-
+      return false;
+   }
+   
+   public static boolean hasBuildLifecycleGoals(PluginDescriptor plugin)
+   {
+      for (MojoDescriptor goal : plugin.getMojos())
+      {
+         final GoalInvocation invokation = getGoalInvocation(goal);
+         if (invokation == GoalInvocation.BUILD)
+         {
+            return true;
+         }
+      }
+      return false;
    }
 
    public static GoalInvocation getGoalInvocation(MojoDescriptor goal)
    {
       if (goal.isDirectInvocationOnly())
       {
-         return GoalInvocation.DIRECT_ONLY;
+         return GoalInvocation.CLI;
       }
       else
       {
@@ -214,25 +189,14 @@ public final class MavenUtils
    static GoalInvocation getGoalInvocation(final boolean cliParams, final boolean aggregator, boolean requiresProject,
       final boolean phaseBound)
    {
-      if ((aggregator && phaseBound) || (!cliParams && !aggregator && !phaseBound)
-         || (cliParams && !aggregator && phaseBound))
+      if (aggregator || (!aggregator && !phaseBound))
       {
-         return GoalInvocation.DIRECT_AND_BUILD;
+         return GoalInvocation.CLI;
       }
 
-      if ((aggregator && !phaseBound) || (cliParams & !aggregator && !phaseBound))
+      if (!aggregator && phaseBound)
       {
-         return GoalInvocation.DIRECT_ONLY;
-      }
-
-      if (!cliParams && !aggregator && phaseBound)
-      {
-         return GoalInvocation.BUILD_ONLY;
-      }
-
-      if (cliParams || aggregator)
-      {
-         return phaseBound ? GoalInvocation.DIRECT_AND_BUILD : GoalInvocation.DIRECT_ONLY;
+         return GoalInvocation.BUILD;
       }
 
       throw new IllegalStateException();
