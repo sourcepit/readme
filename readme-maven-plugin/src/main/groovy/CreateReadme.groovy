@@ -52,7 +52,8 @@ class CreateReadme implements DocumentCreator
 
          doc.paragraph("[TOC,3]")
 
-         def projects = session.projects.collect().sort{it.name}
+         def projects = session.projects.collect().sort
+         { it.name }
 
          doc.startChapter("Sub Projects intended for Usage")
          projects.each
@@ -64,18 +65,27 @@ class CreateReadme implements DocumentCreator
          }
          doc.endChapter();
 
-         doc.startChapter("How to Contribute")
+         def hasIssueManagement = buildParent.issueManagement && buildParent.issueManagement.url
+         def scmIsGitHub = buildParent.scm && buildParent.scm.url && buildParent.scm.url.contains('://github.com/')
 
-         doc.mk("""\
-The simplest way of contributing is probably to report issues. You can do so using the [Issue Tracker](https://github.com/sourcepit/osgifier/issues).
-
-If you want to contribute your code or just want to share it with others, you [can create a fork of the official repository](https://github.com/sourcepit/osgifier/fork) at any time, for which you will have full access so that your local changesets can be pushed to it.
-
+         if (hasIssueManagement || scmIsGitHub)
+         {
+            doc.startChapter("How to Contribute")
+            if (hasIssueManagement)
+            {
+               doc.mk("The simplest way of contributing is probably to report issues. You can do so using the [Issue Tracker](${buildParent.issueManagement.url}).")
+            }
+            if (scmIsGitHub)
+            {
+               doc.mk("""\
+If you want to contribute your code or just want to share it with others, you [can create a fork of the official repository](${buildParent.scm.url}/fork) at any time, for which you will have full access so that your local changesets can be pushed to it.
+               
 Once your code is ready and accepted (see code style section below), it is then easy for the project owners to pull your changesets into the official repository - all you have to do is to [create a pull request](https://help.github.com/articles/creating-a-pull-request).
-
+               
 For general information see [Contributing to Open Source on GitHub](https://guides.github.com/activities/contributing-to-open-source).""")
-
-         doc.endChapter();
+            }
+            doc.endChapter();
+         }
 
          addLicenses(doc, session)
 
@@ -240,7 +250,8 @@ See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guid
 
    void addGoals(DocumentBuilder doc, PluginDescriptor plugin)
    {
-      def goals = plugin.mojos.collect().sort{it.goal}
+      def goals = plugin.mojos.collect().sort
+      { it.goal }
       plugin.mojos.each
       { mojo ->
          addGoal(doc, mojo)

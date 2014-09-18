@@ -196,39 +196,50 @@ public class DocumentBuilder
 
       final java.util.List<Structurable> content = new ArrayList<Structurable>(document.getContent());
 
-      if (content.size() == 1 && content.get(0) instanceof Paragraph)
+      if (content.size() == 1)
       {
-         final Paragraph p = (Paragraph) content.get(0);
-
-         final EList<Literal> literals = p.getLiterals();
+         final Structurable structurable = content.get(0);
 
          final EObject parent = stack.peek();
-         checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
-
-         if (parent instanceof LiteralGroup)
+         if (parent instanceof Structured)
          {
-            ((LiteralGroup) parent).getLiterals().addAll(literals);
+            ((Structured) parent).getContent().add(structurable);
+            return;
          }
-         else if (parent instanceof ListItem)
-         {
-            ((ListItem) parent).getContent().addAll(literals);
-         }
-      }
-      else
-      {
-         final EObject parent = stack.peek();
-         checkState(parent instanceof Structured || parent instanceof ListItem);
 
-         for (Structurable structurable : content)
+         if (structurable instanceof Paragraph)
          {
-            if (parent instanceof Structured)
+            final Paragraph p = (Paragraph) structurable;
+
+            final EList<Literal> literals = p.getLiterals();
+
+            checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
+
+            if (parent instanceof LiteralGroup)
             {
-               ((Structured) parent).getContent().add(structurable);
+               ((LiteralGroup) parent).getLiterals().addAll(literals);
             }
             else if (parent instanceof ListItem)
             {
-               ((ListItem) parent).getContent().add((Listable) structurable);
+               ((ListItem) parent).getContent().addAll(literals);
             }
+
+            return;
+         }
+      }
+      
+      final EObject parent = stack.peek();
+      checkState(parent instanceof Structured || parent instanceof ListItem);
+
+      for (Structurable structurable : content)
+      {
+         if (parent instanceof Structured)
+         {
+            ((Structured) parent).getContent().add(structurable);
+         }
+         else if (parent instanceof ListItem)
+         {
+            ((ListItem) parent).getContent().add((Listable) structurable);
          }
       }
    }
