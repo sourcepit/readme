@@ -497,7 +497,7 @@ public class DocOMToMarkdownConverter
             EObject previous = children.get(idx - 1);
 
             if (previous instanceof Paragraph || previous instanceof Header || previous instanceof NewLine
-               || previous instanceof Code)
+               || previous instanceof Code || previous instanceof List)
             {
                w.append('\n');
                return;

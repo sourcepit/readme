@@ -159,6 +159,41 @@ public class DocOMToMarkdownConverterTest
 
       assertEquals(expected.toString(), markdown);
    }
+   
+   @Test
+   public void testParagraphAfterList() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+
+      doc.startDocument();
+      doc.startUnorderedList();
+
+      doc.startListItem();
+      doc.text("t1");
+      doc.endListItem();
+
+      doc.startListItem();
+      doc.text("t2");
+      doc.endListItem();
+
+      doc.endList();
+      
+      doc.paragraph("p");
+
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document);
+
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "*   t1");
+      appendLine(expected, "*   t2");
+      appendLine(expected, "");
+      appendLine(expected, "p");
+      appendLine(expected, "");
+
+      assertEquals(expected.toString(), markdown);
+   }
 
    @Test
    public void testListWithParagraphs() throws Exception
