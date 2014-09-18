@@ -40,11 +40,12 @@ public class DocumentBuilder
 
    private final DocOMFactory eFactory = DocOMFactory.eINSTANCE;
 
-   public DocumentBuilder startDocument()
+   public Document startDocument()
    {
       checkState(stack.isEmpty());
-      stack.push(eFactory.createDocument());
-      return this;
+      final Document doc = eFactory.createDocument();
+      stack.push(doc);
+      return doc;
    }
 
    public Document endDocument()
@@ -54,7 +55,7 @@ public class DocumentBuilder
       return (Document) stack.pop();
    }
 
-   public DocumentBuilder startChapter(String header)
+   public Chapter startChapter(String header)
    {
       checkState(stack.peek() instanceof Structured);
 
@@ -66,7 +67,7 @@ public class DocumentBuilder
       text(header);
       stack.pop();
 
-      return this;
+      return chapter;
    }
 
    public Chapter endChapter()
@@ -76,17 +77,17 @@ public class DocumentBuilder
       return chapter;
    }
 
-   public DocumentBuilder startUnorderedList()
+   public List startUnorderedList()
    {
       return startList(ListType.UNORDERED);
    }
 
-   public DocumentBuilder startOrderedList()
+   public List startOrderedList()
    {
       return startList(ListType.ORDERED);
    }
 
-   public DocumentBuilder startList(ListType type)
+   public List startList(ListType type)
    {
       checkArgument(type != null);
 
@@ -97,21 +98,22 @@ public class DocumentBuilder
       list.setType(type);
       stack.push(list);
 
-      return this;
+      return list;
    }
 
-   public DocumentBuilder startListItem()
+   public ListItem startListItem()
    {
       checkState(stack.peek() instanceof List);
-      stack.push(eFactory.createListItem());
-      return this;
+      final ListItem li = eFactory.createListItem();
+      stack.push(li);
+      return li;
    }
 
-   public DocumentBuilder endListItem()
+   public ListItem endListItem()
    {
       final ListItem li = (ListItem) stack.pop();
       ((List) stack.peek()).getItems().add(li);
-      return this;
+      return li;
    }
 
    public Paragraph startParagraph()
@@ -123,7 +125,7 @@ public class DocumentBuilder
       return paragraph;
    }
 
-   public DocumentBuilder endParagraph()
+   public Paragraph endParagraph()
    {
       final Paragraph paragraph = (Paragraph) stack.pop();
 
@@ -139,10 +141,10 @@ public class DocumentBuilder
          ((ListItem) parent).getContent().add(paragraph);
       }
 
-      return this;
+      return paragraph;
    }
 
-   public DocumentBuilder endList()
+   public List endList()
    {
       final List list = (List) stack.pop();
 
@@ -158,15 +160,14 @@ public class DocumentBuilder
          ((ListItem) parent).getContent().add(list);
       }
 
-      return this;
+      return list;
    }
 
-   public DocumentBuilder paragraph(String text)
+   public Paragraph paragraph(String text)
    {
       startParagraph();
       text(text);
-      endParagraph();
-      return this;
+      return endParagraph();
    }
 
    public Text text(String text)
@@ -282,7 +283,7 @@ public class DocumentBuilder
       return endLink();
    }
 
-   public DocumentBuilder codeLiteral(String code)
+   public CodeLiteral codeLiteral(String code)
    {
       final CodeLiteral c = eFactory.createCodeLiteral();
       c.setText(code);
@@ -290,10 +291,10 @@ public class DocumentBuilder
       final LiteralGroup parent = (LiteralGroup) stack.peek();
       parent.getLiterals().add(c);
 
-      return this;
+      return c;
    }
 
-   public DocumentBuilder newLine()
+   public NewLine newLine()
    {
       final NewLine newLine = eFactory.createNewLine();
 
@@ -309,7 +310,7 @@ public class DocumentBuilder
          ((ListItem) parent).getContent().add(newLine);
       }
 
-      return this;
+      return newLine;
    }
 
    public Code code(String code)
