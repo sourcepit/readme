@@ -1,4 +1,5 @@
 import static org.sourcepit.readme.maven.MavenUtils.*;
+import static org.sourcepit.readme.maven.TOCUtils.*;
 import groovy.transform.EqualsAndHashCode;
 
 import java.lang.annotation.Documented;
@@ -17,11 +18,15 @@ import org.sourcepit.docom.DocOMFactory
 import org.sourcepit.docom.Document
 import org.sourcepit.docom.EmphasisType;
 import org.sourcepit.docom.ListType;
+import org.sourcepit.docom.Structured;
+import org.sourcepit.docom.Text;
+import org.sourcepit.docom.Paragraph;
 import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.readme.core.DocumentBuilder;
 import org.sourcepit.readme.core.HTMLToDocOM;
+import org.sourcepit.readme.core.TOCCreator;
 
 class CreateReadme implements DocumentCreator
 {
@@ -45,35 +50,9 @@ class CreateReadme implements DocumentCreator
          def buildParent = getBuildParent(session)
          addProject(doc, buildParent, false)
 
-         doc.paragraph("Table of contents:")
+         doc.paragraph("[TOC,3]")
 
          def projects = session.projects.collect().sort{it.name}
-         doc.startUnorderedList()
-         
-         doc.startListItem()
-         doc.link('Sub Projects intended for Usage', '#' + toGitHubHeadingAnchorName('Sub Projects intended for Usage'));
-         doc.startUnorderedList()
-         projects.each
-         { project ->
-            if (!isPomProject(project))
-            {
-               doc.startListItem()
-               doc.link(project.name, '#' + toGitHubHeadingAnchorName(project.name));
-               doc.endListItem()
-            }
-         }
-         doc.endList()
-         doc.endListItem()
-
-         doc.startListItem()
-         doc.link('How to Contribute', '#' + toGitHubHeadingAnchorName('How to Contribute'))
-         doc.endListItem()
-         
-         doc.startListItem()
-         doc.link('License', '#' + toGitHubHeadingAnchorName('License'))
-         doc.endListItem()
-
-         doc.endList()
 
          doc.startChapter("Sub Projects intended for Usage")
          projects.each
@@ -84,9 +63,9 @@ class CreateReadme implements DocumentCreator
             }
          }
          doc.endChapter();
-         
+
          doc.startChapter("How to Contribute")
-         
+
          doc.mk("""\
 The simplest way of contributing is probably to report issues. You can do so using the [Issue Tracker](https://github.com/sourcepit/osgifier/issues).
 
@@ -95,15 +74,17 @@ If you want to contribute your code or just want to share it with others, you [c
 Once your code is ready and accepted (see code style section below), it is then easy for the project owners to pull your changesets into the official repository - all you have to do is to [create a pull request](https://help.github.com/articles/creating-a-pull-request).
 
 For general information see [Contributing to Open Source on GitHub](https://guides.github.com/activities/contributing-to-open-source).""")
-         
+
          doc.endChapter();
-         
+
          addLicenses(doc, session)
-         
+
          doc.endChapter();
       }
 
-      return doc.endDocument()
+      def document = doc.endDocument();
+      injectTOCs(document, 3)
+      return document;
    }
 
    void addProject(DocumentBuilder doc, MavenProject project, boolean closeChapter)
@@ -167,15 +148,7 @@ Here you can find the documentation and usage examples for all goals provided by
 Available goals:
 """)
 
-      doc.startUnorderedList()
-      def goals = plugin.mojos.collect().sort{it.goal}
-      goals.each
-      { def mojo ->
-         doc.startListItem()
-         doc.link(mojo.fullGoalName, '#' + toGitHubHeadingAnchorName(mojo.fullGoalName));
-         doc.endListItem()
-      }
-      doc.endList();
+      doc.paragraph("[TOC,1]")
 
       addGoals(doc, plugin)
       doc.endChapter()
@@ -563,39 +536,5 @@ mvn ${phase}${plugin.goalPrefix}:${goal.goal} [<propertie(s)>]
       }
 
       doc.endChapter()
-   }
-
-   String toGitHubHeadingAnchorName(String str)
-   {
-      def reserved = [
-         ';',
-         '/',
-         '?',
-         ':',
-         '@',
-         '&',
-         '=',
-         '+',
-         '$',
-         ',',
-         '.'
-      ] as char[]
-
-      def chars = str.toCharArray()
-
-      def res = new StringBuilder()
-      chars.each
-      {c ->
-         if (!reserved.contains(c))
-         {
-            if (c == ' ')
-            {
-               c = '-'
-            }
-            res.append(c)
-         }
-      }
-
-      return res.toString().toLowerCase()
    }
 }
