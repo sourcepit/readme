@@ -16,6 +16,7 @@ import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.DocOMFactory
 import org.sourcepit.docom.Document
 import org.sourcepit.docom.EmphasisType;
+import org.sourcepit.docom.ListType;
 import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
@@ -44,7 +45,37 @@ class CreateReadme implements DocumentCreator
          def buildParent = getBuildParent(session)
          addProject(doc, buildParent, false)
 
-         def projects = session.projects
+         doc.paragraph("Table of contents:")
+
+         def projects = session.projects.collect().sort{it.name}
+         doc.startUnorderedList()
+         
+         doc.startListItem()
+         doc.link('Sub Projects intended for Usage', '#' + toGitHubHeadingAnchorName('Sub Projects intended for Usage'));
+         doc.startUnorderedList()
+         projects.each
+         { project ->
+            if (!isPomProject(project))
+            {
+               doc.startListItem()
+               doc.link(project.name, '#' + toGitHubHeadingAnchorName(project.name));
+               doc.endListItem()
+            }
+         }
+         doc.endList()
+         doc.endListItem()
+
+         doc.startListItem()
+         doc.link('How to Contribute', '#' + toGitHubHeadingAnchorName('How to Contribute'))
+         doc.endListItem()
+         
+         doc.startListItem()
+         doc.link('License', '#' + toGitHubHeadingAnchorName('License'))
+         doc.endListItem()
+
+         doc.endList()
+
+         doc.startChapter("Sub Projects intended for Usage")
          projects.each
          { project ->
             if (!isPomProject(project))
@@ -52,8 +83,23 @@ class CreateReadme implements DocumentCreator
                addProject(doc, project, true)
             }
          }
+         doc.endChapter();
+         
+         doc.startChapter("How to Contribute")
+         
+         doc.mk("""\
+The simplest way of contributing is probably to report issues. You can do so using the [Issue Tracker](https://github.com/sourcepit/osgifier/issues).
 
+If you want to contribute your code or just want to share it with others, you [can create a fork of the official repository](https://github.com/sourcepit/osgifier/fork) at any time, for which you will have full access so that your local changesets can be pushed to it.
+
+Once your code is ready and accepted (see code style section below), it is then easy for the project owners to pull your changesets into the official repository - all you have to do is to [create a pull request](https://help.github.com/articles/creating-a-pull-request).
+
+For general information see [Contributing to Open Source on GitHub](https://guides.github.com/activities/contributing-to-open-source).""")
+         
+         doc.endChapter();
+         
          addLicenses(doc, session)
+         
          doc.endChapter();
       }
 
@@ -103,30 +149,63 @@ class CreateReadme implements DocumentCreator
          }
       }
 
+      addPluginGoals(doc, plugin)
+      addPluginManagement(doc, plugin)
+
+      if (closeChapter)
+      {
+         doc.endChapter()
+      }
+   }
+
+   void addPluginGoals(DocumentBuilder doc, PluginDescriptor plugin)
+   {
+      doc.startChapter("Plugin Goals and Usage")
+      doc.mk("""\
+Here you can find the documentation and usage examples for all goals provided by this plugin. A goal represents a specific task that can be executed either during the build lifecycle of your project or by command line. See also [A Build Phase is Made Up of Plugin Goals](http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#A_Build_Phase_is_Made_Up_of_Plugin_Goals).
+
+Available goals:
+""")
+
+      doc.startUnorderedList()
+      def goals = plugin.mojos.collect().sort{it.goal}
+      goals.each
+      { def mojo ->
+         doc.startListItem()
+         doc.link(mojo.fullGoalName, '#' + toGitHubHeadingAnchorName(mojo.fullGoalName));
+         doc.endListItem()
+      }
+      doc.endList();
+
+      addGoals(doc, plugin)
+      doc.endChapter()
+   }
+
+   void addPluginManagement(DocumentBuilder doc, PluginDescriptor plugin)
+   {
       doc.startChapter("Plugin Management")
       def hasCommandLineGoals = hasCommandLineGoals(plugin)
       def hasBuildLifecycleGoals = hasBuildLifecycleGoals(plugin)
       def requiresProject = isRequiresProject(plugin)
 
-
       if (requiresProject || hasBuildLifecycleGoals)
       {
          doc.startParagraph()
-         doc.mk("It is a good practice to define plugin versions in the plugin management section of your or a parents `pom.xml`:")
+         doc.mk("It is a good practice to define plugin versions in the plugin management section of your or a parents `pom.xml`.")
          doc.endParagraph()
          doc.code("""\
 <project>
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>${plugin.groupId}</groupId>
-                    <artifactId>${plugin.artifactId}</artifactId>
-                    <version>${plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>${plugin.groupId}</groupId>
+          <artifactId>${plugin.artifactId}</artifactId>
+          <version>${plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>""").language = "xml"
       }
 
@@ -136,33 +215,15 @@ class CreateReadme implements DocumentCreator
 
 ```xml
 <settings>
-    <pluginGroups>
-        <pluginGroup>${plugin.groupId}</pluginGroup>
-    </pluginGroups>
+  <pluginGroups>
+    <pluginGroup>${plugin.groupId}</pluginGroup>
+  </pluginGroups>
 </settings>
 ```
 
 See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html).""")
       }
-
       doc.endChapter()
-
-      doc.startChapter("Plugin Goals and Usage")
-      //      Goals available for this plugin:
-      //      Brief examples on how to use the dependency goals.
-      doc.mk("""\
-The *goals* available for this plugin with brief examples on how to use it.
-
-A plugin *goal* represents a specific task that could be executed during the build lifecycle and/or from command line. See also [A Build Phase is Made Up of Plugin Goals](http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#A_Build_Phase_is_Made_Up_of_Plugin_Goals).
-""")
-
-      addGoals(doc, plugin)
-      doc.endChapter()
-
-      if (closeChapter)
-      {
-         doc.endChapter()
-      }
    }
 
    void addLibrary(DocumentBuilder doc, MavenProject project, boolean closeChapter)
@@ -189,14 +250,13 @@ A plugin *goal* represents a specific task that could be executed during the bui
       }
       doc.code("""\
 <project>
-    <!-- Use the dependency in your POM or parent POM. -->
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>${project.artifactId}</artifactId>
-            <version>${project.version}</version>${appendType}
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${project.version}</version>${appendType}
+    </dependency>
+  </dependencies>
 </project>""").language = "xml"
 
       if (closeChapter)
@@ -207,22 +267,16 @@ A plugin *goal* represents a specific task that could be executed during the bui
 
    void addGoals(DocumentBuilder doc, PluginDescriptor plugin)
    {
-      doc.startUnorderedList()
+      def goals = plugin.mojos.collect().sort{it.goal}
       plugin.mojos.each
       { mojo ->
          addGoal(doc, mojo)
       }
-      doc.endList()
    }
 
    void addGoal(DocumentBuilder doc, MojoDescriptor goal)
    {
-      doc.startListItem()
-      doc.startParagraph()
-      doc.startEmphasis(EmphasisType.BOLD)
-      doc.text(goal.goal)
-      doc.endEmphasis()
-      doc.endParagraph()
+      doc.startChapter(goal.fullGoalName)
 
       def descr = goal.description
       if (descr)
@@ -250,76 +304,57 @@ A plugin *goal* represents a specific task that could be executed during the bui
 
       if (describePluginInvocation)
       {
-         def usage = "<execution>"
-
-         def phase = goal.phase ;
-         if (phase)
-         {
-            usage <<= """
-          <!-- Optionally, you can bind this goal to a specific Maven phase, default is "${phase}". -->
-          <!--phase>${phase}</phase-->"""
-         } else
-         {
-            usage <<= """
-          <!-- Bind his goal to a specific Maven phase. -->
-          <phase />"""
-         }
-
-         usage <<= """
-          <goals>
-            <goal>${goal.goal}<goal>
-          </goals>"""
+         def usage = ""
 
          if (goal.parameters && !goal.parameters.empty)
          {
-            usage <<= "\n          <configuration>"
+            usage <<= "\n        <configuration>"
 
             goal.parameters.each
             { param ->
-               usage <<= "\n            <!-- "
+               usage <<= "\n          <!-- "
 
                if (param.description)
                {
-                  usage <<= "\n              "
+                  usage <<= "\n            "
                   usage <<= HTML.toMarkdown(param.description)
-                  usage <<= "\n              "
+                  usage <<= "\n            "
                }
 
                if (param.expression)
                {
-                  usage <<= "\n              Property: " + param.expression
+                  usage <<= "\n            Property: " + param.expression
                }
 
                if (param.type)
                {
-                  usage <<= "\n              Type: " + param.type
+                  usage <<= "\n            Type: " + param.type
                }
 
                if (param.defaultValue)
                {
-                  usage <<= "\n              Default Value: " + param.defaultValue
+                  usage <<= "\n            Default Value: " + param.defaultValue
                }
 
-               usage <<= "\n              Required: " + param.required
+               usage <<= "\n            Required: " + param.required
 
                if (param.deprecated)
                {
-                  usage <<= "\n              Deprecated: " + param.deprecated
+                  usage <<= "\n            Deprecated: " + param.deprecated
                }
 
                if (param.since)
                {
-                  usage <<= "\n              Since: " + param.since
+                  usage <<= "\n            Since: " + param.since
                }
 
-               usage <<= "\n              -->"
-               usage <<= "\n            <" + param.name +  " />"
+               usage <<= "\n          -->"
+               usage <<= "\n          <" + param.name +  " />"
             }
-            usage <<= "\n          </configuration>"
+            usage <<= "\n        </configuration>"
          }
-         usage <<= "\n        </execution>"
 
-         doc.paragraph("To invoke this goal during the build lifecycle of your project, add the snipped below to your `pom.xml` and adjust it to your needs:")
+         doc.paragraph("To invoke this goal during the build lifecycle of your project, add the snipped below to your `pom.xml` and adjust it to your needs.")
          doc.code("""\
 <project>
   <build>
@@ -327,7 +362,9 @@ A plugin *goal* represents a specific task that could be executed during the bui
       <plugin>
         <groupId>${plugin.groupId}</groupId>
         <artifactId>${plugin.artifactId}</artifactId>
-        ${usage}
+        <goals>
+          <goal>${goal.goal}<goal> <!-- bount to phase *${goal.phase}* -->
+        </goals>${usage}
       </plugin>
     </plugins>
   </build>
@@ -338,11 +375,11 @@ A plugin *goal* represents a specific task that could be executed during the bui
       {
          if (requiresProject)
          {
-            doc.paragraph("To invoke this goal from command line, `cd` into your project folder an execute the following command:")
+            doc.paragraph("To invoke this goal from command line, `cd` into your project folder an execute the following command.")
          }
          else
          {
-            doc.paragraph("To invoke this goal from command line, execute the following command:")
+            doc.paragraph("To invoke this goal from command line, execute the following command.")
          }
 
          def phase = goal.phase ;
@@ -368,9 +405,78 @@ mvn ${phase}${plugin.goalPrefix}:${goal.goal} [<propertie(s)>]
 ```
 
 """)
+         if (requiresProject)
+         {
+            doc.paragraph("You can also pre-configure the properties for this goal for your project, so it is no more necessary to set the properties in your command. To achive that use the plugins management section in your `pom.xml`.")
+
+            def usage = ""
+
+            if (goal.parameters && !goal.parameters.empty)
+            {
+               usage <<= "\n          <configuration>"
+
+               goal.parameters.each
+               { param ->
+                  usage <<= "\n            <!-- "
+
+                  if (param.description)
+                  {
+                     usage <<= "\n              "
+                     usage <<= HTML.toMarkdown(param.description)
+                     usage <<= "\n              "
+                  }
+
+                  if (param.expression)
+                  {
+                     usage <<= "\n              Property: " + param.expression
+                  }
+
+                  if (param.type)
+                  {
+                     usage <<= "\n              Type: " + param.type
+                  }
+
+                  if (param.defaultValue)
+                  {
+                     usage <<= "\n              Default Value: " + param.defaultValue
+                  }
+
+                  usage <<= "\n              Required: " + param.required
+
+                  if (param.deprecated)
+                  {
+                     usage <<= "\n              Deprecated: " + param.deprecated
+                  }
+
+                  if (param.since)
+                  {
+                     usage <<= "\n              Since: " + param.since
+                  }
+
+                  usage <<= "\n            -->"
+                  usage <<= "\n            <" + param.name +  " />"
+               }
+               usage <<= "\n          </configuration>"
+            }
+
+            doc.code("""\
+<project>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>${plugin.groupId}</groupId>
+          <artifactId>${plugin.artifactId}</artifactId>
+          <version>${plugin.version}</version>${usage}
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>""").language = "xml"
+         }
       }
 
-      doc.endListItem()
+      doc.endChapter()
    }
 
    @EqualsAndHashCode(includeFields=true)
@@ -457,5 +563,39 @@ mvn ${phase}${plugin.goalPrefix}:${goal.goal} [<propertie(s)>]
       }
 
       doc.endChapter()
+   }
+
+   String toGitHubHeadingAnchorName(String str)
+   {
+      def reserved = [
+         ';',
+         '/',
+         '?',
+         ':',
+         '@',
+         '&',
+         '=',
+         '+',
+         '$',
+         ',',
+         '.'
+      ] as char[]
+
+      def chars = str.toCharArray()
+
+      def res = new StringBuilder()
+      chars.each
+      {c ->
+         if (!reserved.contains(c))
+         {
+            if (c == ' ')
+            {
+               c = '-'
+            }
+            res.append(c)
+         }
+      }
+
+      return res.toString().toLowerCase()
    }
 }
