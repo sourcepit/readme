@@ -67,6 +67,20 @@ public class MarkdownToDocOMConverterTest
       Text text = (Text) paragraph.getLiterals().get(0);
       assertEquals("Hello World", text.getText());
    }
+   
+   @Test
+   public void testMarkdownEscapedText()
+   {
+      Document document = converter.toDocOM("\\[TOC\\]");
+      assertNotNull(document);
+      assertEquals(1, document.getContent().size());
+
+      Paragraph paragraph = (Paragraph) document.getContent().get(0);
+      assertEquals(1, paragraph.getLiterals().size());
+
+      Text text = (Text) paragraph.getLiterals().get(0);
+      assertEquals("[TOC]", text.getText());
+   }
 
    @Test
    public void testTextWithNewLines()

@@ -15,6 +15,7 @@ import static org.pegdown.Extensions.TABLES;
 import java.util.Stack;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.ast.AbbreviationNode;
 import org.pegdown.ast.AutoLinkNode;
@@ -253,20 +254,33 @@ public class MarkdownToDocOMConverter
          }
       }
 
+      @SuppressWarnings({ "unchecked", "rawtypes" })
       @Override
       public void visit(TextNode node)
       {
-         final Text text = factory.createText();
-         text.setText(node.getText());
-
          final Object parent = parents.peek();
+
+         java.util.List<EObject> siblings;
          if (parent instanceof LiteralGroup)
          {
-            ((LiteralGroup) parent).getLiterals().add(text);
+            siblings = (java.util.List) ((LiteralGroup) parent).getLiterals();
          }
          else
          {
-            ((ListItem) parent).getContent().add(text);
+            siblings = (java.util.List) ((ListItem) parent).getContent();
+         }
+
+         final EObject previous = siblings.isEmpty() ? null : siblings.get(siblings.size() - 1);
+         if (previous instanceof Text)
+         {
+            Text text = (Text) previous;
+            text.setText(text.getText() + node.getText());
+         }
+         else
+         {
+            final Text text = factory.createText();
+            text.setText(node.getText());
+            siblings.add(text);
          }
 
          if (!node.getChildren().isEmpty())
