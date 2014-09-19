@@ -52,16 +52,12 @@ class CreateReadme implements DocumentCreator
 
          doc.paragraph("[TOC,3]")
 
-         def projects = session.projects.collect().sort
-         { it.name }
+         def projects = session.projects.findAll{!isPomProject(it)}.sort{ it.name }
 
-         doc.startChapter("Sub Projects intended for Usage")
+         doc.startChapter("Sub Projects")
          projects.each
          { project ->
-            if (!isPomProject(project))
-            {
-               addProject(doc, project, true)
-            }
+            addProject(doc, project, true)
          }
          doc.endChapter();
 
