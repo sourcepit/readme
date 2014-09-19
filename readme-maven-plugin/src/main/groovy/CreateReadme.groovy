@@ -49,18 +49,29 @@ class CreateReadme implements DocumentCreator
       else
       {
          def buildParent = getBuildParent(session)
-         addProject(doc, buildParent, false, options)
 
-         doc.paragraph("[TOC,3]")
+         doc.startChapter(buildParent.name)
+         def desc = buildParent.description;
+         if (desc)
+         {
+            doc.mk(desc);
+         }
+
+         if (isGenerateContent(buildParent, options))
+         {
+            doc.paragraph("[TOC,3]")
+         }
 
          def projects = session.projects.findAll{!isPomProject(it) && isSelected(it, options)}.sort{ it.name }
-
-         doc.startChapter("Sub Projects")
-         projects.each
-         { project ->
-            addProject(doc, project, true, options)
+         if(!projects.empty)
+         {
+            doc.startChapter("Sub Projects")
+            projects.each
+            { project ->
+               addProject(doc, project, true, options)
+            }
+            doc.endChapter();
          }
-         doc.endChapter();
 
          def hasIssueManagement = buildParent.issueManagement && buildParent.issueManagement.url
          def scmIsGitHub = buildParent.scm && buildParent.scm.url && buildParent.scm.url.contains('://github.com/')
@@ -106,7 +117,7 @@ For general information see [Contributing to Open Source on GitHub](https://guid
       }
       else
       {
-         addLibrary(doc, project, closeChapter)
+         addLibrary(doc, project, closeChapter, options)
       }
    }
 
@@ -137,8 +148,11 @@ For general information see [Contributing to Open Source on GitHub](https://guid
          }
       }
 
-      addPluginGoals(doc, plugin, options)
-      addPluginManagement(doc, plugin)
+      if (isGenerateContent(project, options))
+      {
+         addPluginGoals(doc, plugin, options)
+         addPluginManagement(doc, plugin)
+      }
 
       if (closeChapter)
       {
@@ -163,7 +177,7 @@ Available goals:
 
          goals.each
          { mojo ->
-            addGoal(doc, mojo)
+            addGoal(doc, mojo, options)
          }
 
          doc.endChapter()
@@ -215,7 +229,7 @@ See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guid
       doc.endChapter()
    }
 
-   void addGoal(DocumentBuilder doc, MojoDescriptor goal)
+   void addGoal(DocumentBuilder doc, MojoDescriptor goal, PropertiesSource options)
    {
       doc.startChapter(goal.fullGoalName)
 
@@ -235,68 +249,70 @@ See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guid
          doc.endParagraph()
       }
 
-      def requiresProject = goal.projectRequired
-
-      def invocation = getGoalInvocation(goal)
-      def describeDirectInvocation = invocation == GoalInvocation.CLI
-      def describePluginInvocation = invocation == GoalInvocation.BUILD
-
-      def plugin = goal.pluginDescriptor
-
-      if (describePluginInvocation)
+      if (isGenerateContent(goal, options))
       {
-         def usage = ""
+         def requiresProject = goal.projectRequired
 
-         if (goal.parameters && !goal.parameters.empty)
+         def invocation = getGoalInvocation(goal)
+         def describeDirectInvocation = invocation == GoalInvocation.CLI
+         def describePluginInvocation = invocation == GoalInvocation.BUILD
+
+         def plugin = goal.pluginDescriptor
+
+         if (describePluginInvocation)
          {
-            usage <<= "\n        <configuration>"
+            def usage = ""
 
-            goal.parameters.each
-            { param ->
-               usage <<= "\n          <!-- "
+            if (goal.parameters && !goal.parameters.empty)
+            {
+               usage <<= "\n        <configuration>"
 
-               if (param.description)
-               {
-                  usage <<= "\n            "
-                  usage <<= HTML.toMarkdown(param.description)
-                  usage <<= "\n            "
+               goal.parameters.each
+               { param ->
+                  usage <<= "\n          <!-- "
+
+                  if (param.description)
+                  {
+                     usage <<= "\n            "
+                     usage <<= HTML.toMarkdown(param.description)
+                     usage <<= "\n            "
+                  }
+
+                  if (param.expression)
+                  {
+                     usage <<= "\n            Property: " + param.expression
+                  }
+
+                  if (param.type)
+                  {
+                     usage <<= "\n            Type: " + param.type
+                  }
+
+                  if (param.defaultValue)
+                  {
+                     usage <<= "\n            Default Value: " + param.defaultValue
+                  }
+
+                  usage <<= "\n            Required: " + param.required
+
+                  if (param.deprecated)
+                  {
+                     usage <<= "\n            Deprecated: " + param.deprecated
+                  }
+
+                  if (param.since)
+                  {
+                     usage <<= "\n            Since: " + param.since
+                  }
+
+                  usage <<= "\n          -->"
+                  usage <<= "\n          <" + param.name +  " />"
                }
-
-               if (param.expression)
-               {
-                  usage <<= "\n            Property: " + param.expression
-               }
-
-               if (param.type)
-               {
-                  usage <<= "\n            Type: " + param.type
-               }
-
-               if (param.defaultValue)
-               {
-                  usage <<= "\n            Default Value: " + param.defaultValue
-               }
-
-               usage <<= "\n            Required: " + param.required
-
-               if (param.deprecated)
-               {
-                  usage <<= "\n            Deprecated: " + param.deprecated
-               }
-
-               if (param.since)
-               {
-                  usage <<= "\n            Since: " + param.since
-               }
-
-               usage <<= "\n          -->"
-               usage <<= "\n          <" + param.name +  " />"
+               usage <<= "\n        </configuration>"
             }
-            usage <<= "\n        </configuration>"
-         }
 
-         doc.paragraph("To invoke this goal during the build lifecycle of your project, add the snipped below to your `pom.xml` and adjust it to your needs.")
-         doc.code("""\
+            doc.paragraph("To invoke this goal during the build lifecycle of your project, add the snipped below to your `pom.xml` and adjust it to your needs.")
+            doc.code("""\
 <project>
   <build>
     <plugins>
@@ -310,31 +326,31 @@ See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guid
     </plugins>
   </build>
 </project>""").language = "xml"
-      }
-
-      if (describeDirectInvocation)
-      {
-         if (requiresProject)
-         {
-            doc.paragraph("To invoke this goal from command line, `cd` into your project folder an execute the following command.")
-         }
-         else
-         {
-            doc.paragraph("To invoke this goal from command line, execute the following command.")
          }
 
-         def phase = goal.phase ;
-         if (phase)
+         if (describeDirectInvocation)
          {
-            phase = phase + " "
-         }
-         else
-         {
-            phase = ""
-         }
+            if (requiresProject)
+            {
+               doc.paragraph("To invoke this goal from command line, `cd` into your project folder an execute the following command.")
+            }
+            else
+            {
+               doc.paragraph("To invoke this goal from command line, execute the following command.")
+            }
+
+            def phase = goal.phase ;
+            if (phase)
+            {
+               phase = phase + " "
+            }
+            else
+            {
+               phase = ""
+            }
 
 
-         doc.mk("""\
+            doc.mk("""\
 ```
 mvn ${phase}${plugin.groupId}:${plugin.artifactId}[:${plugin.version}]:${goal.goal} [<propertie(s)>]
 ```
@@ -346,61 +362,61 @@ mvn ${phase}${plugin.goalPrefix}:${goal.goal} [<propertie(s)>]
 ```
 
 """)
-         if (requiresProject)
-         {
-            doc.paragraph("You can also pre-configure the properties for this goal for your project, so it is no more necessary to set the properties in your command. To achive that use the plugins management section in your `pom.xml`.")
-
-            def usage = ""
-
-            if (goal.parameters && !goal.parameters.empty)
+            if (requiresProject)
             {
-               usage <<= "\n          <configuration>"
+               doc.paragraph("You can also pre-configure the properties for this goal for your project, so it is no more necessary to set the properties in your command. To achive that use the plugins management section in your `pom.xml`.")
 
-               goal.parameters.each
-               { param ->
-                  usage <<= "\n            <!-- "
+               def usage = ""
 
-                  if (param.description)
-                  {
-                     usage <<= "\n              "
-                     usage <<= HTML.toMarkdown(param.description)
-                     usage <<= "\n              "
+               if (goal.parameters && !goal.parameters.empty)
+               {
+                  usage <<= "\n          <configuration>"
+
+                  goal.parameters.each
+                  { param ->
+                     usage <<= "\n            <!-- "
+
+                     if (param.description)
+                     {
+                        usage <<= "\n              "
+                        usage <<= HTML.toMarkdown(param.description)
+                        usage <<= "\n              "
+                     }
+
+                     if (param.expression)
+                     {
+                        usage <<= "\n              Property: " + param.expression
+                     }
+
+                     if (param.type)
+                     {
+                        usage <<= "\n              Type: " + param.type
+                     }
+
+                     if (param.defaultValue)
+                     {
+                        usage <<= "\n              Default Value: " + param.defaultValue
+                     }
+
+                     usage <<= "\n              Required: " + param.required
+
+                     if (param.deprecated)
+                     {
+                        usage <<= "\n              Deprecated: " + param.deprecated
+                     }
+
+                     if (param.since)
+                     {
+                        usage <<= "\n              Since: " + param.since
+                     }
+
+                     usage <<= "\n            -->"
+                     usage <<= "\n            <" + param.name +  " />"
                   }
-
-                  if (param.expression)
-                  {
-                     usage <<= "\n              Property: " + param.expression
-                  }
-
-                  if (param.type)
-                  {
-                     usage <<= "\n              Type: " + param.type
-                  }
-
-                  if (param.defaultValue)
-                  {
-                     usage <<= "\n              Default Value: " + param.defaultValue
-                  }
-
-                  usage <<= "\n              Required: " + param.required
-
-                  if (param.deprecated)
-                  {
-                     usage <<= "\n              Deprecated: " + param.deprecated
-                  }
-
-                  if (param.since)
-                  {
-                     usage <<= "\n              Since: " + param.since
-                  }
-
-                  usage <<= "\n            -->"
-                  usage <<= "\n            <" + param.name +  " />"
+                  usage <<= "\n          </configuration>"
                }
-               usage <<= "\n          </configuration>"
-            }
 
-            doc.code("""\
+               doc.code("""\
 <project>
   <build>
     <pluginManagement>
@@ -414,23 +430,27 @@ mvn ${phase}${plugin.goalPrefix}:${goal.goal} [<propertie(s)>]
     </pluginManagement>
   </build>
 </project>""").language = "xml"
+            }
          }
       }
 
       doc.endChapter()
    }
 
-   void addLibrary(DocumentBuilder doc, MavenProject project, boolean closeChapter)
+   void addLibrary(DocumentBuilder doc, MavenProject project, boolean closeChapter, PropertiesSource options)
+   {
+      doc.startChapter(project.name)
+      def desc = project.description;
+      if (desc)
       {
-         doc.startChapter(project.name)
-         def desc = project.description;
-         if (desc)
+         if (!project.parent || !desc.equals(project.parent.description))
          {
-            if (!project.parent || !desc.equals(project.parent.description))
-            {
-               doc.paragraph(desc);
-            }
+            doc.paragraph(desc);
          }
+      }
+
+      if (isGenerateContent(project, options))
+      {
          def appendType =
          {
             -> if (!"jar".equals(project.artifact.type))
@@ -452,12 +472,13 @@ mvn ${phase}${plugin.goalPrefix}:${goal.goal} [<propertie(s)>]
     </dependency>
   </dependencies>
 </project>""").language = "xml"
-   
-         if (closeChapter)
-         {
-            doc.endChapter()
-         }
       }
+
+      if (closeChapter)
+      {
+         doc.endChapter()
+      }
+   }
 
    @EqualsAndHashCode(includeFields=true)
    class Lic

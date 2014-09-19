@@ -49,6 +49,17 @@ public final class MavenUtils
       }
       return true;
    }
+   
+   public static boolean isGenerateContent(MavenProject project, PropertiesSource options)
+   {
+      final String projectFilter = options.get("doc.projectContentFilter");
+      if (!isNullOrEmpty(projectFilter))
+      {
+         final String key = project.getGroupId() + ":" + project.getArtifactId();
+         return PathMatcher.parse(projectFilter, ":", ",").isMatch(key);
+      }
+      return true;
+   }
 
    public static boolean isSelected(MojoDescriptor goal, PropertiesSource options)
    {
@@ -56,6 +67,12 @@ public final class MavenUtils
       return isNullOrEmpty(goalFilter) ? true : PathMatcher.parse(goalFilter, ":", ",").isMatch(goal.getFullGoalName());
    }
 
+   public static boolean isGenerateContent(MojoDescriptor goal, PropertiesSource options)
+   {
+      final String goalFilter = options.get("doc.goalContentFilter");
+      return isNullOrEmpty(goalFilter) ? true : PathMatcher.parse(goalFilter, ":", ",").isMatch(goal.getFullGoalName());
+   }
+   
    public static PropertiesSource getBuildProperties(MavenProject project)
    {
       return chain(toPropertiesSource(project.getProperties()), toPropertiesSource(System.getProperties()));

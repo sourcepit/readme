@@ -39,9 +39,15 @@ public class ReadmeMojo extends AbstractMojo
 
    @Parameter(required = false, defaultValue = "**")
    private String projectFilter;
+   
+   @Parameter(required = false, defaultValue = "**")
+   private String projectContentFilter;
 
    @Parameter(required = false, defaultValue = "**")
    private String goalFilter;
+   
+   @Parameter(required = false, defaultValue = "**")
+   private String goalContentFilter;
 
    @Inject
    public ReadmeMojo(LegacySupport buildContext)
@@ -53,7 +59,9 @@ public class ReadmeMojo extends AbstractMojo
    {
       final PropertiesMap options = new LinkedPropertiesMap(2);
       options.put("doc.projectFilter", projectFilter);
+      options.put("doc.projectContentFilter", projectContentFilter);
       options.put("doc.goalFilter", goalFilter);
+      options.put("doc.goalContentFilter", goalContentFilter);
 
       GroovyScriptEngine gse = new GroovyScriptEngine(new ClasspathResourceConnector(getClass().getClassLoader()));
       try
