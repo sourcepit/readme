@@ -21,6 +21,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.sourcepit.common.utils.props.LinkedPropertiesMap;
+import org.sourcepit.common.utils.props.PropertiesMap;
 import org.sourcepit.docom.Document;
 import org.sourcepit.readme.core.DocOMToMarkdownConverter;
 
@@ -29,11 +31,17 @@ public class ReadmeMojo extends AbstractMojo
 {
    private final LegacySupport buildContext;
 
-   @Parameter(required = true, property = "project.build.sourceEncoding")
+   @Parameter(required = true, defaultValue = "${project.build.sourceEncoding}")
    private String encoding;
 
-   @Parameter(required = true, property = "project.build.directory")
+   @Parameter(required = true, defaultValue = "${project.build.directory}")
    private File outputDirectory;
+
+   @Parameter(required = false, defaultValue = "**")
+   private String projectFilter;
+
+   @Parameter(required = false, defaultValue = "**")
+   private String goalFilter;
 
    @Inject
    public ReadmeMojo(LegacySupport buildContext)
@@ -43,15 +51,19 @@ public class ReadmeMojo extends AbstractMojo
 
    public void execute() throws MojoExecutionException, MojoFailureException
    {
+      final PropertiesMap options = new LinkedPropertiesMap(2);
+      options.put("doc.projectFilter", projectFilter);
+      options.put("doc.goalFilter", goalFilter);
+
       GroovyScriptEngine gse = new GroovyScriptEngine(new ClasspathResourceConnector(getClass().getClassLoader()));
       try
       {
          @SuppressWarnings("unchecked")
          Class<DocumentCreator> clazz = gse.loadScriptByName("CreateReadme.groovy");
-         
+
          DocumentCreator documentCreator = clazz.newInstance();
-         
-         Document document = documentCreator.createDocument(buildContext.getSession(), true);
+
+         Document document = documentCreator.createDocument(buildContext.getSession(), true, options);
 
          DocOMToMarkdownConverter c = new DocOMToMarkdownConverter();
          System.out.println(c.toMarkdown(document));

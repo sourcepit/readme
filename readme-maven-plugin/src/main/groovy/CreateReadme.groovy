@@ -13,6 +13,7 @@ import org.sourcepit.readme.maven.GoalInvocation;
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.MavenProject;
+import org.sourcepit.common.utils.props.PropertiesSource;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.DocOMFactory
 import org.sourcepit.docom.Document
@@ -33,7 +34,7 @@ class CreateReadme implements DocumentCreator
    private static final HTMLToDocOM HTML = new HTMLToDocOM()
 
    @Override
-   public Document createDocument(MavenSession session, boolean aggregate)
+   public Document createDocument(MavenSession session, boolean aggregate, PropertiesSource options)
    {
       def doc = new DocumentBuilder()
       doc.startDocument()
@@ -41,23 +42,23 @@ class CreateReadme implements DocumentCreator
       if (session.projects == 1 || !aggregate)
       {
          def project = session.currentProject
-         addProject(doc, project, false)
+         addProject(doc, project, false, options)
          addLicenses(doc, project)
          doc.endChapter();
       }
       else
       {
          def buildParent = getBuildParent(session)
-         addProject(doc, buildParent, false)
+         addProject(doc, buildParent, false, options)
 
          doc.paragraph("[TOC,3]")
 
-         def projects = session.projects.findAll{!isPomProject(it)}.sort{ it.name }
+         def projects = session.projects.findAll{!isPomProject(it) && isSelected(it, options)}.sort{ it.name }
 
          doc.startChapter("Sub Projects")
          projects.each
          { project ->
-            addProject(doc, project, true)
+            addProject(doc, project, true, options)
          }
          doc.endChapter();
 
@@ -93,11 +94,11 @@ For general information see [Contributing to Open Source on GitHub](https://guid
       return document;
    }
 
-   void addProject(DocumentBuilder doc, MavenProject project, boolean closeChapter)
+   void addProject(DocumentBuilder doc, MavenProject project, boolean closeChapter, PropertiesSource options)
    {
       if (isMavenPlugin(project))
       {
-         addPlugin(doc, project, readPluginDescriptor(project), closeChapter)
+         addPlugin(doc, project, readPluginDescriptor(project), closeChapter, options)
       }
       else if (isPomProject(project))
       {
@@ -124,7 +125,7 @@ For general information see [Contributing to Open Source on GitHub](https://guid
       }
    }
 
-   void addPlugin(DocumentBuilder doc, MavenProject project, PluginDescriptor plugin, boolean closeChapter)
+   void addPlugin(DocumentBuilder doc, MavenProject project, PluginDescriptor plugin, boolean closeChapter, PropertiesSource options)
    {
       doc.startChapter(project.name)
       def desc = project.description;
@@ -136,7 +137,7 @@ For general information see [Contributing to Open Source on GitHub](https://guid
          }
       }
 
-      addPluginGoals(doc, plugin)
+      addPluginGoals(doc, plugin, options)
       addPluginManagement(doc, plugin)
 
       if (closeChapter)
@@ -145,19 +146,28 @@ For general information see [Contributing to Open Source on GitHub](https://guid
       }
    }
 
-   void addPluginGoals(DocumentBuilder doc, PluginDescriptor plugin)
+   void addPluginGoals(DocumentBuilder doc, PluginDescriptor plugin, PropertiesSource options)
    {
-      doc.startChapter("Plugin Goals and Usage")
-      doc.mk("""\
+      def goals = plugin.mojos.findAll{isSelected(it, options)}.sort{ it.goal }
+      if (!goals.empty)
+      {
+
+         doc.startChapter("Plugin Goals and Usage")
+         doc.mk("""\
 Here you can find the documentation and usage examples for all goals provided by this plugin. A goal represents a specific task that can be executed either during the build lifecycle of your project or by command line. See also [A Build Phase is Made Up of Plugin Goals](http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#A_Build_Phase_is_Made_Up_of_Plugin_Goals).
 
 Available goals:
 """)
 
-      doc.paragraph("[TOC,1]")
+         doc.paragraph("[TOC,1]")
 
-      addGoals(doc, plugin)
-      doc.endChapter()
+         goals.each
+         { mojo ->
+            addGoal(doc, mojo)
+         }
+
+         doc.endChapter()
+      }
    }
 
    void addPluginManagement(DocumentBuilder doc, PluginDescriptor plugin)
@@ -203,55 +213,6 @@ Available goals:
 See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html).""")
       }
       doc.endChapter()
-   }
-
-   void addLibrary(DocumentBuilder doc, MavenProject project, boolean closeChapter)
-   {
-      doc.startChapter(project.name)
-      def desc = project.description;
-      if (desc)
-      {
-         if (!project.parent || !desc.equals(project.parent.description))
-         {
-            doc.paragraph(desc);
-         }
-      }
-      def appendType =
-      {
-         -> if (!"jar".equals(project.artifact.type))
-         {
-            """
-                    <type>${project.artifact.type}</type>"""
-         } else
-         {
-            ""
-         }
-      }
-      doc.code("""\
-<project>
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>${project.artifactId}</artifactId>
-      <version>${project.version}</version>${appendType}
-    </dependency>
-  </dependencies>
-</project>""").language = "xml"
-
-      if (closeChapter)
-      {
-         doc.endChapter()
-      }
-   }
-
-   void addGoals(DocumentBuilder doc, PluginDescriptor plugin)
-   {
-      def goals = plugin.mojos.collect().sort
-      { it.goal }
-      plugin.mojos.each
-      { mojo ->
-         addGoal(doc, mojo)
-      }
    }
 
    void addGoal(DocumentBuilder doc, MojoDescriptor goal)
@@ -458,6 +419,45 @@ mvn ${phase}${plugin.goalPrefix}:${goal.goal} [<propertie(s)>]
 
       doc.endChapter()
    }
+
+   void addLibrary(DocumentBuilder doc, MavenProject project, boolean closeChapter)
+      {
+         doc.startChapter(project.name)
+         def desc = project.description;
+         if (desc)
+         {
+            if (!project.parent || !desc.equals(project.parent.description))
+            {
+               doc.paragraph(desc);
+            }
+         }
+         def appendType =
+         {
+            -> if (!"jar".equals(project.artifact.type))
+            {
+               """
+                       <type>${project.artifact.type}</type>"""
+            } else
+            {
+               ""
+            }
+         }
+         doc.code("""\
+<project>
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${project.version}</version>${appendType}
+    </dependency>
+  </dependencies>
+</project>""").language = "xml"
+   
+         if (closeChapter)
+         {
+            doc.endChapter()
+         }
+      }
 
    @EqualsAndHashCode(includeFields=true)
    class Lic

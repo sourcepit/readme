@@ -8,6 +8,8 @@ package org.sourcepit.readme.maven;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.sourcepit.common.maven.core.MavenProjectUtils.getOutputDir;
+import static org.sourcepit.common.utils.props.PropertiesSources.chain;
+import static org.sourcepit.common.utils.props.PropertiesSources.toPropertiesSource;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -26,6 +28,8 @@ import org.apache.maven.plugin.descriptor.PluginDescriptorBuilder;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.configuration.PlexusConfigurationException;
 import org.codehaus.plexus.util.ReaderFactory;
+import org.sourcepit.common.utils.path.PathMatcher;
+import org.sourcepit.common.utils.props.PropertiesSource;
 
 public final class MavenUtils
 {
@@ -33,6 +37,28 @@ public final class MavenUtils
    private MavenUtils()
    {
       super();
+   }
+
+   public static boolean isSelected(MavenProject project, PropertiesSource options)
+   {
+      final String projectFilter = options.get("doc.projectFilter");
+      if (!isNullOrEmpty(projectFilter))
+      {
+         final String key = project.getGroupId() + ":" + project.getArtifactId();
+         return PathMatcher.parse(projectFilter, ":", ",").isMatch(key);
+      }
+      return true;
+   }
+
+   public static boolean isSelected(MojoDescriptor goal, PropertiesSource options)
+   {
+      final String goalFilter = options.get("doc.goalFilter");
+      return isNullOrEmpty(goalFilter) ? true : PathMatcher.parse(goalFilter, ":", ",").isMatch(goal.getFullGoalName());
+   }
+
+   public static PropertiesSource getBuildProperties(MavenProject project)
+   {
+      return chain(toPropertiesSource(project.getProperties()), toPropertiesSource(System.getProperties()));
    }
 
    public static boolean isPomProject(MavenProject project)
@@ -155,7 +181,7 @@ public final class MavenUtils
       }
       return false;
    }
-   
+
    public static boolean hasBuildLifecycleGoals(PluginDescriptor plugin)
    {
       for (MojoDescriptor goal : plugin.getMojos())

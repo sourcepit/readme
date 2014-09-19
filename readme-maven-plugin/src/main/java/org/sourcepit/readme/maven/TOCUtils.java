@@ -34,9 +34,17 @@ public final class TOCUtils
          final Structured parent = toc.parent;
          final Paragraph placeholder = toc.placeholder;
          final int depth = toc.depth;
-         
+
          final int idx = parent.getContent().indexOf(placeholder);
-         parent.getContent().set(idx, tocCreator.createTOC(parent, depth));
+         org.sourcepit.docom.List tocList = tocCreator.createTOC(parent, depth);
+         if (tocList == null)
+         {
+            parent.getContent().remove(idx);
+         }
+         else
+         {
+            parent.getContent().set(idx, tocList);
+         }
       }
    }
 
@@ -62,7 +70,7 @@ public final class TOCUtils
                }
             }
          }
-         
+
          if (chapterContent instanceof Structured)
          {
             gatherTOCs(tocs, (Structured) chapterContent, defaultDepth);

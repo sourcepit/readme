@@ -7,9 +7,10 @@
 package org.sourcepit.readme.maven;
 
 import org.apache.maven.execution.MavenSession;
+import org.sourcepit.common.utils.props.PropertiesSource;
 import org.sourcepit.docom.Document;
 
 public interface DocumentCreator
 {
-   Document createDocument(MavenSession session, boolean aggregate);
+   Document createDocument(MavenSession session, boolean aggregate, PropertiesSource options);
 }
