@@ -238,6 +238,43 @@ public class DocOMToMarkdownConverterTest
 
       assertEquals(expected.toString(), markdown);
    }
+   
+   @Test
+   public void testListsBetweenChapters() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+
+      doc.startDocument();
+      
+      doc.startChapter("c1");
+      doc.startUnorderedList();
+      doc.startListItem();
+      doc.text("li1");
+      doc.endListItem();
+      doc.startListItem();
+      doc.text("li2");
+      doc.endListItem();
+      doc.endList();
+      doc.endChapter();
+      
+      doc.startChapter("c2");
+      doc.endChapter();
+
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document);
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "# c1");
+      appendLine(expected, "");
+      appendLine(expected, "*   li1");
+      appendLine(expected, "*   li2");
+      appendLine(expected, "");
+      appendLine(expected, "# c2");
+      appendLine(expected);
+
+      assertEquals(expected.toString(), markdown);
+   }
 
    @Test
    public void testChapter() throws Exception
