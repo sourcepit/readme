@@ -25,6 +25,7 @@ import org.sourcepit.docom.Header;
 import org.sourcepit.docom.Link;
 import org.sourcepit.docom.List;
 import org.sourcepit.docom.ListItem;
+import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.NewLine;
 import org.sourcepit.docom.Paragraph;
@@ -485,14 +486,16 @@ public class DocOMToMarkdownConverter
    private void preChild(EObject obj, EObject child, Writer w) throws IOException
    {
       EObject eContainer = obj;
-
       if (eContainer instanceof Structured || eContainer instanceof ListItem || eContainer instanceof List)
       {
          java.util.List<? extends EObject> children = getChildren(eContainer);
          int idx = children.indexOf(child);
          if (idx > 0)
          {
-            w.append('\n');
+            if (!(eContainer instanceof ListItem) || !(child instanceof Literal))
+            {
+               w.append('\n');
+            }
 
             EObject previous = children.get(idx - 1);
 

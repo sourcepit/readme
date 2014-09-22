@@ -240,6 +240,34 @@ public class DocOMToMarkdownConverterTest
    }
    
    @Test
+   public void testNoNLForLiteralsInList() throws Exception
+   {
+      DocumentBuilder doc = new DocumentBuilder();
+      
+      doc.startDocument();
+      
+      doc.startUnorderedList();
+      doc.startListItem();
+      doc.codeLiteral("hallo");
+      doc.text(": ");
+      doc.codeLiteral("hallo");
+      doc.text(".");
+      doc.endListItem();
+      doc.endList();
+      
+      Document document = doc.endDocument();
+
+      String markdown = converter.toMarkdown(document);
+
+      StringBuilder expected = new StringBuilder();
+      appendLine(expected, "*   `hallo`: `hallo`.");
+      appendLine(expected, "");
+
+      assertEquals(expected.toString(), markdown);
+
+   }
+   
+   @Test
    public void testListsBetweenChapters() throws Exception
    {
       DocumentBuilder doc = new DocumentBuilder();

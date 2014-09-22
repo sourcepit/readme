@@ -298,9 +298,18 @@ public class DocumentBuilder
    {
       final CodeLiteral c = eFactory.createCodeLiteral();
       c.setText(code);
+      
+      final EObject parent = stack.peek();
+      checkState(parent instanceof LiteralGroup || parent instanceof ListItem);
 
-      final LiteralGroup parent = (LiteralGroup) stack.peek();
-      parent.getLiterals().add(c);
+      if (parent instanceof LiteralGroup)
+      {
+         ((LiteralGroup) parent).getLiterals().add(c);
+      }
+      else if (parent instanceof ListItem)
+      {
+         ((ListItem) parent).getContent().add(c);
+      }
 
       return c;
    }
