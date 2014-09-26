@@ -20,11 +20,21 @@ public class HTMLToDocOM
 
    public Document convert(String html)
    {
-      String remarked = toMarkdown(html);
+      String remarked = remark(html);
       return new MarkdownToDocOMConverter().toDocOM(remarked);
    }
 
    public String toMarkdown(String html)
+   {
+      return new DocOMToMarkdownConverter().toMarkdown(convert(html));
+   }
+
+   public String toMarkdown(String html, EOL eol, int lineLength)
+   {
+      return new DocOMToMarkdownConverter().toMarkdown(convert(html), lineLength, eol);
+   }
+
+   private String remark(String html)
    {
       final Options github = Options.github();
       github.hardwraps = false;

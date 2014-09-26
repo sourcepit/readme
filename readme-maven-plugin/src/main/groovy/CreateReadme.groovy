@@ -13,6 +13,7 @@ import org.sourcepit.readme.maven.GoalInvocation;
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.MavenProject;
+import org.sourcepit.readme.maven.ReactorProjectsComparator;
 import org.sourcepit.common.utils.props.PropertiesSource;
 import org.sourcepit.docom.Chapter;
 import org.sourcepit.docom.DocOMFactory
@@ -26,6 +27,7 @@ import org.sourcepit.docom.Literal;
 import org.sourcepit.docom.LiteralGroup;
 import org.sourcepit.docom.Paragraph;
 import org.sourcepit.readme.core.DocumentBuilder;
+import org.sourcepit.readme.core.EOL;
 import org.sourcepit.readme.core.HTMLToDocOM;
 import org.sourcepit.readme.core.TOCCreator;
 
@@ -57,20 +59,32 @@ class CreateReadme implements DocumentCreator
             doc.mk(desc);
          }
 
+         def skipSubProjectsHeader = options.getBoolean("doc.skipSubProjectsHeader", false)
+
          if (isGenerateContent(buildParent, options))
          {
-            doc.paragraph("[TOC,3]")
+            doc.paragraph("[TOC,${skipSubProjectsHeader ? 2 : 3}]")
          }
 
-         def projects = session.projects.findAll{!isPomProject(it) && isSelected(it, options)}.sort{ it.name }
+         def projects = session.projects.findAll{!isPomProject(it) && isSelected(it, options)}
+
+         def comp = new ReactorProjectsComparator(session);
+         Collections.sort(projects, comp)
+
          if(!projects.empty)
          {
-            doc.startChapter("Sub Projects")
+            if (!skipSubProjectsHeader)
+            {
+               doc.startChapter("Sub Projects")
+            }
             projects.each
             { project ->
                addProject(doc, project, true, options)
             }
-            doc.endChapter();
+            if (!skipSubProjectsHeader)
+            {
+               doc.endChapter();
+            }
          }
 
          def hasIssueManagement = buildParent.issueManagement && buildParent.issueManagement.url
@@ -231,22 +245,28 @@ See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guid
 
    void addGoal(DocumentBuilder doc, MojoDescriptor goal, PropertiesSource options)
    {
-      doc.startChapter(goal.fullGoalName)
+      def chapter = doc.startChapter(goal.fullGoalName)
 
       def descr = goal.description
       if (descr)
       {
-         def p = doc.startParagraph()
-         def result = HTML.convert(descr, Literal.class, LiteralGroup.class);
+         def result = HTML.convert(descr, Literal.class, LiteralGroup.class, Structured.class);
          if (result instanceof Literal)
          {
+            def p = doc.startParagraph()
             p.literals.add(result);
+            doc.endParagraph()
+         }
+         else if (result instanceof LiteralGroup)
+         {
+            def p = doc.startParagraph()
+            p.literals.addAll(((LiteralGroup) result).literals);
+            doc.endParagraph()
          }
          else
          {
-            p.literals.addAll(((LiteralGroup)result).literals);
+            chapter.content.addAll(((Structured) result).content)
          }
-         doc.endParagraph()
       }
 
       if (isGenerateContent(goal, options))
@@ -273,9 +293,8 @@ See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guid
 
                   if (param.description)
                   {
-                     usage <<= "\n            "
-                     usage <<= HTML.toMarkdown(param.description)
-                     usage <<= "\n            "
+                     usage <<= '\n'
+                     usage <<= indent('            ', HTML.toMarkdown(param.description, EOL.LF, 80))
                   }
 
                   if (param.expression)
@@ -320,7 +339,7 @@ See also [Introduction to Plugin Prefix Resolution](http://maven.apache.org/guid
         <groupId>${plugin.groupId}</groupId>
         <artifactId>${plugin.artifactId}</artifactId>
         <goals>
-          <goal>${goal.goal}<goal> <!-- bount to phase *${goal.phase}* -->
+          <goal>${goal.goal}</goal> <!-- bount to phase *${goal.phase}* -->
         </goals>${usage}
       </plugin>
     </plugins>
@@ -378,9 +397,8 @@ mvn ${phase}${plugin.goalPrefix}:${goal.goal} [<propertie(s)>]
 
                      if (param.description)
                      {
-                        usage <<= "\n              "
-                        usage <<= HTML.toMarkdown(param.description)
-                        usage <<= "\n              "
+                        usage <<= "\n"
+                        usage <<= indent('              ', HTML.toMarkdown(param.description, EOL.LF, 80))
                      }
 
                      if (param.expression)
@@ -564,5 +582,23 @@ mvn ${phase}${plugin.goalPrefix}:${goal.goal} [<propertie(s)>]
       }
 
       doc.endChapter()
+   }
+
+   static String indent(String prefix, String str)
+   {
+      def res = new StringBuilder();
+
+      str.eachLine
+      {line, count  ->
+
+         if (count > 0)
+         {
+            res <<= '\n'
+         }
+         res <<= prefix
+         res <<= line
+      }
+
+      return res.toString();
    }
 }

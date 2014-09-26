@@ -39,15 +39,18 @@ public class ReadmeMojo extends AbstractMojo
 
    @Parameter(required = false, defaultValue = "**")
    private String projectFilter;
-   
+
    @Parameter(required = false, defaultValue = "**")
    private String projectContentFilter;
 
    @Parameter(required = false, defaultValue = "**")
    private String goalFilter;
-   
+
    @Parameter(required = false, defaultValue = "**")
    private String goalContentFilter;
+
+   @Parameter(required = false, defaultValue = "false")
+   private boolean skipSubProjectsHeader;
 
    @Inject
    public ReadmeMojo(LegacySupport buildContext)
@@ -62,6 +65,7 @@ public class ReadmeMojo extends AbstractMojo
       options.put("doc.projectContentFilter", projectContentFilter);
       options.put("doc.goalFilter", goalFilter);
       options.put("doc.goalContentFilter", goalContentFilter);
+      options.setBoolean("doc.skipSubProjectsHeader", skipSubProjectsHeader);
 
       GroovyScriptEngine gse = new GroovyScriptEngine(new ClasspathResourceConnector(getClass().getClassLoader()));
       try

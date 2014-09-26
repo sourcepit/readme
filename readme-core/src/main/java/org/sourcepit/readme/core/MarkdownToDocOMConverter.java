@@ -152,6 +152,15 @@ public class MarkdownToDocOMConverter
             document = factory.createDocument();
             parents.push(document);
             visitChildren(node);
+
+
+            Object parent = parents.peek();
+            while (parent instanceof Chapter)
+            {
+               pop(parents, parent);
+               parent = parents.peek();
+            }
+
             pop(parents, document);
          }
          else

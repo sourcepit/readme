@@ -16,7 +16,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -30,6 +32,8 @@ import org.codehaus.plexus.configuration.PlexusConfigurationException;
 import org.codehaus.plexus.util.ReaderFactory;
 import org.sourcepit.common.utils.path.PathMatcher;
 import org.sourcepit.common.utils.props.PropertiesSource;
+
+import com.google.common.base.Objects;
 
 public final class MavenUtils
 {
@@ -49,7 +53,7 @@ public final class MavenUtils
       }
       return true;
    }
-   
+
    public static boolean isGenerateContent(MavenProject project, PropertiesSource options)
    {
       final String projectFilter = options.get("doc.projectContentFilter");
@@ -72,7 +76,7 @@ public final class MavenUtils
       final String goalFilter = options.get("doc.goalContentFilter");
       return isNullOrEmpty(goalFilter) ? true : PathMatcher.parse(goalFilter, ":", ",").isMatch(goal.getFullGoalName());
    }
-   
+
    public static PropertiesSource getBuildProperties(MavenProject project)
    {
       return chain(toPropertiesSource(project.getProperties()), toPropertiesSource(System.getProperties()));
@@ -92,7 +96,7 @@ public final class MavenUtils
    {
       for (MavenProject project : session.getProjects())
       {
-         if (findParentInBuild(session, project) == null && isBuildParent(session, project))
+         if (getDirectParentFromReactor(session, project) == null && isBuildParent(session, project))
          {
             return project;
          }
@@ -132,7 +136,7 @@ public final class MavenUtils
       return false;
    }
 
-   public static MavenProject findParentInBuild(MavenSession session, MavenProject project)
+   public static MavenProject getDirectParentFromReactor(MavenSession session, MavenProject project)
    {
       MavenProject parent = project.getParent();
       if (parent != null && session.getProjects().contains(parent))
